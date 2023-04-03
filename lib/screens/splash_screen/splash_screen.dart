@@ -73,37 +73,37 @@ class _SplashScreenState extends State<SplashScreen> {
     var isLoggedIn = await SharedService.isLoggedIn();
     // var isLoggedIn = false;
 
-    Timer(Duration(seconds: 3),(){
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => DashboadScreen(currentIndex: 0),
-          ));
-    });
-
-
-    // Timer(Duration(seconds: 3), () {
-    //   if (isLoggedIn != null) {
-    //     if (isLoggedIn) {
-    //       Navigator.pushReplacement(
-    //           context,
-    //           MaterialPageRoute(
-    //             builder: (context) => DashboadScreen(currentIndex: 0),
-    //           ));
-    //     } else {
-    //       Navigator.pushReplacement(
-    //           context,
-    //           MaterialPageRoute(
-    //             builder: (context) => LandingScreen(),
-    //           ));
-    //     }
-    //   } else {
-    //     Navigator.pushReplacement(
-    //         context,
-    //         MaterialPageRoute(
-    //           builder: (context) => LandingScreen(),
-    //         ));
-    //   }
+    // Timer(Duration(seconds: 3),(){
+    //   Navigator.pushReplacement(
+    //       context,
+    //       MaterialPageRoute(
+    //         builder: (context) => DashboadScreen(currentIndex: 0),
+    //       ));
     // });
+
+
+    Timer(Duration(seconds: 3), () {
+      if (isLoggedIn != null) {
+        if (isLoggedIn) {
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => DashboadScreen(currentIndex: 0),
+              ));
+        } else {
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => LandingScreen(),
+              ));
+        }
+      } else {
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => LandingScreen(),
+            ));
+      }
+    });
   }
 }
