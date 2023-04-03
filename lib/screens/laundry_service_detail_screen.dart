@@ -135,645 +135,1280 @@ class _LaundryServiceDetailScreenState
                         data: (_data) {
                           List<ProvidersByCategoryResponse> providers =
                               _data.map((e) => e).toList();
+                          print("no of providers");
                           print(providers.length);
-                          print("serviceName"+serviceName!);
 
-                            for (int index = 0; index <
-                                providers.length; index++) {
-                              if (serviceName == 'All-Laundry') {
-                                return providers.length > 0
-                                    ? Container(
-                                  child: ListView.builder(
-                                    itemCount: providers[index].providerDetail
-                                        .serviceLists.length,
-                                    itemBuilder: (context, serviceListsIndex) {
-                                      for (int i = 0;
-                                      i <
-                                          providers[index]
-                                              .providerDetail
-                                              .serviceLists
-                                              .length;
-                                      i++) {
-                                        if (providers[index]
-                                            .providerDetail
-                                            .serviceLists[i]
-                                            .name ==
-                                            serviceName) {
-                                          indexOfServiceName = i;
-                                          break;
-                                        } else {
-                                          indexOfServiceName = 0;
-                                        }
-                                      }
-                                      print(indexOfServiceName);
 
-                                      var service_image;
-                                      if (providers[index]
-                                          .providerDetail
-                                          .serviceLists[serviceListsIndex]
-                                          .name ==
-                                          'Ironing') {
-                                        service_image =
-                                            img_default_laundry_ironing_placeholder;
-                                      } else if (providers[index]
-                                          .providerDetail
-                                          .serviceLists[serviceListsIndex]
-                                          .name ==
-                                          'Washing') {
-                                        service_image =
-                                            img_default_laundry_placeholder;
-                                      } else if (providers[index]
-                                          .providerDetail
-                                          .serviceLists[serviceListsIndex]
-                                          .name ==
-                                          'Washing+Ironing') {
-                                        service_image =
-                                            img_default_laundry_washing_iron_placeholder;
-                                      } else {
-                                        service_image =
-                                            img_default_laundry_ironing_placeholder;
-                                      }
-                                      final _providerDetails = ref.watch(
-                                          providerDetailsData(providers[index]
-                                              .providerDetail
-                                              .id));
-                                      var agg_rating = 0.0;
-                                      if (_providerDetails.value != null) {
-                                        var total_reviews = _providerDetails
-                                            .value!.providerReviews.length;
+                          print("serviceName" + serviceName!);
+                          if ( providers !=null &&serviceName == 'All-Laundry') {
+                            return providers.length > 0
+                                ? Container(
+                                    child: ListView.builder(
+                                        itemCount: providers.length ,
+                                        itemBuilder: (context, index) {
+                                          print(providers[index]
+                                                    .providerDetail
+                                                    .serviceLists
+                                                    [0].name);
+                                          return Container(
+                                            child:
+                                            ListView.builder(
+                                              shrinkWrap: true,
+                                              physics: ClampingScrollPhysics(),
+                                              itemCount: providers![index]
+                                                  .providerDetail
+                                                  .serviceLists
+                                                  .length,
+                                              itemBuilder:
+                                                  (context, serviceListsIndex) {
+                                                    // return Text(providers[index].providerDetail.serviceLists[serviceListsIndex].name);
+                                                for (int i = 0;
+                                                    i <
+                                                        providers[index]
+                                                            .providerDetail
+                                                            .serviceLists
+                                                            .length;
+                                                    i++) {
+                                                  if (providers[index]
+                                                          .providerDetail
+                                                          .serviceLists[i]
+                                                          .name ==
+                                                      serviceName) {
+                                                    indexOfServiceName = i;
+                                                    break;
+                                                  } else {
+                                                    indexOfServiceName = 0;
+                                                  }
+                                                }
+                                                print(indexOfServiceName);
 
-                                        if (total_reviews > 0) {
-                                          for (int i = 0;
-                                          i <
-                                              _providerDetails.value!
-                                                  .providerReviews.length;
-                                          i++) {
-                                            agg_rating = agg_rating +
-                                                double.parse(_providerDetails
-                                                    .value!
-                                                    .providerReviews[i]
-                                                    .rating!);
-                                          }
-                                          agg_rating =
-                                              agg_rating / total_reviews;
-                                        }
-                                      }
+                                                var service_image;
+                                                if (providers[index]
+                                                        .providerDetail
+                                                        .serviceLists[
+                                                            serviceListsIndex]
+                                                        .name ==
+                                                    'Ironing') {
+                                                  service_image =
+                                                      img_default_laundry_ironing_placeholder;
+                                                } else if (providers[index]
+                                                        .providerDetail
+                                                        .serviceLists[
+                                                            serviceListsIndex]
+                                                        .name ==
+                                                    'Washing') {
+                                                  service_image =
+                                                      img_default_laundry_placeholder;
+                                                } else if (providers[index]
+                                                        .providerDetail
+                                                        .serviceLists[
+                                                            serviceListsIndex]
+                                                        .name ==
+                                                    'Washing+Ironing') {
+                                                  service_image =
+                                                      img_default_laundry_washing_iron_placeholder;
+                                                } else {
+                                                  service_image =
+                                                      img_default_laundry_ironing_placeholder;
+                                                }
+                                                final _providerDetails = ref
+                                                    .watch(providerDetailsData(
+                                                        providers[index]
+                                                            .providerDetail
+                                                            .id));
+                                                var agg_rating = 0.0;
+                                                if (_providerDetails.value !=
+                                                    null) {
+                                                  var total_reviews =
+                                                      _providerDetails
+                                                          .value!
+                                                          .providerReviews
+                                                          .length;
 
-                                      return Padding(
-                                        padding: const EdgeInsets.all(10.0),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                          children: [
-                                            Card(
-                                              child: InkWell(
-                                                onTap: () {
-                                                  Navigator
-                                                      .pushNamedAndRemoveUntil(
-                                                    context,
-                                                    '/provider-detail',
-                                                    arguments: {
-                                                      "providerId":
-                                                      providers[index]
-                                                          .providerDetail
-                                                          .id,
-                                                      "serviceName": providers[
-                                                      index]
-                                                          .providerDetail
-                                                          .serviceLists
-                                                          .length >
-                                                          1
-                                                          ? providers[index]
-                                                          .providerDetail
-                                                          .serviceLists[
-                                                      serviceListsIndex]
-                                                          .name
-                                                          : providers[index]
-                                                          .providerDetail
-                                                          .serviceLists[
-                                                      serviceListsIndex]
-                                                          .name
-                                                    },
-                                                        (route) => true,
-                                                  );
-                                                },
-                                                child: Container(
-                                                  decoration: BoxDecoration(
-                                                    border: Border.all(
-                                                        color:
-                                                        Color(0XFFF6F7F9)),
-                                                    shape: BoxShape.circle,
-                                                    color: Color(0XFFF6F7F9),
-                                                  ),
+                                                  if (total_reviews > 0) {
+                                                    for (int i = 0;
+                                                        i <
+                                                            _providerDetails
+                                                                .value!
+                                                                .providerReviews
+                                                                .length;
+                                                        i++) {
+                                                      agg_rating = agg_rating +
+                                                          double.parse(
+                                                              _providerDetails
+                                                                  .value!
+                                                                  .providerReviews[
+                                                                      i]
+                                                                  .rating!);
+                                                    }
+                                                    agg_rating = agg_rating /
+                                                        total_reviews;
+                                                  }
+                                                }
+
+                                                return Padding(
+                                                  padding: const EdgeInsets.all(
+                                                      10.0),
                                                   child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
-                                                      Container(
-                                                        // height: 200,
-                                                        color: Colors.white,
-                                                        child: Image(
-                                                          image: AssetImage(
-                                                              service_image),
-                                                          // fit: BoxFit.cover,
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        height: 20,
-                                                      ),
-                                                      Padding(
-                                                        padding:
-                                                        const EdgeInsets
-                                                            .only(
-                                                            right: 20),
-                                                        child: Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                            children: [
-                                                              Container(
-                                                                child: Row(
-                                                                  children: [
-                                                                    SizedBox(
-                                                                      width: 10,
-                                                                    ),
-                                                                    RatingBarIndicator(
-                                                                      rating:
-                                                                      agg_rating ??
-                                                                          0.0,
-                                                                      itemBuilder:
-                                                                          (
-                                                                          context,
-                                                                          index) =>
-                                                                          Icon(
-                                                                            Icons
-                                                                                .star,
-                                                                            color: Colors
-                                                                                .green,
-                                                                          ),
-                                                                      itemCount:
-                                                                      5,
-                                                                      itemSize:
-                                                                      15.0,
-                                                                      direction:
-                                                                      Axis
-                                                                          .horizontal,
-                                                                    ),
-                                                                    SizedBox(
-                                                                      width: 10,
-                                                                    ),
-                                                                    Text(
-                                                                      agg_rating
-                                                                          .toStringAsPrecision(
-                                                                          2),
-                                                                      style: TextStyle(
-                                                                          fontSize:
-                                                                          16),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                              Container(
-                                                                child: Text(
-                                                                  '${providers[index]
-                                                                      .providerDetail
-                                                                      .serviceLists[serviceListsIndex]
-                                                                      .name}',
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                      16,
-                                                                      fontWeight:
-                                                                      FontWeight
-                                                                          .w800,
-                                                                      fontFamily:
-                                                                      'Work Sans'),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        padding:
-                                                        EdgeInsets.only(
-                                                            left: 10,
-                                                            bottom: 10,
-                                                            top: 10),
-                                                        child: Row(
-                                                          children: [
-                                                            Container(
-                                                              decoration: BoxDecoration(
-                                                                  border: Border
-                                                                      .all(
-                                                                      color:
-                                                                      primaryColor),
-                                                                  shape: BoxShape
-                                                                      .circle,
+                                                      Card(
+                                                        child: InkWell(
+                                                          onTap: () {
+                                                            Navigator
+                                                                .pushNamedAndRemoveUntil(
+                                                              context,
+                                                              '/provider-detail',
+                                                              arguments: {
+                                                                "providerId":
+                                                                    providers[
+                                                                            index]
+                                                                        .providerDetail
+                                                                        .id,
+                                                                "serviceName": providers[index]
+                                                                            .providerDetail
+                                                                            .serviceLists
+                                                                            .length >
+                                                                        1
+                                                                    ? providers[
+                                                                            index]
+                                                                        .providerDetail
+                                                                        .serviceLists[
+                                                                            serviceListsIndex]
+                                                                        .name
+                                                                    : providers[
+                                                                            index]
+                                                                        .providerDetail
+                                                                        .serviceLists[
+                                                                            serviceListsIndex]
+                                                                        .name
+                                                              },
+                                                              (route) => true,
+                                                            );
+                                                          },
+                                                          child: Container(
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              border: Border.all(
+                                                                  color: Color(
+                                                                      0XFFF6F7F9)),
+                                                              shape: BoxShape
+                                                                  .circle,
+                                                              color: Color(
+                                                                  0XFFF6F7F9),
+                                                            ),
+                                                            child: Column(
+                                                              children: [
+                                                                Container(
+                                                                  // height: 200,
                                                                   color: Colors
-                                                                      .white),
-                                                              child: Container(
-                                                                decoration: BoxDecoration(
-                                                                    border: Border
-                                                                        .all(
-                                                                        color:
-                                                                        primaryColor),
-                                                                    shape: BoxShape
-                                                                        .circle,
-                                                                    color: Colors
-                                                                        .white),
-                                                                child: ClipOval(
+                                                                      .white,
+                                                                  child: Image(
+                                                                    image: AssetImage(
+                                                                        service_image),
+                                                                    // fit: BoxFit.cover,
+                                                                  ),
+                                                                ),
+                                                                SizedBox(
+                                                                  height: 20,
+                                                                ),
+                                                                Padding(
+                                                                  padding: const EdgeInsets
+                                                                          .only(
+                                                                      right:
+                                                                          20),
                                                                   child:
-                                                                  Material(
-                                                                    color: Colors
-                                                                        .transparent,
-                                                                    child: Ink
-                                                                        .image(
-                                                                      image: AssetImage(
-                                                                          male_default_profile_iamge),
-                                                                      fit: BoxFit
-                                                                          .cover,
-                                                                      width: 30,
-                                                                      height:
-                                                                      30,
+                                                                      Container(
+                                                                    child: Row(
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .spaceBetween,
+                                                                      children: [
+                                                                        Container(
+                                                                          child:
+                                                                              Row(
+                                                                            children: [
+                                                                              SizedBox(
+                                                                                width: 10,
+                                                                              ),
+                                                                              RatingBarIndicator(
+                                                                                rating: agg_rating ?? 0.0,
+                                                                                itemBuilder: (context, index) => Icon(
+                                                                                  Icons.star,
+                                                                                  color: Colors.green,
+                                                                                ),
+                                                                                itemCount: 5,
+                                                                                itemSize: 15.0,
+                                                                                direction: Axis.horizontal,
+                                                                              ),
+                                                                              SizedBox(
+                                                                                width: 10,
+                                                                              ),
+                                                                              Text(
+                                                                                agg_rating.toStringAsPrecision(2),
+                                                                                style: TextStyle(fontSize: 16),
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                        ),
+                                                                        Container(
+                                                                          child:
+                                                                              Text(
+                                                                            '${providers[index].providerDetail.serviceLists[serviceListsIndex].name}',
+                                                                            style: TextStyle(
+                                                                                fontSize: 16,
+                                                                                fontWeight: FontWeight.w800,
+                                                                                fontFamily: 'Work Sans'),
+                                                                          ),
+                                                                        ),
+                                                                      ],
                                                                     ),
                                                                   ),
                                                                 ),
-                                                              ),
+                                                                Container(
+                                                                  padding: EdgeInsets
+                                                                      .only(
+                                                                          left:
+                                                                              10,
+                                                                          bottom:
+                                                                              10,
+                                                                          top:
+                                                                              10),
+                                                                  child: Row(
+                                                                    children: [
+                                                                      Container(
+                                                                        decoration: BoxDecoration(
+                                                                            border:
+                                                                                Border.all(color: primaryColor),
+                                                                            shape: BoxShape.circle,
+                                                                            color: Colors.white),
+                                                                        child:
+                                                                            Container(
+                                                                          decoration: BoxDecoration(
+                                                                              border: Border.all(color: primaryColor),
+                                                                              shape: BoxShape.circle,
+                                                                              color: Colors.white),
+                                                                          child:
+                                                                              ClipOval(
+                                                                            child:
+                                                                                Material(
+                                                                              color: Colors.transparent,
+                                                                              child: Ink.image(
+                                                                                image: AssetImage(male_default_profile_iamge),
+                                                                                fit: BoxFit.cover,
+                                                                                width: 30,
+                                                                                height: 30,
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                      SizedBox(
+                                                                        width:
+                                                                            10,
+                                                                      ),
+                                                                      Container(
+                                                                        child:
+                                                                            Text(
+                                                                          providers[index]
+                                                                              .providerDetail
+                                                                              .name,
+                                                                          style: TextStyle(
+                                                                              fontFamily: 'Work Sans',
+                                                                              fontSize: 16,
+                                                                              fontWeight: FontWeight.w800),
+                                                                        ),
+                                                                      )
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              ],
                                                             ),
-                                                            SizedBox(
-                                                              width: 10,
-                                                            ),
-                                                            Container(
-                                                              child: Text(
-                                                                providers[index]
-                                                                    .providerDetail
-                                                                    .name,
-                                                                style: TextStyle(
-                                                                    fontFamily:
-                                                                    'Work Sans',
-                                                                    fontSize:
-                                                                    16,
-                                                                    fontWeight:
-                                                                    FontWeight
-                                                                        .w800),
-                                                              ),
-                                                            )
-                                                          ],
+                                                          ),
                                                         ),
                                                       ),
                                                     ],
                                                   ),
-                                                ),
-                                              ),
+                                                );
+                                              },
                                             ),
-                                          ],
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                )
-                                    : Center(
-                                  child: Container(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.center,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 100.0, right: 100),
-                                          child: Image(
-                                            image: AssetImage(no_data_found),
+                                          );
+                                        }))
+                                : Center(
+                                    child: Container(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 100.0, right: 100),
+                                            child: Image(
+                                              image: AssetImage(no_data_found),
+                                            ),
                                           ),
-                                        ),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        Text(
-                                            "No services found for your search"),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                      ],
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          Text(
+                                              "No services found for your search"),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                );
-                              }
-                              else{
-                                return providers.length > 0
-                                    ? Container(
-                                  child: ListView.builder(
-                                    itemCount: providers.length,
-                                    itemBuilder: (context, index) {
-                                      for (int i = 0;
-                                      i <
-                                          providers[index]
-                                              .providerDetail
-                                              .serviceLists
-                                              .length;
-                                      i++) {
-                                        if (providers[index]
-                                            .providerDetail
-                                            .serviceLists[i]
-                                            .name ==
-                                            serviceName) {
-                                          indexOfServiceName = i;
-                                          break;
-                                        } else {
-                                          indexOfServiceName = 0;
-                                        }
-                                      }
-                                      print(indexOfServiceName);
-
-                                      var service_image;
-                                      if (providers[index]
-                                          .providerDetail
-                                          .serviceLists[indexOfServiceName]
-                                          .name ==
-                                          'Ironing') {
-                                        service_image =
-                                            img_default_laundry_ironing_placeholder;
-                                      } else if (providers[index]
-                                          .providerDetail
-                                          .serviceLists[indexOfServiceName]
-                                          .name ==
-                                          'Washing') {
-                                        service_image =
-                                            img_default_laundry_placeholder;
-                                      } else if (providers[indexOfServiceName]
-                                          .providerDetail
-                                          .serviceLists[index]
-                                          .name ==
-                                          'Washing+Ironing') {
-                                        service_image =
-                                            img_default_laundry_washing_iron_placeholder;
-                                      } else {
-                                        service_image =
-                                            img_default_laundry_ironing_placeholder;
-                                      }
-                                      final _providerDetails = ref.watch(
-                                          providerDetailsData(providers[index]
-                                              .providerDetail
-                                              .id));
-                                      var agg_rating = 0.0;
-                                      if (_providerDetails.value != null) {
-                                        var total_reviews = _providerDetails
-                                            .value!.providerReviews.length;
-
-                                        if (total_reviews > 0) {
-                                          for (int i = 0;
-                                          i <
-                                              _providerDetails.value!
-                                                  .providerReviews.length;
-                                          i++) {
-                                            agg_rating = agg_rating +
-                                                double.parse(_providerDetails
-                                                    .value!
-                                                    .providerReviews[i]
-                                                    .rating!);
+                                  );
+                          } else {
+                            return providers.length > 0
+                                ? Container(
+                                    child: ListView.builder(
+                                      itemCount: providers.length,
+                                      itemBuilder: (context, index) {
+                                        for (int i = 0;
+                                            i <
+                                                providers[index]
+                                                    .providerDetail
+                                                    .serviceLists
+                                                    .length;
+                                            i++) {
+                                          if (providers[index]
+                                                  .providerDetail
+                                                  .serviceLists[i]
+                                                  .name ==
+                                              serviceName) {
+                                            indexOfServiceName = i;
+                                            break;
+                                          } else {
+                                            indexOfServiceName = 0;
                                           }
-                                          agg_rating =
-                                              agg_rating / total_reviews;
                                         }
-                                      }
+                                        print(indexOfServiceName);
 
-                                      return Padding(
-                                        padding: const EdgeInsets.all(10.0),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                          children: [
-                                            Card(
-                                              child: InkWell(
-                                                onTap: () {
-                                                  Navigator
-                                                      .pushNamedAndRemoveUntil(
-                                                    context,
-                                                    '/provider-detail',
-                                                    arguments: {
-                                                      "providerId":
-                                                      providers[index]
-                                                          .providerDetail
-                                                          .id,
-                                                      "serviceName": providers[
-                                                      index]
-                                                          .providerDetail
-                                                          .serviceLists
-                                                          .length >
-                                                          1
-                                                          ? providers[index]
-                                                          .providerDetail
-                                                          .serviceLists[
-                                                      indexOfServiceName]
-                                                          .name
-                                                          : providers[index]
-                                                          .providerDetail
-                                                          .serviceLists[
-                                                      0]
-                                                          .name
-                                                    },
-                                                        (route) => true,
-                                                  );
-                                                },
-                                                child: Container(
-                                                  decoration: BoxDecoration(
-                                                    border: Border.all(
-                                                        color:
-                                                        Color(0XFFF6F7F9)),
-                                                    shape: BoxShape.circle,
-                                                    color: Color(0XFFF6F7F9),
-                                                  ),
-                                                  child: Column(
-                                                    children: [
-                                                      Container(
-                                                        // height: 200,
-                                                        color: Colors.white,
-                                                        child: Image(
-                                                          image: AssetImage(
-                                                              service_image),
-                                                          // fit: BoxFit.cover,
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        height: 20,
-                                                      ),
-                                                      Padding(
-                                                        padding:
-                                                        const EdgeInsets
-                                                            .only(
-                                                            right: 20),
-                                                        child: Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                            children: [
-                                                              Container(
-                                                                child: Row(
-                                                                  children: [
-                                                                    SizedBox(
-                                                                      width: 10,
-                                                                    ),
-                                                                    RatingBarIndicator(
-                                                                      rating:
-                                                                      agg_rating ??
-                                                                          0.0,
-                                                                      itemBuilder:
-                                                                          (context, index) =>
-                                                                          Icon(
-                                                                            Icons
-                                                                                .star,
-                                                                            color: Colors
-                                                                                .green,
-                                                                          ),
-                                                                      itemCount:
-                                                                      5,
-                                                                      itemSize:
-                                                                      15.0,
-                                                                      direction:
-                                                                      Axis.horizontal,
-                                                                    ),
-                                                                    SizedBox(
-                                                                      width: 10,
-                                                                    ),
-                                                                    Text(
-                                                                      agg_rating
-                                                                          .toStringAsPrecision(
-                                                                          2),
-                                                                      style: TextStyle(
-                                                                          fontSize:
-                                                                          16),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                              Container(
-                                                                child: Text(
-                                                                  '${providers[index].providerDetail.serviceLists[indexOfServiceName].name}',
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                      16,
-                                                                      fontWeight:
-                                                                      FontWeight
-                                                                          .w800,
-                                                                      fontFamily:
-                                                                      'Work Sans'),
-                                                                ),
-                                                              ),
-                                                            ],
+                                        var service_image;
+                                        if (providers[index]
+                                                .providerDetail
+                                                .serviceLists[
+                                                    indexOfServiceName]
+                                                .name ==
+                                            'Ironing') {
+                                          service_image =
+                                              img_default_laundry_ironing_placeholder;
+                                        } else if (providers[index]
+                                                .providerDetail
+                                                .serviceLists[
+                                                    indexOfServiceName]
+                                                .name ==
+                                            'Washing') {
+                                          service_image =
+                                              img_default_laundry_placeholder;
+                                        } else if (providers[index]
+                                                .providerDetail
+                                                .serviceLists[indexOfServiceName]
+                                                .name ==
+                                            'Washing+Ironing') {
+                                          service_image =
+                                              img_default_laundry_washing_iron_placeholder;
+                                        } else {
+                                          service_image =
+                                              img_default_laundry_ironing_placeholder;
+                                        }
+                                        final _providerDetails = ref.watch(
+                                            providerDetailsData(providers[index]
+                                                .providerDetail
+                                                .id));
+                                        var agg_rating = 0.0;
+                                        if (_providerDetails.value != null) {
+                                          var total_reviews = _providerDetails
+                                              .value!.providerReviews.length;
+
+                                          if (total_reviews > 0) {
+                                            for (int i = 0;
+                                                i <
+                                                    _providerDetails.value!
+                                                        .providerReviews.length;
+                                                i++) {
+                                              agg_rating = agg_rating +
+                                                  double.parse(_providerDetails
+                                                      .value!
+                                                      .providerReviews[i]
+                                                      .rating!);
+                                            }
+                                            agg_rating =
+                                                agg_rating / total_reviews;
+                                          }
+                                        }
+
+                                        return Padding(
+                                          padding: const EdgeInsets.all(10.0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Card(
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    Navigator
+                                                        .pushNamedAndRemoveUntil(
+                                                      context,
+                                                      '/provider-detail',
+                                                      arguments: {
+                                                        "providerId":
+                                                            providers[index]
+                                                                .providerDetail
+                                                                .id,
+                                                        "serviceName": providers[
+                                                                        index]
+                                                                    .providerDetail
+                                                                    .serviceLists
+                                                                    .length >
+                                                                1
+                                                            ? providers[index]
+                                                                .providerDetail
+                                                                .serviceLists[
+                                                                    indexOfServiceName]
+                                                                .name
+                                                            : providers[index]
+                                                                .providerDetail
+                                                                .serviceLists[0]
+                                                                .name
+                                                      },
+                                                      (route) => true,
+                                                    );
+                                                  },
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                          color: Color(
+                                                              0XFFF6F7F9)),
+                                                      shape: BoxShape.circle,
+                                                      color: Color(0XFFF6F7F9),
+                                                    ),
+                                                    child: Column(
+                                                      children: [
+                                                        Container(
+                                                          // height: 200,
+                                                          color: Colors.white,
+                                                          child: Image(
+                                                            image: AssetImage(
+                                                                service_image),
+                                                            // fit: BoxFit.cover,
                                                           ),
                                                         ),
-                                                      ),
-                                                      Container(
-                                                        padding:
-                                                        EdgeInsets.only(
-                                                            left: 10,
-                                                            bottom: 10,
-                                                            top: 10),
-                                                        child: Row(
-                                                          children: [
-                                                            Container(
-                                                              decoration: BoxDecoration(
-                                                                  border: Border
-                                                                      .all(
-                                                                      color:
-                                                                      primaryColor),
-                                                                  shape: BoxShape
-                                                                      .circle,
-                                                                  color: Colors
-                                                                      .white),
-                                                              child: Container(
+                                                        SizedBox(
+                                                          height: 20,
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  right: 20),
+                                                          child: Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceBetween,
+                                                              children: [
+                                                                Container(
+                                                                  child: Row(
+                                                                    children: [
+                                                                      SizedBox(
+                                                                        width:
+                                                                            10,
+                                                                      ),
+                                                                      RatingBarIndicator(
+                                                                        rating: agg_rating ??
+                                                                            0.0,
+                                                                        itemBuilder:
+                                                                            (context, index) =>
+                                                                                Icon(
+                                                                          Icons
+                                                                              .star,
+                                                                          color:
+                                                                              Colors.green,
+                                                                        ),
+                                                                        itemCount:
+                                                                            5,
+                                                                        itemSize:
+                                                                            15.0,
+                                                                        direction:
+                                                                            Axis.horizontal,
+                                                                      ),
+                                                                      SizedBox(
+                                                                        width:
+                                                                            10,
+                                                                      ),
+                                                                      Text(
+                                                                        agg_rating
+                                                                            .toStringAsPrecision(2),
+                                                                        style: TextStyle(
+                                                                            fontSize:
+                                                                                16),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                                Container(
+                                                                  child: Text(
+                                                                    '${providers[index].providerDetail.serviceLists[indexOfServiceName].name}',
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            16,
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .w800,
+                                                                        fontFamily:
+                                                                            'Work Sans'),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        Container(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  left: 10,
+                                                                  bottom: 10,
+                                                                  top: 10),
+                                                          child: Row(
+                                                            children: [
+                                                              Container(
                                                                 decoration: BoxDecoration(
                                                                     border: Border.all(
                                                                         color:
-                                                                        primaryColor),
+                                                                            primaryColor),
                                                                     shape: BoxShape
                                                                         .circle,
                                                                     color: Colors
                                                                         .white),
-                                                                child: ClipOval(
+                                                                child:
+                                                                    Container(
+                                                                  decoration: BoxDecoration(
+                                                                      border: Border.all(
+                                                                          color:
+                                                                              primaryColor),
+                                                                      shape: BoxShape
+                                                                          .circle,
+                                                                      color: Colors
+                                                                          .white),
                                                                   child:
-                                                                  Material(
-                                                                    color: Colors
-                                                                        .transparent,
-                                                                    child: Ink
-                                                                        .image(
-                                                                      image: AssetImage(
-                                                                          male_default_profile_iamge),
-                                                                      fit: BoxFit
-                                                                          .cover,
-                                                                      width: 30,
-                                                                      height:
-                                                                      30,
+                                                                      ClipOval(
+                                                                    child:
+                                                                        Material(
+                                                                      color: Colors
+                                                                          .transparent,
+                                                                      child: Ink
+                                                                          .image(
+                                                                        image: AssetImage(
+                                                                            male_default_profile_iamge),
+                                                                        fit: BoxFit
+                                                                            .cover,
+                                                                        width:
+                                                                            30,
+                                                                        height:
+                                                                            30,
+                                                                      ),
                                                                     ),
                                                                   ),
                                                                 ),
                                                               ),
-                                                            ),
-                                                            SizedBox(
-                                                              width: 10,
-                                                            ),
-                                                            Container(
-                                                              child: Text(
-                                                                providers[index]
-                                                                    .providerDetail
-                                                                    .name,
-                                                                style: TextStyle(
-                                                                    fontFamily:
-                                                                    'Work Sans',
-                                                                    fontSize:
-                                                                    16,
-                                                                    fontWeight:
-                                                                    FontWeight
-                                                                        .w800),
+                                                              SizedBox(
+                                                                width: 10,
                                                               ),
-                                                            )
-                                                          ],
+                                                              Container(
+                                                                child: Text(
+                                                                  providers[
+                                                                          index]
+                                                                      .providerDetail
+                                                                      .name,
+                                                                  style: TextStyle(
+                                                                      fontFamily:
+                                                                          'Work Sans',
+                                                                      fontSize:
+                                                                          16,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w800),
+                                                                ),
+                                                              )
+                                                            ],
+                                                          ),
                                                         ),
-                                                      ),
-                                                    ],
+                                                      ],
+                                                    ),
                                                   ),
                                                 ),
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                )
-                                    : Center(
-                                  child: Container(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.center,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 100.0, right: 100),
-                                          child: Image(
-                                            image: AssetImage(no_data_found),
+                                            ],
                                           ),
-                                        ),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        Text(
-                                            "No services found for your search"),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                      ],
+                                        );
+                                      },
                                     ),
-                                  ),
-                                );
-                              }
-
-
-                            }
+                                  )
+                                : Center(
+                                    child: Container(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 100.0, right: 100),
+                                            child: Image(
+                                              image: AssetImage(no_data_found),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          Text(
+                                              "No services found for your search"),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                          }
+                          // for (int index = 0; index < providers.length; index++) {
+                          //   if (serviceName == 'All-Laundry') {
+                          //     return providers.length > 0
+                          //         ? Container(
+                          //       child: ListView.builder(
+                          //         itemCount: providers[index].providerDetail
+                          //             .serviceLists.length,
+                          //         itemBuilder: (context, serviceListsIndex) {
+                          //           for (int i = 0;
+                          //           i <
+                          //               providers[index]
+                          //                   .providerDetail
+                          //                   .serviceLists
+                          //                   .length;
+                          //           i++) {
+                          //             if (providers[index]
+                          //                 .providerDetail
+                          //                 .serviceLists[i]
+                          //                 .name ==
+                          //                 serviceName) {
+                          //               indexOfServiceName = i;
+                          //               break;
+                          //             } else {
+                          //               indexOfServiceName = 0;
+                          //             }
+                          //           }
+                          //           print(indexOfServiceName);
+                          //
+                          //           var service_image;
+                          //           if (providers[index]
+                          //               .providerDetail
+                          //               .serviceLists[serviceListsIndex]
+                          //               .name ==
+                          //               'Ironing') {
+                          //             service_image =
+                          //                 img_default_laundry_ironing_placeholder;
+                          //           } else if (providers[index]
+                          //               .providerDetail
+                          //               .serviceLists[serviceListsIndex]
+                          //               .name ==
+                          //               'Washing') {
+                          //             service_image =
+                          //                 img_default_laundry_placeholder;
+                          //           } else if (providers[index]
+                          //               .providerDetail
+                          //               .serviceLists[serviceListsIndex]
+                          //               .name ==
+                          //               'Washing+Ironing') {
+                          //             service_image =
+                          //                 img_default_laundry_washing_iron_placeholder;
+                          //           } else {
+                          //             service_image =
+                          //                 img_default_laundry_ironing_placeholder;
+                          //           }
+                          //           final _providerDetails = ref.watch(
+                          //               providerDetailsData(providers[index]
+                          //                   .providerDetail
+                          //                   .id));
+                          //           var agg_rating = 0.0;
+                          //           if (_providerDetails.value != null) {
+                          //             var total_reviews = _providerDetails
+                          //                 .value!.providerReviews.length;
+                          //
+                          //             if (total_reviews > 0) {
+                          //               for (int i = 0;
+                          //               i <
+                          //                   _providerDetails.value!
+                          //                       .providerReviews.length;
+                          //               i++) {
+                          //                 agg_rating = agg_rating +
+                          //                     double.parse(_providerDetails
+                          //                         .value!
+                          //                         .providerReviews[i]
+                          //                         .rating!);
+                          //               }
+                          //               agg_rating =
+                          //                   agg_rating / total_reviews;
+                          //             }
+                          //           }
+                          //
+                          //           return Padding(
+                          //             padding: const EdgeInsets.all(10.0),
+                          //             child: Column(
+                          //               crossAxisAlignment:
+                          //               CrossAxisAlignment.start,
+                          //               children: [
+                          //                 Card(
+                          //                   child: InkWell(
+                          //                     onTap: () {
+                          //                       Navigator
+                          //                           .pushNamedAndRemoveUntil(
+                          //                         context,
+                          //                         '/provider-detail',
+                          //                         arguments: {
+                          //                           "providerId":
+                          //                           providers[index]
+                          //                               .providerDetail
+                          //                               .id,
+                          //                           "serviceName": providers[
+                          //                           index]
+                          //                               .providerDetail
+                          //                               .serviceLists
+                          //                               .length >
+                          //                               1
+                          //                               ? providers[index]
+                          //                               .providerDetail
+                          //                               .serviceLists[
+                          //                           serviceListsIndex]
+                          //                               .name
+                          //                               : providers[index]
+                          //                               .providerDetail
+                          //                               .serviceLists[
+                          //                           serviceListsIndex]
+                          //                               .name
+                          //                         },
+                          //                             (route) => true,
+                          //                       );
+                          //                     },
+                          //                     child: Container(
+                          //                       decoration: BoxDecoration(
+                          //                         border: Border.all(
+                          //                             color:
+                          //                             Color(0XFFF6F7F9)),
+                          //                         shape: BoxShape.circle,
+                          //                         color: Color(0XFFF6F7F9),
+                          //                       ),
+                          //                       child: Column(
+                          //                         children: [
+                          //                           Container(
+                          //                             // height: 200,
+                          //                             color: Colors.white,
+                          //                             child: Image(
+                          //                               image: AssetImage(
+                          //                                   service_image),
+                          //                               // fit: BoxFit.cover,
+                          //                             ),
+                          //                           ),
+                          //                           SizedBox(
+                          //                             height: 20,
+                          //                           ),
+                          //                           Padding(
+                          //                             padding:
+                          //                             const EdgeInsets
+                          //                                 .only(
+                          //                                 right: 20),
+                          //                             child: Container(
+                          //                               child: Row(
+                          //                                 mainAxisAlignment:
+                          //                                 MainAxisAlignment
+                          //                                     .spaceBetween,
+                          //                                 children: [
+                          //                                   Container(
+                          //                                     child: Row(
+                          //                                       children: [
+                          //                                         SizedBox(
+                          //                                           width: 10,
+                          //                                         ),
+                          //                                         RatingBarIndicator(
+                          //                                           rating:
+                          //                                           agg_rating ??
+                          //                                               0.0,
+                          //                                           itemBuilder:
+                          //                                               (
+                          //                                               context,
+                          //                                               index) =>
+                          //                                               Icon(
+                          //                                                 Icons
+                          //                                                     .star,
+                          //                                                 color: Colors
+                          //                                                     .green,
+                          //                                               ),
+                          //                                           itemCount:
+                          //                                           5,
+                          //                                           itemSize:
+                          //                                           15.0,
+                          //                                           direction:
+                          //                                           Axis
+                          //                                               .horizontal,
+                          //                                         ),
+                          //                                         SizedBox(
+                          //                                           width: 10,
+                          //                                         ),
+                          //                                         Text(
+                          //                                           agg_rating
+                          //                                               .toStringAsPrecision(
+                          //                                               2),
+                          //                                           style: TextStyle(
+                          //                                               fontSize:
+                          //                                               16),
+                          //                                         ),
+                          //                                       ],
+                          //                                     ),
+                          //                                   ),
+                          //                                   Container(
+                          //                                     child: Text(
+                          //                                       '${providers[index]
+                          //                                           .providerDetail
+                          //                                           .serviceLists[serviceListsIndex]
+                          //                                           .name}',
+                          //                                       style: TextStyle(
+                          //                                           fontSize:
+                          //                                           16,
+                          //                                           fontWeight:
+                          //                                           FontWeight
+                          //                                               .w800,
+                          //                                           fontFamily:
+                          //                                           'Work Sans'),
+                          //                                     ),
+                          //                                   ),
+                          //                                 ],
+                          //                               ),
+                          //                             ),
+                          //                           ),
+                          //                           Container(
+                          //                             padding:
+                          //                             EdgeInsets.only(
+                          //                                 left: 10,
+                          //                                 bottom: 10,
+                          //                                 top: 10),
+                          //                             child: Row(
+                          //                               children: [
+                          //                                 Container(
+                          //                                   decoration: BoxDecoration(
+                          //                                       border: Border
+                          //                                           .all(
+                          //                                           color:
+                          //                                           primaryColor),
+                          //                                       shape: BoxShape
+                          //                                           .circle,
+                          //                                       color: Colors
+                          //                                           .white),
+                          //                                   child: Container(
+                          //                                     decoration: BoxDecoration(
+                          //                                         border: Border
+                          //                                             .all(
+                          //                                             color:
+                          //                                             primaryColor),
+                          //                                         shape: BoxShape
+                          //                                             .circle,
+                          //                                         color: Colors
+                          //                                             .white),
+                          //                                     child: ClipOval(
+                          //                                       child:
+                          //                                       Material(
+                          //                                         color: Colors
+                          //                                             .transparent,
+                          //                                         child: Ink
+                          //                                             .image(
+                          //                                           image: AssetImage(
+                          //                                               male_default_profile_iamge),
+                          //                                           fit: BoxFit
+                          //                                               .cover,
+                          //                                           width: 30,
+                          //                                           height:
+                          //                                           30,
+                          //                                         ),
+                          //                                       ),
+                          //                                     ),
+                          //                                   ),
+                          //                                 ),
+                          //                                 SizedBox(
+                          //                                   width: 10,
+                          //                                 ),
+                          //                                 Container(
+                          //                                   child: Text(
+                          //                                     providers[index]
+                          //                                         .providerDetail
+                          //                                         .name,
+                          //                                     style: TextStyle(
+                          //                                         fontFamily:
+                          //                                         'Work Sans',
+                          //                                         fontSize:
+                          //                                         16,
+                          //                                         fontWeight:
+                          //                                         FontWeight
+                          //                                             .w800),
+                          //                                   ),
+                          //                                 )
+                          //                               ],
+                          //                             ),
+                          //                           ),
+                          //                         ],
+                          //                       ),
+                          //                     ),
+                          //                   ),
+                          //                 ),
+                          //               ],
+                          //             ),
+                          //           );
+                          //         },
+                          //       ),
+                          //     )
+                          //         : Center(
+                          //       child: Container(
+                          //         child: Column(
+                          //           mainAxisAlignment:
+                          //           MainAxisAlignment.center,
+                          //           children: [
+                          //             Padding(
+                          //               padding: const EdgeInsets.only(
+                          //                   left: 100.0, right: 100),
+                          //               child: Image(
+                          //                 image: AssetImage(no_data_found),
+                          //               ),
+                          //             ),
+                          //             SizedBox(
+                          //               height: 10,
+                          //             ),
+                          //             Text(
+                          //                 "No services found for your search"),
+                          //             SizedBox(
+                          //               height: 10,
+                          //             ),
+                          //           ],
+                          //         ),
+                          //       ),
+                          //     );
+                          //   }
+                          //   else{
+                          //     return providers.length > 0
+                          //         ?
+                          //     Container(
+                          //       child: ListView.builder(
+                          //         itemCount: providers.length,
+                          //         itemBuilder: (context, index) {
+                          //           for (int i = 0;
+                          //           i <
+                          //               providers[index]
+                          //                   .providerDetail
+                          //                   .serviceLists
+                          //                   .length;
+                          //           i++) {
+                          //             if (providers[index]
+                          //                 .providerDetail
+                          //                 .serviceLists[i]
+                          //                 .name ==
+                          //                 serviceName) {
+                          //               indexOfServiceName = i;
+                          //               break;
+                          //             } else {
+                          //               indexOfServiceName = 0;
+                          //             }
+                          //           }
+                          //           print(indexOfServiceName);
+                          //
+                          //           var service_image;
+                          //           if (providers[index]
+                          //               .providerDetail
+                          //               .serviceLists[indexOfServiceName]
+                          //               .name ==
+                          //               'Ironing') {
+                          //             service_image =
+                          //                 img_default_laundry_ironing_placeholder;
+                          //           } else if (providers[index]
+                          //               .providerDetail
+                          //               .serviceLists[indexOfServiceName]
+                          //               .name ==
+                          //               'Washing') {
+                          //             service_image =
+                          //                 img_default_laundry_placeholder;
+                          //           } else if (providers[indexOfServiceName]
+                          //               .providerDetail
+                          //               .serviceLists[index]
+                          //               .name ==
+                          //               'Washing+Ironing') {
+                          //             service_image =
+                          //                 img_default_laundry_washing_iron_placeholder;
+                          //           } else {
+                          //             service_image =
+                          //                 img_default_laundry_ironing_placeholder;
+                          //           }
+                          //           final _providerDetails = ref.watch(
+                          //               providerDetailsData(providers[index]
+                          //                   .providerDetail
+                          //                   .id));
+                          //           var agg_rating = 0.0;
+                          //           if (_providerDetails.value != null) {
+                          //             var total_reviews = _providerDetails
+                          //                 .value!.providerReviews.length;
+                          //
+                          //             if (total_reviews > 0) {
+                          //               for (int i = 0;
+                          //               i <
+                          //                   _providerDetails.value!
+                          //                       .providerReviews.length;
+                          //               i++) {
+                          //                 agg_rating = agg_rating +
+                          //                     double.parse(_providerDetails
+                          //                         .value!
+                          //                         .providerReviews[i]
+                          //                         .rating!);
+                          //               }
+                          //               agg_rating =
+                          //                   agg_rating / total_reviews;
+                          //             }
+                          //           }
+                          //
+                          //           return Padding(
+                          //             padding: const EdgeInsets.all(10.0),
+                          //             child: Column(
+                          //               crossAxisAlignment:
+                          //               CrossAxisAlignment.start,
+                          //               children: [
+                          //                 Card(
+                          //                   child: InkWell(
+                          //                     onTap: () {
+                          //                       Navigator
+                          //                           .pushNamedAndRemoveUntil(
+                          //                         context,
+                          //                         '/provider-detail',
+                          //                         arguments: {
+                          //                           "providerId":
+                          //                           providers[index]
+                          //                               .providerDetail
+                          //                               .id,
+                          //                           "serviceName": providers[
+                          //                           index]
+                          //                               .providerDetail
+                          //                               .serviceLists
+                          //                               .length >
+                          //                               1
+                          //                               ? providers[index]
+                          //                               .providerDetail
+                          //                               .serviceLists[
+                          //                           indexOfServiceName]
+                          //                               .name
+                          //                               : providers[index]
+                          //                               .providerDetail
+                          //                               .serviceLists[
+                          //                           0]
+                          //                               .name
+                          //                         },
+                          //                             (route) => true,
+                          //                       );
+                          //                     },
+                          //                     child: Container(
+                          //                       decoration: BoxDecoration(
+                          //                         border: Border.all(
+                          //                             color:
+                          //                             Color(0XFFF6F7F9)),
+                          //                         shape: BoxShape.circle,
+                          //                         color: Color(0XFFF6F7F9),
+                          //                       ),
+                          //                       child: Column(
+                          //                         children: [
+                          //                           Container(
+                          //                             // height: 200,
+                          //                             color: Colors.white,
+                          //                             child: Image(
+                          //                               image: AssetImage(
+                          //                                   service_image),
+                          //                               // fit: BoxFit.cover,
+                          //                             ),
+                          //                           ),
+                          //                           SizedBox(
+                          //                             height: 20,
+                          //                           ),
+                          //                           Padding(
+                          //                             padding:
+                          //                             const EdgeInsets
+                          //                                 .only(
+                          //                                 right: 20),
+                          //                             child: Container(
+                          //                               child: Row(
+                          //                                 mainAxisAlignment:
+                          //                                 MainAxisAlignment
+                          //                                     .spaceBetween,
+                          //                                 children: [
+                          //                                   Container(
+                          //                                     child: Row(
+                          //                                       children: [
+                          //                                         SizedBox(
+                          //                                           width: 10,
+                          //                                         ),
+                          //                                         RatingBarIndicator(
+                          //                                           rating:
+                          //                                           agg_rating ??
+                          //                                               0.0,
+                          //                                           itemBuilder:
+                          //                                               (context, index) =>
+                          //                                               Icon(
+                          //                                                 Icons
+                          //                                                     .star,
+                          //                                                 color: Colors
+                          //                                                     .green,
+                          //                                               ),
+                          //                                           itemCount:
+                          //                                           5,
+                          //                                           itemSize:
+                          //                                           15.0,
+                          //                                           direction:
+                          //                                           Axis.horizontal,
+                          //                                         ),
+                          //                                         SizedBox(
+                          //                                           width: 10,
+                          //                                         ),
+                          //                                         Text(
+                          //                                           agg_rating
+                          //                                               .toStringAsPrecision(
+                          //                                               2),
+                          //                                           style: TextStyle(
+                          //                                               fontSize:
+                          //                                               16),
+                          //                                         ),
+                          //                                       ],
+                          //                                     ),
+                          //                                   ),
+                          //                                   Container(
+                          //                                     child: Text(
+                          //                                       '${providers[index].providerDetail.serviceLists[indexOfServiceName].name}',
+                          //                                       style: TextStyle(
+                          //                                           fontSize:
+                          //                                           16,
+                          //                                           fontWeight:
+                          //                                           FontWeight
+                          //                                               .w800,
+                          //                                           fontFamily:
+                          //                                           'Work Sans'),
+                          //                                     ),
+                          //                                   ),
+                          //                                 ],
+                          //                               ),
+                          //                             ),
+                          //                           ),
+                          //                           Container(
+                          //                             padding:
+                          //                             EdgeInsets.only(
+                          //                                 left: 10,
+                          //                                 bottom: 10,
+                          //                                 top: 10),
+                          //                             child: Row(
+                          //                               children: [
+                          //                                 Container(
+                          //                                   decoration: BoxDecoration(
+                          //                                       border: Border
+                          //                                           .all(
+                          //                                           color:
+                          //                                           primaryColor),
+                          //                                       shape: BoxShape
+                          //                                           .circle,
+                          //                                       color: Colors
+                          //                                           .white),
+                          //                                   child: Container(
+                          //                                     decoration: BoxDecoration(
+                          //                                         border: Border.all(
+                          //                                             color:
+                          //                                             primaryColor),
+                          //                                         shape: BoxShape
+                          //                                             .circle,
+                          //                                         color: Colors
+                          //                                             .white),
+                          //                                     child: ClipOval(
+                          //                                       child:
+                          //                                       Material(
+                          //                                         color: Colors
+                          //                                             .transparent,
+                          //                                         child: Ink
+                          //                                             .image(
+                          //                                           image: AssetImage(
+                          //                                               male_default_profile_iamge),
+                          //                                           fit: BoxFit
+                          //                                               .cover,
+                          //                                           width: 30,
+                          //                                           height:
+                          //                                           30,
+                          //                                         ),
+                          //                                       ),
+                          //                                     ),
+                          //                                   ),
+                          //                                 ),
+                          //                                 SizedBox(
+                          //                                   width: 10,
+                          //                                 ),
+                          //                                 Container(
+                          //                                   child: Text(
+                          //                                     providers[index]
+                          //                                         .providerDetail
+                          //                                         .name,
+                          //                                     style: TextStyle(
+                          //                                         fontFamily:
+                          //                                         'Work Sans',
+                          //                                         fontSize:
+                          //                                         16,
+                          //                                         fontWeight:
+                          //                                         FontWeight
+                          //                                             .w800),
+                          //                                   ),
+                          //                                 )
+                          //                               ],
+                          //                             ),
+                          //                           ),
+                          //                         ],
+                          //                       ),
+                          //                     ),
+                          //                   ),
+                          //                 ),
+                          //               ],
+                          //             ),
+                          //           );
+                          //         },
+                          //       ),
+                          //     )
+                          //         : Center(
+                          //       child: Container(
+                          //         child: Column(
+                          //           mainAxisAlignment:
+                          //           MainAxisAlignment.center,
+                          //           children: [
+                          //             Padding(
+                          //               padding: const EdgeInsets.only(
+                          //                   left: 100.0, right: 100),
+                          //               child: Image(
+                          //                 image: AssetImage(no_data_found),
+                          //               ),
+                          //             ),
+                          //             SizedBox(
+                          //               height: 10,
+                          //             ),
+                          //             Text(
+                          //                 "No services found for your search"),
+                          //             SizedBox(
+                          //               height: 10,
+                          //             ),
+                          //           ],
+                          //         ),
+                          //       ),
+                          //     );
+                          //   }
+                          //
+                          //
+                          // }
                           return Center(
                             child: Container(
                               child: Column(
-                                mainAxisAlignment:
-                                MainAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.only(
@@ -785,8 +1420,7 @@ class _LaundryServiceDetailScreenState
                                   SizedBox(
                                     height: 10,
                                   ),
-                                  Text(
-                                      "No services found for your search"),
+                                  Text("No services found for your search"),
                                   SizedBox(
                                     height: 10,
                                   ),

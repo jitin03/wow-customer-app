@@ -98,331 +98,338 @@ class _GenerateBillScreenState
           }
           return Stack(
             children: [
-              Container(
-                margin: EdgeInsets.only(left: 25, right: 25),
-                alignment: Alignment.center,
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("Booking ID",
-                            style: TextStyle(
-                                fontFamily: 'Work Sans',
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500)),
-                        Text('#' + widget.booking.bookingId.toString(),
-                            style: TextStyle(
-                                fontFamily: 'Work Sans',
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                color: primaryColor))
-                      ],
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Divider(height: 2, thickness: 2),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                      width: double.infinity,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+              SingleChildScrollView(
+                child: Container(
+
+                  margin: EdgeInsets.only(left: 25, right: 25),
+                  alignment: Alignment.center,
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("About Provider",
+                          Text("Booking ID",
                               style: TextStyle(
                                   fontFamily: 'Work Sans',
                                   fontSize: 16,
                                   fontWeight: FontWeight.w500)),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Color(0XFFF6F7F9),
-                              border: Border.all(
-                                color: Color(0XFF6F7F9),
-                              ),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            margin: EdgeInsets.only(top: 20, bottom: 20),
-                            padding: const EdgeInsets.fromLTRB(10, 20, 40, 20),
-                            child: Row(
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                      border: Border.all(color: primaryColor),
-                                      shape: BoxShape.circle,
-                                      color: Colors.white),
-                                  child: Stack(
-                                    children: [
-                                      Align(
-                                        alignment: Alignment.topLeft,
-                                        child: ImageIcon(
-                                          AssetImage(male_default_profile_iamge),
-                                          size: 50,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 20,
-                                ),
-                                Container(
-                                  child: Text(
-                                    widget.providername,
-                                    style: TextStyle(
-                                        fontFamily: 'Work Sans',
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w800),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
+                          Text('#' + widget.booking.bookingId.toString(),
+                              style: TextStyle(
+                                  fontFamily: 'Work Sans',
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: primaryColor))
                         ],
                       ),
-                    ),
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        "Price Details",
-                        style: TextStyle(
-                            fontFamily: 'Work Sans',
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500),
+                      SizedBox(
+                        height: 20,
                       ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    _data!.length > 0
-                        ? Container(
-                            padding: const EdgeInsets.all(5),
-                            decoration: BoxDecoration(
-                                border: Border.all(color: primaryColor),
-                                shape: BoxShape.rectangle,
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(4))),
-                            child: ListView.separated(
-                              scrollDirection: Axis.vertical,
-                              shrinkWrap: true,
-                              itemCount: _data[0]
-                                  .serviceLists[0]
-                                  .subCategories!
-                                  .length,
-                              itemBuilder: (context, index) {
-                                return Align(
-                                  alignment: Alignment.center,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Container(
-                                        child: Expanded(
+                      Divider(height: 2, thickness: 2),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Container(
+                        width: double.infinity,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("About Provider",
+                                style: TextStyle(
+                                    fontFamily: 'Work Sans',
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500)),
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Color(0XFFF6F7F9),
+                                border: Border.all(
+                                  color: Color(0XFF6F7F9),
+                                ),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              margin: EdgeInsets.only(top: 20, bottom: 20),
+                              padding: const EdgeInsets.fromLTRB(10, 20, 40, 20),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        border: Border.all(color: primaryColor),
+                                        shape: BoxShape.circle,
+                                        color: Colors.white),
+                                    child: Stack(
+                                      children: [
+                                        Align(
+                                          alignment: Alignment.topLeft,
+                                          child: ImageIcon(
+                                            AssetImage(male_default_profile_iamge),
+                                            size: 50,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  Container(
+                                    child: Text(
+                                      widget.providername,
+                                      style: TextStyle(
+                                          fontFamily: 'Work Sans',
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w800),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          "Price Details",
+                          style: TextStyle(
+                              fontFamily: 'Work Sans',
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      _data!.length > 0
+                          ? Container(
+                        height: 250,
+                              padding: const EdgeInsets.all(5),
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: primaryColor),
+                                  shape: BoxShape.rectangle,
+                                  borderRadius:
+                                      const BorderRadius.all(Radius.circular(4))),
+                              child: ListView.separated(
+                                scrollDirection: Axis.vertical,
+                                shrinkWrap: true,
+                                itemCount: _data[0]
+                                    .serviceLists[0]
+                                    .subCategories!
+                                    .length,
+                                itemBuilder: (context, index) {
+                                  return Align(
+                                    alignment: Alignment.center,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Container(
+                                          child: Expanded(
+                                            child: Text(
+                                              softWrap: true,
+                                              _data[0]
+                                                      .serviceLists![
+                                                          indexOfServiceName]
+                                                      .subCategories![index]
+                                                      .name! +
+                                                  ' (${_data[0].serviceLists![indexOfServiceName].subCategories![index].price} per piece)',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w500,
+                                                  fontFamily: 'Work Sans',
+                                                  fontSize: 14),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
                                           child: Text(
                                             softWrap: true,
-                                            _data[0]
-                                                    .serviceLists![
-                                                        indexOfServiceName]
-                                                    .subCategories![index]
-                                                    .name! +
-                                                ' (${_data[0].serviceLists![indexOfServiceName].subCategories![index].price} per piece)',
+                                            '(\u{20B9} ${_data[0].serviceLists![indexOfServiceName].subCategories![index].price.toString()!}*${_data[0].serviceLists![indexOfServiceName].subCategories![index].count})',
                                             style: TextStyle(
                                                 fontWeight: FontWeight.w500,
                                                 fontFamily: 'Work Sans',
+                                                color: Color(0Xff6C757D),
                                                 fontSize: 14),
                                           ),
                                         ),
-                                      ),
-                                      Container(
-                                        child: Text(
-                                          softWrap: true,
-                                          '(\u{20B9} ${_data[0].serviceLists![indexOfServiceName].subCategories![index].price.toString()!}*${_data[0].serviceLists![indexOfServiceName].subCategories![index].count})',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              fontFamily: 'Work Sans',
-                                              color: Color(0Xff6C757D),
-                                              fontSize: 14),
+                                        Container(
+                                          child: Text(
+                                            softWrap: true,
+                                            '\u{20B9}' +
+                                                (_data[0]
+                                                            .serviceLists![
+                                                                indexOfServiceName]
+                                                            .subCategories![index]
+                                                            .price! *
+                                                        double.parse(_data[0]
+                                                            .serviceLists![
+                                                                indexOfServiceName]
+                                                            .subCategories![index]
+                                                            .count!))
+                                                    .toStringAsFixed(2),
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontFamily: 'Work Sans',
+                                                color: Color(0Xff6C757D),
+                                                fontSize: 14),
+                                          ),
                                         ),
-                                      ),
-                                      Container(
-                                        child: Text(
-                                          softWrap: true,
-                                          '\u{20B9}' +
-                                              (_data[0]
-                                                          .serviceLists![
-                                                              indexOfServiceName]
-                                                          .subCategories![index]
-                                                          .price! *
-                                                      double.parse(_data[0]
-                                                          .serviceLists![
-                                                              indexOfServiceName]
-                                                          .subCategories![index]
-                                                          .count!))
-                                                  .toStringAsFixed(2),
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              fontFamily: 'Work Sans',
-                                              color: Color(0Xff6C757D),
-                                              fontSize: 14),
-                                        ),
-                                      ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                                separatorBuilder:
+                                    (BuildContext context, int index) =>
+                                        const Divider(),
+                              ),
+                            )
+                          : Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.all(5),
+                              decoration: BoxDecoration(
+                                color: Color(0XFFF6F7F9),
+                                border: Border.all(
+                                  color: Color(0XFF6F7F9),
+                                ),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Align(
+                                child: Text("Bill has not been generated yet!"),
+                              ),
+                            ),
+                      _data!.length > 0
+                          ? Container(
+
+                              padding: const EdgeInsets.all(16),
+                              margin: const EdgeInsets.only(top: 8),
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: primaryColor),
+                                  shape: BoxShape.rectangle,
+                                  borderRadius:
+                                      const BorderRadius.all(Radius.circular(4))),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      // Text("Items (${cartList.length})"),
+                                      // Text("\$${totalAmount.toStringAsFixed(2)}"),
                                     ],
                                   ),
-                                );
-                              },
-                              separatorBuilder:
-                                  (BuildContext context, int index) =>
-                                      const Divider(),
-                            ),
-                          )
-                        : Container(
-                            width: double.infinity,
-                            padding: const EdgeInsets.all(5),
-                            decoration: BoxDecoration(
-                              color: Color(0XFFF6F7F9),
-                              border: Border.all(
-                                color: Color(0XFF6F7F9),
-                              ),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Align(
-                              child: Text("Bill has not been generated yet!"),
-                            ),
-                          ),
-                    _data!.length > 0
-                        ? Container(
-                            padding: const EdgeInsets.all(16),
-                            margin: const EdgeInsets.only(top: 8),
-                            decoration: BoxDecoration(
-                                border: Border.all(color: primaryColor),
-                                shape: BoxShape.rectangle,
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(4))),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    // Text("Items (${cartList.length})"),
-                                    // Text("\$${totalAmount.toStringAsFixed(2)}"),
-                                  ],
-                                ),
-                                const SizedBox(height: 8),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: const [
-                                    Text("Shipping"),
-                                    Text("\u{20B9}00.00"),
-                                  ],
-                                ),
-                                const SizedBox(height: 8),
-                                // Row(
-                                //   mainAxisAlignment:
-                                //       MainAxisAlignment.spaceBetween,
-                                //   children: [
-                                //     const Text("GST (18%)"),
-                                //     Text(
-                                //         "\u{20B9}${(double.parse(_data[0].grossAmount) * 0.18).toStringAsFixed(2)}",
-                                //         style: const TextStyle(
-                                //             fontWeight: FontWeight.bold,
-                                //             color: primaryColor))
-                                //
-                                //     // Text("\u{20B9}${(totalAmount * 0.18).toStringAsFixed(2)}")
-                                //   ],
-                                // ),
-                                const SizedBox(height: 8),
-                                const Divider(color: primaryColor),
-                                const SizedBox(height: 8),
-                                const SizedBox(height: 8),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    const Text(
-                                      "Total Amount",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black),
-                                    ),
-                                    // Text(
-                                    //     "\u{20B9}${(double.parse(_data[0].grossAmount) + double.parse(_data[0].grossAmount) * 0.18).toStringAsFixed(2)}",
-                                    //     style: const TextStyle(
-                                    //         fontWeight: FontWeight.bold,
-                                    //         color: primaryColor))
-                                    Text(
-                                        "\u{20B9}${(double.parse(_data[0].grossAmount))}",
-                                        style: const TextStyle(
+                                  const SizedBox(height: 8),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: const [
+                                      Text("Shipping"),
+                                      Text("\u{20B9}00.00"),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 8),
+                                  // Row(
+                                  //   mainAxisAlignment:
+                                  //       MainAxisAlignment.spaceBetween,
+                                  //   children: [
+                                  //     const Text("GST (18%)"),
+                                  //     Text(
+                                  //         "\u{20B9}${(double.parse(_data[0].grossAmount) * 0.18).toStringAsFixed(2)}",
+                                  //         style: const TextStyle(
+                                  //             fontWeight: FontWeight.bold,
+                                  //             color: primaryColor))
+                                  //
+                                  //     // Text("\u{20B9}${(totalAmount * 0.18).toStringAsFixed(2)}")
+                                  //   ],
+                                  // ),
+                                  const SizedBox(height: 8),
+                                  const Divider(color: primaryColor),
+                                  const SizedBox(height: 8),
+                                  const SizedBox(height: 8),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const Text(
+                                        "Total Amount",
+                                        style: TextStyle(
                                             fontWeight: FontWeight.bold,
-                                            color: primaryColor))
-                                  ],
-                                ),
-                                const SizedBox(height: 8),
-                                (_data[0].status == 'Paid')
-                                    ? Column(
-                                      children: [
-                                        Container(
-                                            decoration: BoxDecoration(
-                                              border: Border.all(
-                                                color: Colors.white,
-                                                width: 2,
+                                            color: Colors.black),
+                                      ),
+                                      // Text(
+                                      //     "\u{20B9}${(double.parse(_data[0].grossAmount) + double.parse(_data[0].grossAmount) * 0.18).toStringAsFixed(2)}",
+                                      //     style: const TextStyle(
+                                      //         fontWeight: FontWeight.bold,
+                                      //         color: primaryColor))
+                                      Text(
+                                          "\u{20B9}${(double.parse(_data[0].grossAmount))}",
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: primaryColor))
+                                    ],
+                                  ),
+                                  const SizedBox(height: 8),
+                                  (_data[0].status == 'Paid')
+                                      ? Column(
+                                        children: [
+                                          Container(
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  color: Colors.white,
+                                                  width: 2,
+                                                ),
+                                                color: Colors.greenAccent
+                                                    .withOpacity(0.5),
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(10),
+                                                ),
                                               ),
-                                              color: Colors.greenAccent
-                                                  .withOpacity(0.5),
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(10),
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 20.0, right: 20),
+                                                child: Text(
+                                                  _data[0].status,
+                                                  style: TextStyle(
+                                                      color: Colors.green,
+                                                      fontFamily: 'Work Sans',
+                                                      fontWeight: FontWeight.w600,
+                                                      fontSize: 14),
+                                                ),
                                               ),
                                             ),
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 20.0, right: 20),
-                                              child: Text(
-                                                _data[0].status,
-                                                style: TextStyle(
-                                                    color: Colors.green,
-                                                    fontFamily: 'Work Sans',
-                                                    fontWeight: FontWeight.w600,
-                                                    fontSize: 14),
-                                              ),
+                                          InkWell(
+                                            onTap: () {
+
+                                              showReviewDialog(
+                                                  context,
+                                                  widget.booking.bookingId.toString(),
+
+                                                  ref,
+                                                  _data[0].providerId[
+                                                  0],
+                                                  _data[0]
+                                                      .customerId[0]);
+                                            },
+                                            child: Text(
+                                              "Write Review",
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: primaryColor,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontFamily: 'Work Sans'),
                                             ),
-                                          ),
-                                        InkWell(
-                                          onTap: () {
-
-                                            showReviewDialog(
-                                                context,
-                                                widget.booking.bookingId.toString(),
-
-                                                ref,
-                                                _data[0].providerId[
-                                                0],
-                                                _data[0]
-                                                    .customerId[0]);
-                                          },
-                                          child: Text(
-                                            "Write Review",
-                                            style: TextStyle(
-                                                fontSize: 16,
-                                                color: primaryColor,
-                                                fontWeight: FontWeight.bold,
-                                                fontFamily: 'Work Sans'),
-                                          ),
-                                        )
-                                      ],
-                                    )
-                                    : Container()
-                              ],
-                            ),
-                          )
-                        : Container(),
-                  ],
+                                          )
+                                        ],
+                                      )
+                                      : Container()
+                                ],
+                              ),
+                            )
+                          : Container(
+                        margin: EdgeInsets.only(bottom: 40),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               (_data!.length > 0 && _data[0].status != 'Paid')
