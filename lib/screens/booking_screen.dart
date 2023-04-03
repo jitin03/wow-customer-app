@@ -9,6 +9,9 @@ import 'package:mistry_customer/services/booking_service.dart';
 import 'package:mistry_customer/utils/config.dart';
 import 'package:mistry_customer/utils/images.dart';
 
+import '../services/shared_service.dart';
+import 'auth/landing_screen.dart';
+
 class BookingScreen extends ConsumerStatefulWidget {
   String? providerId;
   String? customerId;
@@ -29,66 +32,7 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
   bool isApiCallProcess = false;
   late TextEditingController _locationController = TextEditingController();
   final _scheduleController = TextEditingController();
-  // _getCurrentLocation() async {
-  //   // Test if location services are enabled.
-  //   bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
-  //   if (!serviceEnabled) {
-  //     // Location services are not enabled don't continue
-  //     // accessing the position and request users of the
-  //     // App to enable the location services.
-  //     return Future.error('Location services are disabled.');
-  //   }
-  //
-  //   LocationPermission permission = await Geolocator.checkPermission();
-  //   if (permission == LocationPermission.denied) {
-  //     permission = await Geolocator.requestPermission();
-  //     if (permission == LocationPermission.deniedForever) {
-  //       // Permissions are denied forever, handle appropriately.
-  //       return Future.error(
-  //           Exception('Location permissions are permanently denied.'));
-  //     }
-  //
-  //     if (permission == LocationPermission.denied) {
-  //       // Permissions are denied, next time you could try
-  //       // requesting permissions again (this is also where
-  //       // Android's shouldShowRequestPermissionRationale
-  //       // returned true. According to Android guidelines
-  //       // your App should show an explanatory UI now.
-  //       return Future.error(Exception('Location permissions are denied.'));
-  //     }
-  //   }
-  //   print(serviceEnabled);
-  //   Geolocator.getCurrentPosition(
-  //           desiredAccuracy: LocationAccuracy.best,
-  //           forceAndroidLocationManager: true)
-  //       .then((Position position) {
-  //     setState(() {
-  //       _currentPosition = position;
-  //       print(position);
-  //       _getAddressFromLatLng();
-  //     });
-  //   }).catchError((e) {
-  //     print(e);
-  //   });
-  // }
-  //
-  // _getAddressFromLatLng() async {
-  //   try {
-  //     List<Placemark> placemarks = await placemarkFromCoordinates(
-  //         _currentPosition!.latitude, _currentPosition!.longitude);
-  //
-  //     Placemark place = placemarks[0];
-  //     _currentAddress =
-  //     "${place.street},${place.locality},${place.subLocality}, ${place.postalCode}, ${place.country}";
-  //     setState(() {
-  //
-  //       _locationController.text =_currentAddress.toString();
-  //     });
-  //     print(_currentAddress);
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  // }
+
 
   Future<Position> _getGeoLocationPosition() async {
     bool serviceEnabled;
@@ -140,7 +84,7 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
   @override
   void initState(){
     super.initState();
-
+    whereToGo();
     providerId = widget.providerId;
     customerId = widget.customerId;
     serviceName = widget.serviceName;
@@ -387,7 +331,34 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
       ),
     );
   }
+  Future<void> whereToGo() async {
+    var isLoggedIn = await SharedService.isLoggedIn();
+    // var isLoggedIn = false;
 
+
+    if (isLoggedIn != null) {
+      if (isLoggedIn) {
+        // Navigator.pushReplacement(
+        //     context,
+        //     MaterialPageRoute(
+        //       builder: (context) => DashboadScreen(currentIndex: 0),
+        //     ));
+      } else {
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => LandingScreen(),
+            ));
+      }
+    } else {
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LandingScreen(),
+          ));
+    }
+
+  }
   bool validateAndSave() {
     final form = formkey.currentState;
     if (form!.validate()) {

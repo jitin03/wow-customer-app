@@ -84,7 +84,7 @@ final providerReviewDataProvider = FutureProvider.autoDispose
   return ref.watch(reviewServiceProvider).getProviderReviews(id);
 });
 
-final shareServiceDataProvider = FutureProvider<void>((ref) async {
+final shareServiceDataProvider = FutureProvider.autoDispose<void>((ref) async {
   return ref.read(sharedServiceProvider).logout();
 });
 

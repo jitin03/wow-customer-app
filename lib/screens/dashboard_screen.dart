@@ -48,6 +48,7 @@ class _LandingScreenState extends ConsumerState<DashboadScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text(
           Config.appBarTitles[currentIndex],
         ),

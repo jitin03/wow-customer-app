@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mistry_customer/components/profile_widget.dart';
@@ -5,8 +7,11 @@ import 'package:mistry_customer/provider/data_provider.dart';
 import 'package:mistry_customer/utils/config.dart';
 
 import '../model/customer_profile_response_bck.dart';
+import '../services/shared_service.dart';
 import '../utils/images.dart';
 import 'PolicyDialog.dart';
+import 'auth/landing_screen.dart';
+import 'dashboard_screen.dart';
 
 class CustomerProfileScreen extends ConsumerStatefulWidget {
   const CustomerProfileScreen({Key? key}) : super(key: key);
@@ -18,6 +23,23 @@ class CustomerProfileScreen extends ConsumerStatefulWidget {
 
 class _CustomerProfileScreenState extends ConsumerState<CustomerProfileScreen> {
   late String gender;
+  late var isLoggedIn;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    whereToGo();
+    initializeLoginStatus();
+  }
+
+  Future<void> initializeLoginStatus() async {
+    bool loginStatus = await isUserLoggedInd();
+    setState(() {
+      isLoggedIn = loginStatus;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     var _data = ref.watch(customerProfileDataProvider);
@@ -44,6 +66,36 @@ class _CustomerProfileScreenState extends ConsumerState<CustomerProfileScreen> {
         ),
       ),
     );
+  }
+
+  Future<bool> isUserLoggedInd() async {
+    var isLoggedIn = await SharedService.isLoggedIn();
+
+    return isLoggedIn;
+  }
+
+  Future<void> whereToGo() async {
+    var isLoggedIn = await SharedService.isLoggedIn();
+    // var isLoggedIn = false;
+    if (isLoggedIn != null) {
+      if (isLoggedIn) {
+        // Navigator.pop(context); // Navigate back to previous screen
+      } else {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LandingScreen(),
+          ),
+        );
+      }
+    } else {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => LandingScreen(),
+        ),
+      );
+    }
   }
 
   Widget buildName(CustomerProfileRequest data) => Column(
@@ -297,11 +349,19 @@ class _CustomerProfileScreenState extends ConsumerState<CustomerProfileScreen> {
             child: InkWell(
               onTap: () async {
                 ref.watch(shareServiceDataProvider);
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  '/sigin',
-                  (route) => false,
-                );
+                Timer(Duration(microseconds: 2), () {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DashboadScreen(currentIndex: 0),
+                      ));
+                });
+
+                // Navigator.pushNamedAndRemoveUntil(
+                //   context,
+                //   '/sigin',
+                //   (route) => false,
+                // );
               },
               child: Text(
                 "Logout",
