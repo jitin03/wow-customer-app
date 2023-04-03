@@ -67,7 +67,7 @@ class _SignInState extends ConsumerState<LandingScreen> {
             },
           ),
 
-          // backgroundColor: primaryColor,
+          backgroundColor: Colors.white,
           titleTextStyle: TextStyle(
               color: Colors.white,
               fontFamily: "Work Sans",
