@@ -6,6 +6,7 @@ import 'package:mistry_customer/model/customer_review_request.dart';
 import 'package:mistry_customer/model/update_booking_request.dart';
 
 import 'package:mistry_customer/provider/data_provider.dart';
+import 'package:mistry_customer/screens/upi_payment.dart';
 import 'package:mistry_customer/services/shared_service.dart';
 
 import 'package:mistry_customer/utils/config.dart';
@@ -45,6 +46,7 @@ class _GenerateBillScreenState
   int value = 0;
   bool isSelect_OnlinePaymentSelected = false;
   bool isSelect_CashOnly = false;
+  bool isSelect_UPIOnly = false;
   bool isApiCallProcess = false;
   PaymentOptions? _character = PaymentOptions.Cash_only;
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
@@ -158,16 +160,34 @@ class _GenerateBillScreenState
                                         border: Border.all(color: primaryColor),
                                         shape: BoxShape.circle,
                                         color: Colors.white),
-                                    child: Stack(
-                                      children: [
-                                        Align(
-                                          alignment: Alignment.topLeft,
-                                          child: ImageIcon(
-                                            AssetImage(male_default_profile_iamge),
-                                            size: 50,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color:
+                                              primaryColor),
+                                          shape: BoxShape
+                                              .circle,
+                                          color: Colors
+                                              .white),
+                                      child:
+                                      ClipOval(
+                                        child:
+                                        Material(
+                                          color: Colors
+                                              .transparent,
+                                          child: Ink
+                                              .image(
+                                            image: AssetImage(
+                                                male_default_profile_iamge),
+                                            fit: BoxFit
+                                                .cover,
+                                            width:
+                                            30,
+                                            height:
+                                            30,
                                           ),
                                         ),
-                                      ],
+                                      ),
                                     ),
                                   ),
                                   SizedBox(
@@ -203,7 +223,7 @@ class _GenerateBillScreenState
                       ),
                       _data!.length > 0
                           ? Container(
-                        height: 250,
+                        height: MediaQuery.of(context).size.height / 5,
                               padding: const EdgeInsets.all(5),
                               decoration: BoxDecoration(
                                   border: Border.all(color: primaryColor),
@@ -456,8 +476,8 @@ class _GenerateBillScreenState
                                           child: Container(
                                             height: MediaQuery.of(context)
                                                     .size
-                                                    .height *
-                                                0.4,
+                                                    .height/
+                                                2,
                                             decoration: BoxDecoration(
                                               // color: Color(0xFFF0F0FA),  //
                                               color: Color(0xFFF0F0FA),
@@ -487,6 +507,8 @@ class _GenerateBillScreenState
                                                                   true;
                                                               isSelect_OnlinePaymentSelected =
                                                                   false;
+                                                              isSelect_UPIOnly =
+                                                              false;
                                                             }
                                                           });
                                                         },
@@ -562,17 +584,106 @@ class _GenerateBillScreenState
                                                         ),
                                                       ),
                                                       InkWell(
-                                                        onTap: () {
-                                                          setState(() {
-                                                            if (isSelect_OnlinePaymentSelected ==
-                                                                false) {
-                                                              isSelect_OnlinePaymentSelected =
-                                                                  true;
-                                                              isSelect_CashOnly =
-                                                                  false;
-                                                            }
-                                                          });
-                                                        },
+                                                        // payment gateway waiting
+                                                        onTap: null,
+                                                        //     () {
+                                                        //   setState(() {
+                                                        //     if (isSelect_UPIOnly ==
+                                                        //         false) {
+                                                        //       isSelect_UPIOnly =
+                                                        //       true;
+                                                        //       isSelect_OnlinePaymentSelected =
+                                                        //       false;
+                                                        //       isSelect_CashOnly =false;
+                                                        //     }
+                                                        //   });
+                                                        // },
+                                                        child: Container(
+                                                          margin:
+                                                          EdgeInsets.only(
+                                                              bottom: 10),
+                                                          decoration: BoxDecoration(
+                                                              borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                  20 /
+                                                                      4),
+                                                              color: Colors.white,
+                                                              boxShadow: [
+                                                                BoxShadow(
+                                                                    color: Colors
+                                                                        .grey[
+                                                                    200]!,
+                                                                    blurRadius:
+                                                                    5,
+                                                                    spreadRadius:
+                                                                    1)
+                                                              ]),
+                                                          child: ListTile(
+                                                            // leading: Radio<PaymentOptions>(
+                                                            //   value: PaymentOptions.Cash_only,
+                                                            //   groupValue: _character,
+                                                            //   onChanged: (PaymentOptions? value) {
+                                                            //     setState(() {
+                                                            //       _character = value;
+                                                            //     });
+                                                            //   },
+                                                            // ),
+                                                            title: Text(
+                                                              "Pay via UPI",
+                                                              style: TextStyle(
+                                                                  fontFamily:
+                                                                  'Work Sans',
+                                                                  fontSize: 20,
+                                                                  fontWeight:
+                                                                  FontWeight
+                                                                      .w500),
+                                                            ),
+                                                            subtitle: Text(
+                                                              'you pay after task is completed',
+                                                              maxLines: 1,
+                                                              overflow:
+                                                              TextOverflow
+                                                                  .ellipsis,
+                                                              style: TextStyle(
+                                                                fontFamily:
+                                                                'Work Sans',
+                                                                color: Theme.of(
+                                                                    context)
+                                                                    .disabledColor,
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .w500,
+                                                              ),
+                                                            ),
+                                                            trailing:
+                                                            isSelect_UPIOnly
+                                                                ? Icon(
+                                                              Icons
+                                                                  .check_circle,
+                                                              color: Theme.of(context)
+                                                                  .primaryColor,
+                                                            )
+                                                                : null,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      InkWell(
+                                                        onTap: null,
+                                                        //     () {
+                                                        //   setState(() {
+                                                        //     if (isSelect_OnlinePaymentSelected ==
+                                                        //         false) {
+                                                        //       isSelect_OnlinePaymentSelected =
+                                                        //           true;
+                                                        //       isSelect_CashOnly =
+                                                        //           false;
+                                                        //       isSelect_UPIOnly =
+                                                        //       false;
+                                                        //     }
+                                                        //   });
+                                                        // },
                                                         child: Container(
                                                           margin:
                                                               EdgeInsets.only(
@@ -643,7 +754,31 @@ class _GenerateBillScreenState
                                                                     : null,
                                                           ),
                                                         ),
+                                                      ),
+                                                      Align(
+                                                        alignment:
+                                                        Alignment.topLeft,
+                                                        child: Text(
+                                                          "Disclaimer:",
+                                                          style: TextStyle(
+                                                              fontFamily:
+                                                              'Work Sans',
+                                                              fontWeight:
+                                                              FontWeight.w500,
+                                                              fontSize: 14),
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        "Please choose COD as of now, soon we will enable online payment!",
+                                                        style: TextStyle(
+                                                            fontFamily: 'Work Sans',
+                                                            fontWeight:
+                                                            FontWeight.w500,
+                                                            color:
+                                                            Color(0xff6C757D),
+                                                            fontSize: 12),
                                                       )
+
                                                     ],
                                                   ),
                                                 ),
@@ -815,6 +950,45 @@ class _GenerateBillScreenState
                                                             );
                                                           }
                                                         }
+                                                      }
+                                                      else if(isSelect_UPIOnly){
+
+                                                       String paymentReference  =await Navigator.push(context, MaterialPageRoute(builder: (context)=>UpiPayment(order: 123)));
+
+                                                       print(paymentReference);
+                                                        // BookingPaymentUpdateRequest
+                                                        // updateRequest =
+                                                        // BookingPaymentUpdateRequest(
+                                                        //     paymentMode:
+                                                        //     "PAY VIA UPI");
+                                                        // var bookingOrderProvider_response = ref
+                                                        //     .read(
+                                                        //     bookingOrderProvider)
+                                                        //     .updateBookingPaymentMode(
+                                                        //     updateRequest,
+                                                        //     widget
+                                                        //         .booking
+                                                        //         .bookingId
+                                                        //         .toString());
+                                                        // if(bookingOrderProvider_response !=null){
+                                                        //
+                                                        //   Navigator.pushNamedAndRemoveUntil(
+                                                        //     context,
+                                                        //     '/bookings',
+                                                        //         (route) => false,
+                                                        //   );
+                                                        // }else{
+                                                        //   ScaffoldMessenger.of(context).showSnackBar(
+                                                        //     SnackBar(
+                                                        //         content: Text(
+                                                        //             'Something went wrong!')),
+                                                        //   );
+                                                        //   Navigator.pushNamedAndRemoveUntil(
+                                                        //     context,
+                                                        //     '/bookings',
+                                                        //         (route) => false,
+                                                        //   );
+                                                        // }
                                                       }
                                                       else{
                                                         BookingPaymentUpdateRequest

@@ -222,6 +222,7 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
                             SizedBox(
                               height: 10,
                             ),
+
                             DateTimeField(
                               controller: _scheduleController,
                               validator: (value) {
@@ -231,35 +232,44 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
                                 return null;
                               },
                               decoration: InputDecoration(
-                                  filled: true,
-                                  fillColor: Colors.white,
-                                  prefixIcon: Align(
-                                    widthFactor: 1.0,
-                                    heightFactor: 1.0,
-                                    child: Image.asset(calendar,
-                                        height: 20,
-                                        width: 20,
-                                        color: Color(0xFF6C757D)),
+                                filled: true,
+                                fillColor: Colors.white,
+                                prefixIcon: Align(
+                                  widthFactor: 1.0,
+                                  heightFactor: 1.0,
+                                  child: Image.asset(calendar,
+                                      height: 20,
+                                      width: 20,
+                                      color: Color(0xFF6C757D)),
+                                ),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: BorderSide(
+                                    width: 0,
+                                    style: BorderStyle.none,
                                   ),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                    borderSide: BorderSide(
-                                      width: 0,
-                                      style: BorderStyle.none,
-                                    ),
-                                  )),
+                                ),
+                              ),
                               format: format,
+                              initialValue: DateTime.now(),
+                              onChanged: (selectedDate) {
+                                if (selectedDate != null && selectedDate.isBefore(DateTime.now())) {
+                                  _scheduleController.clear(); // clear the selected date
+                                }
+                              },
                               onShowPicker: (context, currentValue) async {
                                 final date = await showDatePicker(
-                                    context: context,
-                                    firstDate: DateTime(1900),
-                                    initialDate: currentValue ?? DateTime.now(),
-                                    lastDate: DateTime(2100));
+                                  context: context,
+                                  firstDate: DateTime.now(),
+                                  initialDate: currentValue ?? DateTime.now(),
+                                  lastDate: DateTime(2100),
+                                );
                                 if (date != null) {
                                   final time = await showTimePicker(
                                     context: context,
                                     initialTime: TimeOfDay.fromDateTime(
-                                        currentValue ?? DateTime.now()),
+                                      currentValue ?? DateTime.now(),
+                                    ),
                                   );
                                   return DateTimeField.combine(date, time);
                                 } else {
@@ -267,6 +277,36 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
                                 }
                               },
                             ),
+
+                            Column(
+                              mainAxisAlignment:
+                              MainAxisAlignment.start,
+                              children: [
+                                Align(
+                                  alignment:
+                                  Alignment.topLeft,
+                                  child: Text(
+                                    "Disclaimer:",
+                                    style: TextStyle(
+                                        fontFamily:
+                                        'Work Sans',
+                                        fontWeight:
+                                        FontWeight.w500,
+                                        fontSize: 14),
+                                  ),
+                                ),
+                                Text(
+                                  "We're available to assist you from 9 AM to 5 PM!",
+                                  style: TextStyle(
+                                      fontFamily: 'Work Sans',
+                                      fontWeight:
+                                      FontWeight.w500,
+                                      color:
+                                      Color(0xff6C757D),
+                                      fontSize: 12),
+                                )
+                              ],
+                            )
                           ],
                         ),
                       ),

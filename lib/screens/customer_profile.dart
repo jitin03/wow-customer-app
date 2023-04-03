@@ -44,28 +44,74 @@ class _CustomerProfileScreenState extends ConsumerState<CustomerProfileScreen> {
   Widget build(BuildContext context) {
     var _data = ref.watch(customerProfileDataProvider);
 
-    return Container(
-      child: _data.when(
-        data: (_data) {
-          gender = _data.gender.toString();
-          return ListView(
-            physics: BouncingScrollPhysics(),
-            children: [
-              const SizedBox(height: 24),
-              ProfileWidget(onClicked: () async {}, gender: gender),
-              const SizedBox(height: 24),
-              buildName(_data),
-              const SizedBox(height: 24),
-              buildPersonalInfo(_data),
-            ],
-          );
-        },
-        error: (err, s) => Text(err.toString()),
-        loading: () => Center(
-          child: CircularProgressIndicator(),
+     if(isLoggedIn !=null && isLoggedIn) {
+       return Container(
+        child: _data.when(
+          data: (_data) {
+            gender = _data.gender.toString();
+            return ListView(
+              physics: BouncingScrollPhysics(),
+              children: [
+                const SizedBox(height: 24),
+                ProfileWidget(onClicked: () async {}, gender: gender),
+                const SizedBox(height: 24),
+                buildName(_data),
+                const SizedBox(height: 24),
+                buildPersonalInfo(_data),
+              ],
+            );
+          },
+          error: (err, s) => Text(err.toString()),
+          loading: () =>
+              Center(
+                child: CircularProgressIndicator(),
+              ),
         ),
-      ),
-    );
+      );
+    }else{
+       return  Center(
+         child: Container(
+           margin: EdgeInsets.all(20),
+           width: double.infinity,
+           child: ElevatedButton(
+             style: ElevatedButton.styleFrom(
+               backgroundColor: Color(0xFFF0F0FA),
+               shape: RoundedRectangleBorder(
+                   borderRadius: BorderRadius.circular(10.0)),
+               // Background color
+             ),
+             onPressed: () async {
+
+               Navigator.pushNamedAndRemoveUntil(
+                 context,
+                 '/sigin',
+                     (route) => true,
+               );
+
+             },
+             child: Padding(
+               padding: EdgeInsets.all(15.0),
+               child: Row(
+                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                 children: [
+                   ImageIcon(AssetImage(calling)),
+                   Container(
+                     margin: EdgeInsets.only(right:100),
+                     child: Text(
+                       "Please sign in",
+                       style: TextStyle(
+                           color: Colors.black,
+                           fontFamily: 'Work Sans',
+                           fontWeight: FontWeight.w500),
+                     ),
+                   ),
+                 ],
+               ),
+             ),
+           ),
+         ),
+       );
+    }
   }
 
   Future<bool> isUserLoggedInd() async {

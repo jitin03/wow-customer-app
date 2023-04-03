@@ -34,7 +34,7 @@ const LAUNDRY_COLOR = Color(0XFF1C1F34);
 const APP_NAME = 'Handyman Services';
 const DEFAULT_LANGUAGE = 'en';
 
-const primaryColor = Color(0xFF3946CD);
+const primaryColor = Color(0xFF5F60B9);
 //var appFontFamily = GoogleFonts.workSans().fontFamily;
 
 const DOMAIN_URL = ''; // Don't add slash at the end of the url

@@ -551,9 +551,7 @@ class _CustomerBookingsState extends ConsumerState<CustomerBookings> {
                                                                 color: Colors
                                                                     .green,
                                                                 fontFamily: 'Work Sans'),)
-                                                              : Text(bookings[
-                                                          index]
-                                                              .status),
+                                                              : Text("Pending"),
                                                         ],
                                                       ),
                                                     ),
@@ -853,7 +851,7 @@ class _CustomerBookingsState extends ConsumerState<CustomerBookings> {
                                                         fontSize: 12),
                                                   )
                                                 ],
-                                              ))
+                                              ),)
                                         ],
                                       ),
                                     ),
