@@ -16,6 +16,8 @@ class Config {
   static const requestOtpAPI = "/api/v1/auth/requestOtp";
   static const verifyOtpAPI = "/api/v1/auth/verifyOtp/";
   static const reviewsEndPoint='/api/v1/reviews';
+  static const notificationEndPoint='/api/v1/notifications';
+
 
   static const List<String> appBarTitles = [
     "Dashboard",

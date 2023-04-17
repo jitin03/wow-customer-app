@@ -129,13 +129,13 @@ class BookingService {
       throw Exception(response.reasonPhrase);
     }
   }
-  Future<List<BillingResponse>> getCustomerBilling(String bookingId) async {
+  Future<List<BookingResponse>> getCustomerBooking(String bookingId) async {
 
     Map<String, String> requestHeaders = {
       'Content-Type': 'application/json',
     };
     var url =
-    Uri.http(Config.apiURL, Config.bookingPostAPI+'/${bookingId}/billing');
+    Uri.http(Config.apiURL, Config.bookingPostAPI+'/${bookingId}');
 
 
     var response = await client.get(

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:mistry_customer/model/create_booking_order.dart';
 import 'package:mistry_customer/model/customer_review_request.dart';
+import 'package:mistry_customer/model/notification_response.dart';
 import 'package:mistry_customer/model/update_booking_request.dart';
 
 import 'package:mistry_customer/provider/data_provider.dart';
-import 'package:mistry_customer/screens/upi_payment.dart';
+
 import 'package:mistry_customer/services/shared_service.dart';
 
 import 'package:mistry_customer/utils/config.dart';
@@ -29,6 +31,7 @@ class LaundryGenerateBillScreen extends ConsumerStatefulWidget {
   final CustomerBookingResponse booking;
   final String serviceName;
   final String providername;
+
 
   const LaundryGenerateBillScreen(
       {super.key,
@@ -63,9 +66,9 @@ class _GenerateBillScreenState
     int indexOfServiceName = -1;
 
     final _billing_data = ref
-        .watch(billingDetailDataProvider(widget.booking.bookingId.toString()));
-
-    print("build");
+        .watch(bookingDetailDataProvider(widget.booking.bookingId.toString()));
+    var _notifications = ref.watch(
+        providerNotificationDataProvider(widget.booking.bookingId.toString()));
 
     return Scaffold(
       appBar: AppBar(
@@ -75,12 +78,37 @@ class _GenerateBillScreenState
             color: Colors.white,
           ),
           onTap: () {
+
             Navigator.pop(context);
           },
         ),
-        title: Text(
-          "Booking details",
-        ),
+        title: Text("Booking details",
+            style: TextStyle(
+                fontFamily: 'Work Sans',
+                fontWeight: FontWeight.w500,
+                fontSize: 18,
+                color: Colors.white)),
+        actions: <Widget>[
+          InkWell(
+            onTap: () async {
+              ref.invalidate(providerNotificationDataProvider);
+              print("asdasd");
+              _bottomSheetMore(
+                  context, widget.booking.bookingId.toString(), ref);
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(right: 15.0),
+              child: Text(
+                'Check Status',
+                style: TextStyle(
+                    fontFamily: 'Work Sans',
+                    fontWeight: FontWeight.w500,
+                    fontSize: 16,
+                    color: Colors.white),
+              ),
+            ),
+          ),
+        ],
         backgroundColor: primaryColor,
         titleTextStyle: TextStyle(
             color: Colors.white,
@@ -89,20 +117,21 @@ class _GenerateBillScreenState
             fontWeight: FontWeight.w800),
       ),
       body: _billing_data.when(
+
         data: (_data) {
           if (_data!.length > 0) {
             for (int i = 0; i < _data[0].serviceLists!.length; i++) {
-              if (_data[0].serviceLists[i]!.name == widget.serviceName) {
+              if (_data[0].serviceLists![i].name == widget.serviceName) {
                 indexOfServiceName = i;
                 break;
               }
             }
+
           }
           return Stack(
             children: [
               SingleChildScrollView(
                 child: Container(
-
                   margin: EdgeInsets.only(left: 25, right: 25),
                   alignment: Alignment.center,
                   child: Column(
@@ -152,7 +181,8 @@ class _GenerateBillScreenState
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               margin: EdgeInsets.only(top: 20, bottom: 20),
-                              padding: const EdgeInsets.fromLTRB(10, 20, 40, 20),
+                              padding:
+                                  const EdgeInsets.fromLTRB(10, 20, 40, 20),
                               child: Row(
                                 children: [
                                   Container(
@@ -162,29 +192,19 @@ class _GenerateBillScreenState
                                         color: Colors.white),
                                     child: Container(
                                       decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color:
-                                              primaryColor),
-                                          shape: BoxShape
-                                              .circle,
-                                          color: Colors
-                                              .white),
-                                      child:
-                                      ClipOval(
-                                        child:
-                                        Material(
-                                          color: Colors
-                                              .transparent,
-                                          child: Ink
-                                              .image(
+                                          border:
+                                              Border.all(color: primaryColor),
+                                          shape: BoxShape.circle,
+                                          color: Colors.white),
+                                      child: ClipOval(
+                                        child: Material(
+                                          color: Colors.transparent,
+                                          child: Ink.image(
                                             image: AssetImage(
                                                 male_default_profile_iamge),
-                                            fit: BoxFit
-                                                .cover,
-                                            width:
-                                            30,
-                                            height:
-                                            30,
+                                            fit: BoxFit.cover,
+                                            width: 30,
+                                            height: 30,
                                           ),
                                         ),
                                       ),
@@ -223,18 +243,18 @@ class _GenerateBillScreenState
                       ),
                       _data!.length > 0
                           ? Container(
-                        height: MediaQuery.of(context).size.height / 5,
+                              height: MediaQuery.of(context).size.height / 5,
                               padding: const EdgeInsets.all(5),
                               decoration: BoxDecoration(
                                   border: Border.all(color: primaryColor),
                                   shape: BoxShape.rectangle,
-                                  borderRadius:
-                                      const BorderRadius.all(Radius.circular(4))),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(4))),
                               child: ListView.separated(
                                 scrollDirection: Axis.vertical,
                                 shrinkWrap: true,
                                 itemCount: _data[0]
-                                    .serviceLists[0]
+                                    .serviceLists![0]
                                     .subCategories!
                                     .length,
                                 itemBuilder: (context, index) {
@@ -249,10 +269,9 @@ class _GenerateBillScreenState
                                             child: Text(
                                               softWrap: true,
                                               _data[0]
-                                                      .serviceLists![
+                                                      .serviceLists[
                                                           indexOfServiceName]
-                                                      .subCategories![index]
-                                                      .name! +
+                                                      .subCategories[index].name+
                                                   ' (${_data[0].serviceLists![indexOfServiceName].subCategories![index].price} per piece)',
                                               style: TextStyle(
                                                   fontWeight: FontWeight.w500,
@@ -279,12 +298,14 @@ class _GenerateBillScreenState
                                                 (_data[0]
                                                             .serviceLists![
                                                                 indexOfServiceName]
-                                                            .subCategories![index]
+                                                            .subCategories![
+                                                                index]
                                                             .price! *
                                                         double.parse(_data[0]
                                                             .serviceLists![
                                                                 indexOfServiceName]
-                                                            .subCategories![index]
+                                                            .subCategories![
+                                                                index]
                                                             .count!))
                                                     .toStringAsFixed(2),
                                             style: TextStyle(
@@ -319,14 +340,13 @@ class _GenerateBillScreenState
                             ),
                       _data!.length > 0
                           ? Container(
-
                               padding: const EdgeInsets.all(16),
                               margin: const EdgeInsets.only(top: 8),
                               decoration: BoxDecoration(
                                   border: Border.all(color: primaryColor),
                                   shape: BoxShape.rectangle,
-                                  borderRadius:
-                                      const BorderRadius.all(Radius.circular(4))),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(4))),
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
@@ -382,17 +402,17 @@ class _GenerateBillScreenState
                                       //         fontWeight: FontWeight.bold,
                                       //         color: primaryColor))
                                       Text(
-                                          "\u{20B9}${(double.parse(_data[0].grossAmount))}",
+                                          "\u{20B9}${(double.parse(_data[0].grossAmount!))}",
                                           style: const TextStyle(
                                               fontWeight: FontWeight.bold,
                                               color: primaryColor))
                                     ],
                                   ),
                                   const SizedBox(height: 8),
-                                  (_data[0].status == 'Paid')
+                                  (_data[0].paymentStatus == 'Paid')
                                       ? Column(
-                                        children: [
-                                          Container(
+                                          children: [
+                                            Container(
                                               decoration: BoxDecoration(
                                                 border: Border.all(
                                                   color: Colors.white,
@@ -408,51 +428,49 @@ class _GenerateBillScreenState
                                                 padding: const EdgeInsets.only(
                                                     left: 20.0, right: 20),
                                                 child: Text(
-                                                  _data[0].status,
+                                                  _data[0].paymentStatus!,
                                                   style: TextStyle(
                                                       color: Colors.green,
                                                       fontFamily: 'Work Sans',
-                                                      fontWeight: FontWeight.w600,
+                                                      fontWeight:
+                                                          FontWeight.w600,
                                                       fontSize: 14),
                                                 ),
                                               ),
                                             ),
-                                          InkWell(
-                                            onTap: () {
-
-                                              showReviewDialog(
-                                                  context,
-                                                  widget.booking.bookingId.toString(),
-
-                                                  ref,
-                                                  _data[0].providerId[
-                                                  0],
-                                                  _data[0]
-                                                      .customerId[0]);
-                                            },
-                                            child: Text(
-                                              "Write Review",
-                                              style: TextStyle(
-                                                  fontSize: 16,
-                                                  color: primaryColor,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontFamily: 'Work Sans'),
-                                            ),
-                                          )
-                                        ],
-                                      )
+                                            InkWell(
+                                              onTap: () {
+                                                showReviewDialog(
+                                                    context,
+                                                    widget.booking.bookingId
+                                                        .toString(),
+                                                    ref,
+                                                    _data[0].providerId[0],
+                                                    _data[0].customerId[0]);
+                                              },
+                                              child: Text(
+                                                "Write Review",
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                    color: primaryColor,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontFamily: 'Work Sans'),
+                                              ),
+                                            )
+                                          ],
+                                        )
                                       : Container()
                                 ],
                               ),
                             )
                           : Container(
-                        margin: EdgeInsets.only(bottom: 40),
-                      ),
+                              margin: EdgeInsets.only(bottom: 40),
+                            ),
                     ],
                   ),
                 ),
               ),
-              (_data!.length > 0 && _data[0].status != 'Paid')
+              (_data!.length > 0 && _data[0].paymentStatus != 'Paid')
                   ? Align(
                       alignment: Alignment.bottomCenter,
                       child: Container(
@@ -476,7 +494,7 @@ class _GenerateBillScreenState
                                           child: Container(
                                             height: MediaQuery.of(context)
                                                     .size
-                                                    .height/
+                                                    .height /
                                                 2,
                                             decoration: BoxDecoration(
                                               // color: Color(0xFFF0F0FA),  //
@@ -508,7 +526,7 @@ class _GenerateBillScreenState
                                                               isSelect_OnlinePaymentSelected =
                                                                   false;
                                                               isSelect_UPIOnly =
-                                                              false;
+                                                                  false;
                                                             }
                                                           });
                                                         },
@@ -600,24 +618,24 @@ class _GenerateBillScreenState
                                                         // },
                                                         child: Container(
                                                           margin:
-                                                          EdgeInsets.only(
-                                                              bottom: 10),
+                                                              EdgeInsets.only(
+                                                                  bottom: 10),
                                                           decoration: BoxDecoration(
                                                               borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                  20 /
-                                                                      4),
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          20 /
+                                                                              4),
                                                               color: Colors.white,
                                                               boxShadow: [
                                                                 BoxShadow(
                                                                     color: Colors
-                                                                        .grey[
-                                                                    200]!,
+                                                                            .grey[
+                                                                        200]!,
                                                                     blurRadius:
-                                                                    5,
+                                                                        5,
                                                                     spreadRadius:
-                                                                    1)
+                                                                        1)
                                                               ]),
                                                           child: ListTile(
                                                             // leading: Radio<PaymentOptions>(
@@ -633,39 +651,39 @@ class _GenerateBillScreenState
                                                               "Pay via UPI",
                                                               style: TextStyle(
                                                                   fontFamily:
-                                                                  'Work Sans',
+                                                                      'Work Sans',
                                                                   fontSize: 20,
                                                                   fontWeight:
-                                                                  FontWeight
-                                                                      .w500),
+                                                                      FontWeight
+                                                                          .w500),
                                                             ),
                                                             subtitle: Text(
                                                               'you pay after task is completed',
                                                               maxLines: 1,
                                                               overflow:
-                                                              TextOverflow
-                                                                  .ellipsis,
+                                                                  TextOverflow
+                                                                      .ellipsis,
                                                               style: TextStyle(
                                                                 fontFamily:
-                                                                'Work Sans',
+                                                                    'Work Sans',
                                                                 color: Theme.of(
-                                                                    context)
+                                                                        context)
                                                                     .disabledColor,
                                                                 fontSize: 14,
                                                                 fontWeight:
-                                                                FontWeight
-                                                                    .w500,
+                                                                    FontWeight
+                                                                        .w500,
                                                               ),
                                                             ),
                                                             trailing:
-                                                            isSelect_UPIOnly
-                                                                ? Icon(
-                                                              Icons
-                                                                  .check_circle,
-                                                              color: Theme.of(context)
-                                                                  .primaryColor,
-                                                            )
-                                                                : null,
+                                                                isSelect_UPIOnly
+                                                                    ? Icon(
+                                                                        Icons
+                                                                            .check_circle,
+                                                                        color: Theme.of(context)
+                                                                            .primaryColor,
+                                                                      )
+                                                                    : null,
                                                           ),
                                                         ),
                                                       ),
@@ -757,28 +775,29 @@ class _GenerateBillScreenState
                                                       ),
                                                       Align(
                                                         alignment:
-                                                        Alignment.topLeft,
+                                                            Alignment.topLeft,
                                                         child: Text(
                                                           "Disclaimer:",
                                                           style: TextStyle(
                                                               fontFamily:
-                                                              'Work Sans',
+                                                                  'Work Sans',
                                                               fontWeight:
-                                                              FontWeight.w500,
+                                                                  FontWeight
+                                                                      .w500,
                                                               fontSize: 14),
                                                         ),
                                                       ),
                                                       Text(
                                                         "Please choose COD as of now, soon we will enable online payment!",
                                                         style: TextStyle(
-                                                            fontFamily: 'Work Sans',
+                                                            fontFamily:
+                                                                'Work Sans',
                                                             fontWeight:
-                                                            FontWeight.w500,
-                                                            color:
-                                                            Color(0xff6C757D),
+                                                                FontWeight.w500,
+                                                            color: Color(
+                                                                0xff6C757D),
                                                             fontSize: 12),
                                                       )
-
                                                     ],
                                                   ),
                                                 ),
@@ -803,13 +822,13 @@ class _GenerateBillScreenState
                                                       CustomerDetails
                                                           customerDetails =
                                                           CustomerDetails();
-                                                      customerDetails
-                                                              .customerId =
-                                                          _data[0]
-                                                              .customerId[0];
+                                                      // customerDetails
+                                                      //         .customerId =
+                                                      //     _data[0]
+                                                      //         .customerId[0];
                                                       customerDetails
                                                               .customerEmail =
-                                                          _data[0]
+                                                          _data[0]!
                                                               .customerEmail[0];
                                                       customerDetails
                                                               .customerPhone =
@@ -943,19 +962,18 @@ class _GenerateBillScreenState
                                                                       .customerId[0]);
                                                             }
                                                           } on CFException catch (e) {
-                                                            ScaffoldMessenger.of(context).showSnackBar(
+                                                            ScaffoldMessenger
+                                                                    .of(context)
+                                                                .showSnackBar(
                                                               SnackBar(
                                                                   content: Text(
                                                                       'Something went wrong!')),
                                                             );
                                                           }
                                                         }
-                                                      }
-                                                      else if(isSelect_UPIOnly){
+                                                      } else if (isSelect_UPIOnly) {
 
-                                                       String paymentReference  =await Navigator.push(context, MaterialPageRoute(builder: (context)=>UpiPayment(order: 123)));
 
-                                                       print(paymentReference);
                                                         // BookingPaymentUpdateRequest
                                                         // updateRequest =
                                                         // BookingPaymentUpdateRequest(
@@ -989,43 +1007,43 @@ class _GenerateBillScreenState
                                                         //         (route) => false,
                                                         //   );
                                                         // }
-                                                      }
-                                                      else{
+                                                      } else {
                                                         BookingPaymentUpdateRequest
-                                                        updateRequest =
-                                                        BookingPaymentUpdateRequest(
-                                                            paymentMode:
-                                                            "Cash");
+                                                            updateRequest =
+                                                            BookingPaymentUpdateRequest(
+                                                                paymentMode:
+                                                                    "Cash");
                                                         var bookingOrderProvider_response = ref
                                                             .read(
-                                                            bookingOrderProvider)
+                                                                bookingOrderProvider)
                                                             .updateBookingPaymentMode(
-                                                            updateRequest,
-                                                            widget
-                                                                .booking
-                                                                .bookingId
-                                                                .toString());
-                                                        if(bookingOrderProvider_response !=null){
-
-                                                          Navigator.pushNamedAndRemoveUntil(
+                                                                updateRequest,
+                                                                widget.booking
+                                                                    .bookingId
+                                                                    .toString());
+                                                        if (bookingOrderProvider_response !=
+                                                            null) {
+                                                          Navigator
+                                                              .pushNamedAndRemoveUntil(
                                                             context,
                                                             '/bookings',
-                                                                (route) => false,
+                                                            (route) => false,
                                                           );
-                                                        }else{
-                                                          ScaffoldMessenger.of(context).showSnackBar(
+                                                        } else {
+                                                          ScaffoldMessenger.of(
+                                                                  context)
+                                                              .showSnackBar(
                                                             SnackBar(
                                                                 content: Text(
                                                                     'Something went wrong!')),
                                                           );
-                                                          Navigator.pushNamedAndRemoveUntil(
+                                                          Navigator
+                                                              .pushNamedAndRemoveUntil(
                                                             context,
                                                             '/bookings',
-                                                                (route) => false,
+                                                            (route) => false,
                                                           );
                                                         }
-
-
                                                       }
                                                     },
                                                     child: isApiCallProcess
@@ -1480,6 +1498,116 @@ showReviewDialog(BuildContext context, String bookingId, WidgetRef ref,
           ),
         ),
       );
+    },
+  );
+}
+
+void _bottomSheetMore(BuildContext context, String bookingId, WidgetRef ref) {
+  int _currentStep = 0;
+  var _notifications =
+  ref.watch(providerNotificationDataProvider(bookingId));
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled:true,
+    enableDrag: true,
+    builder: (builder) {
+
+      print("asdasd");
+      return StatefulBuilder(builder: (context, setState) {
+        return Container(
+          height: MediaQuery.of(context).size.height*2/5,
+          padding: EdgeInsets.only(
+            left: 5.0,
+            right: 5.0,
+            top: 5.0,
+            bottom: 5.0,
+          ),
+          decoration: new BoxDecoration(
+              color: Colors.white,
+              borderRadius: new BorderRadius.only(
+                  topLeft: const Radius.circular(10.0),
+                  topRight: const Radius.circular(10.0))),
+          child: _notifications.when(
+            data: (_data) {
+              List<NotificationResponse> notifications = _data;
+              return Wrap(
+                children: <Widget>[
+                  Container(
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(15),
+                          child: Container(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Track Order",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w800,
+                                      fontFamily: 'Work Sans'),
+                                ),
+                                Text(
+                                  "ID: #" + bookingId,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w800,
+                                      fontFamily: 'Work Sans',
+                                      color: primaryColor),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        new Divider(
+                          height: 10.0,
+                        ),
+                        Stepper(
+                          steps: notifications.length>0? notifications.map((notification) {
+                            return Step(
+                              content: Container(),
+                              title: FittedBox(
+                                child: Column(
+                                  children: [
+                                    Text(notification.message),
+                                    Text(DateFormat('hh:mm a dd MMM').format(
+                                        DateTime.parse(notification.createTime!))),
+                                  ],
+                                ),
+                              ),
+                              isActive: _currentStep >= 0,
+                              state: _currentStep >= 0
+                                  ? StepState.complete
+                                  : StepState.disabled,
+                            );
+                          }).toList() : <Step>[
+                            Step(
+                              title: const Text('History is missing for this order'),
+                              content: Container(),
+                              isActive: _currentStep >= 0,
+                              state: _currentStep >= 0
+                                  ? StepState.error
+                                  : StepState.disabled,
+                            ),
+
+                          ],
+                          type: StepperType.vertical,
+                          controlsBuilder: (context, controller) {
+                            return Container();
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            },
+            error: (err, s) => Text(err.toString()),
+            loading: () => Center(
+              child: CircularProgressIndicator(),
+            ),
+          ),
+        );
+      });
     },
   );
 }

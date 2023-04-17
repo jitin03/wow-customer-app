@@ -28,15 +28,17 @@ class _CustomerBookingsState extends ConsumerState<CustomerBookings> {
     whereToGo();
     initializeLoginStatus();
   }
+
   Future<void> initializeLoginStatus() async {
     bool loginStatus = await isUserLoggedInd();
     setState(() {
       isLoggedIn = loginStatus;
     });
   }
+
   @override
   Widget build(BuildContext context) {
-    if(isLoggedIn !=null && isLoggedIn) {
+    if (isLoggedIn != null && isLoggedIn) {
       final _data = ref.watch(bookingServiceDataProvider);
       return RefreshIndicator(
         onRefresh: () async {
@@ -46,461 +48,205 @@ class _CustomerBookingsState extends ConsumerState<CustomerBookings> {
           child: _data.when(
             data: (_data) {
               List<CustomerBookingResponse> bookings =
-              _data.map((e) => e).toList();
+                  _data.map((e) => e).toList();
               print(bookings.length);
               return (bookings.length > 0)
                   ? Column(
-                children: [
-                  Container(
-                      child: Expanded(
-                        child: ListView.builder(
-                            itemCount: bookings.length,
-                            itemBuilder: (context, index) {
-                              if (bookings[index].status == "New") {
-                                return Padding(
-                                  padding: const EdgeInsets.all(20.0),
-                                  child: ReusableCard(
-                                    cardChild: Container(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.stretch,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Container(
-                                                margin: EdgeInsets.all(10),
-                                                decoration: BoxDecoration(
-                                                    border: Border.all(
-                                                        color:
-                                                        Color(0XFFF6F7F9)),
-                                                    shape: BoxShape.circle,
-                                                    color: Color(0XFFF6F7F9)),
-                                                child: buildImageIcon(
-                                                    bookings[index]
-                                                        .serviceType),
-                                              ),
-                                              SizedBox(
-                                                width: 10,
-                                              ),
-                                              Expanded(
-                                                child: Container(
-                                                  margin: EdgeInsets.only(
-                                                      right: 20),
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                    children: [
-                                                      Container(
-                                                        child: Row(
-                                                          mainAxisAlignment:
+                      children: [
+                        Container(
+                            child: Expanded(
+                          child: ListView.builder(
+                              itemCount: bookings.length,
+                              itemBuilder: (context, index) {
+                                if (bookings[index].status == "New") {
+                                  return Padding(
+                                    padding: const EdgeInsets.all(20.0),
+                                    child: ReusableCard(
+                                      cardChild: Container(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.stretch,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Container(
+                                                  margin: EdgeInsets.all(10),
+                                                  decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                          color: Color(
+                                                              0XFFF6F7F9)),
+                                                      shape: BoxShape.circle,
+                                                      color: Color(0XFFF6F7F9)),
+                                                  child: buildImageIcon(
+                                                      bookings[index]
+                                                          .serviceLists[0]
+                                                          .name),
+                                                ),
+                                                SizedBox(
+                                                  width: 10,
+                                                ),
+                                                Expanded(
+                                                  child: Container(
+                                                    margin: EdgeInsets.only(
+                                                        right: 20),
+                                                    child: Column(
+                                                      mainAxisAlignment:
                                                           MainAxisAlignment
-                                                              .spaceBetween,
-                                                          children: [
-                                                            Container(
-                                                              decoration:
-                                                              BoxDecoration(
-                                                                border:
-                                                                Border.all(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  width: 2,
-                                                                ),
-                                                                color: Colors
-                                                                    .orangeAccent
-                                                                    .withOpacity(
-                                                                    0.5),
-                                                                borderRadius:
-                                                                BorderRadius
-                                                                    .all(
-                                                                  Radius
-                                                                      .circular(
-                                                                      10),
-                                                                ),
-                                                              ),
-                                                              child: Padding(
-                                                                padding:
-                                                                const EdgeInsets
-                                                                    .all(
-                                                                    8.0),
-                                                                child: Text(
-                                                                  bookings[index]
-                                                                      .status ==
-                                                                      "New"
-                                                                      ? "Pending"
-                                                                      : "",
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .orange[
-                                                                      800],
-                                                                      fontFamily:
-                                                                      'Work Sans',
-                                                                      fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                      fontSize:
-                                                                      12),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            Container(
-// margin: EdgeInsets.all(10),
-                                                              child: Row(
-                                                                mainAxisAlignment:
+                                                              .start,
+                                                      children: [
+                                                        Container(
+                                                          child: Row(
+                                                            mainAxisAlignment:
                                                                 MainAxisAlignment
-                                                                    .spaceEvenly,
-                                                                crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                                children: [
-                                                                  Container(
-                                                                    child:
-                                                                    ImageIcon(
-                                                                      AssetImage(
-                                                                          ic_edit),
-                                                                    ),
+                                                                    .spaceBetween,
+                                                            children: [
+                                                              Container(
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  border: Border
+                                                                      .all(
+                                                                    color: Colors
+                                                                        .white,
+                                                                    width: 2,
                                                                   ),
-                                                                  SizedBox(
-                                                                    width: 10,
+                                                                  color: Colors
+                                                                      .orangeAccent
+                                                                      .withOpacity(
+                                                                          0.5),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .all(
+                                                                    Radius
+                                                                        .circular(
+                                                                            10),
                                                                   ),
-                                                                  Text(
-                                                                    '#${bookings[index]
-                                                                        .bookingId
-                                                                        .toString()}',
+                                                                ),
+                                                                child: Padding(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                              .all(
+                                                                          8.0),
+                                                                  child: Text(
+                                                                    bookings[index].status ==
+                                                                            "New"
+                                                                        ? "Pending"
+                                                                        : "",
                                                                     style: TextStyle(
-                                                                        color:
-                                                                        primaryColor,
+                                                                        color: Colors.orange[
+                                                                            800],
                                                                         fontFamily:
-                                                                        'Work Sans',
+                                                                            'Work Sans',
                                                                         fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
+                                                                            FontWeight
+                                                                                .bold,
                                                                         fontSize:
-                                                                        14),
+                                                                            12),
                                                                   ),
-                                                                ],
+                                                                ),
                                                               ),
-                                                            )
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        child: Padding(
-                                                          padding:
-                                                          const EdgeInsets
-                                                              .all(8.0),
-                                                          child: Align(
-                                                            alignment: Alignment
-                                                                .topLeft,
-                                                            child: Text(
-                                                              bookings[index]
-                                                                  .serviceType,
-                                                              style: TextStyle(
-                                                                  color:
-                                                                  primaryColor,
-                                                                  fontFamily:
-                                                                  'Work Sans',
-                                                                  fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                                  fontSize: 14),
-                                                            ),
+                                                              Container(
+// margin: EdgeInsets.all(10),
+                                                                child: Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceEvenly,
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .center,
+                                                                  children: [
+                                                                    Container(
+                                                                      child:
+                                                                          ImageIcon(
+                                                                        AssetImage(
+                                                                            ic_edit),
+                                                                      ),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      width: 10,
+                                                                    ),
+                                                                    Text(
+                                                                      '#${bookings[index].bookingId.toString()}',
+                                                                      style: TextStyle(
+                                                                          color:
+                                                                              primaryColor,
+                                                                          fontFamily:
+                                                                              'Work Sans',
+                                                                          fontWeight: FontWeight
+                                                                              .w500,
+                                                                          fontSize:
+                                                                              14),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              )
+                                                            ],
                                                           ),
                                                         ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(10.0),
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                color: Color(0XFFF6F7F9),
-                                                border: Border.all(
-                                                  color: Color(0XFF6F7F9),
-                                                ),
-                                                borderRadius:
-                                                BorderRadius.circular(10),
-                                              ),
-                                              child: Column(
-                                                children: [
-                                                  Padding(
-                                                    padding:
-                                                    const EdgeInsets.all(
-                                                        10),
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                      children: [
-                                                        Expanded(child: Text(
-                                                            "Date and Time :")),
-                                                        Expanded(
-                                                          child: FittedBox(
-                                                            child: Text(
+                                                        Container(
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8.0),
+                                                            child: Align(
+                                                              alignment:
+                                                                  Alignment
+                                                                      .topLeft,
+                                                              child: Text(
                                                                 bookings[index]
-                                                                    .bookingTime),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                    const EdgeInsets.all(
-                                                        8.0),
-                                                    child: Divider(
-                                                      height: 2,
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                    const EdgeInsets.all(
-                                                        10),
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                      children: [
-                                                        Text("Provider"),
-                                                        Text(bookings[index]
-                                                            .providerName[0]),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                              margin: EdgeInsets.only(left: 10),
-                                              width: double.infinity,
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                                children: [
-                                                  Align(
-                                                    alignment:
-                                                    Alignment.topLeft,
-                                                    child: Text(
-                                                      "Disclaimer:",
-                                                      style: TextStyle(
-                                                          fontFamily:
-                                                          'Work Sans',
-                                                          fontWeight:
-                                                          FontWeight.w500,
-                                                          fontSize: 14),
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    "You will asked for payment once your booking is completed by us!",
-                                                    style: TextStyle(
-                                                        fontFamily: 'Work Sans',
-                                                        fontWeight:
-                                                        FontWeight.w500,
-                                                        color:
-                                                        Color(0xff6C757D),
-                                                        fontSize: 12),
-                                                  )
-                                                ],
-                                              ))
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              } else if (bookings[index].status == "Accepted" ||
-                                  bookings[index].status == "Completed" ||
-                                  bookings[index].status == "Done") {
-                                return Padding(
-                                  padding: const EdgeInsets.all(20.0),
-                                  child: ReusableCard(
-                                    cardChild: Container(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.stretch,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Container(
-                                                margin: EdgeInsets.all(10),
-                                                decoration: BoxDecoration(
-                                                    border: Border.all(
-                                                        color:
-                                                        Color(0XFFF6F7F9)),
-                                                    shape: BoxShape.circle,
-                                                    color: Color(0XFFF6F7F9)),
-                                                child: buildImageIcon(
-                                                    bookings[index]
-                                                        .serviceType),
-                                              ),
-                                              SizedBox(
-                                                width: 10,
-                                              ),
-                                              Expanded(
-                                                child: Container(
-                                                  margin: EdgeInsets.only(
-                                                      right: 20),
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                    children: [
-                                                      Container(
-                                                        child: Row(
-                                                          mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                          children: [
-                                                            Container(
-                                                              decoration:
-                                                              BoxDecoration(
-                                                                border:
-                                                                Border.all(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  width: 2,
-                                                                ),
-                                                                color: Colors
-                                                                    .greenAccent
-                                                                    .withOpacity(
-                                                                    0.5),
-                                                                borderRadius:
-                                                                BorderRadius
-                                                                    .all(
-                                                                  Radius
-                                                                      .circular(
-                                                                      10),
-                                                                ),
-                                                              ),
-                                                              child: Padding(
-                                                                padding:
-                                                                const EdgeInsets
-                                                                    .all(
-                                                                    8.0),
-                                                                child: Text(
-                                                                  bookings[
-                                                                  index]
-                                                                      .status,
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .green[
-                                                                      800],
-                                                                      fontFamily:
-                                                                      'Work Sans',
-                                                                      fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                      fontSize:
-                                                                      12),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            Container(
-// margin: EdgeInsets.all(10),
-                                                              child: Row(
-                                                                mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceEvenly,
-                                                                crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                                children: [
-                                                                  Container(
-                                                                    child:
-                                                                    ImageIcon(
-                                                                      AssetImage(
-                                                                          ic_edit),
-                                                                    ),
-                                                                  ),
-                                                                  SizedBox(
-                                                                    width: 10,
-                                                                  ),
-                                                                  Text(
-                                                                    '#${bookings[index]
-                                                                        .bookingId
-                                                                        .toString()}',
-                                                                    style: TextStyle(
-                                                                        color:
+                                                                    .serviceLists[
+                                                                        0]
+                                                                    .name,
+                                                                style: TextStyle(
+                                                                    color:
                                                                         primaryColor,
-                                                                        fontFamily:
+                                                                    fontFamily:
                                                                         'Work Sans',
-                                                                        fontWeight:
+                                                                    fontWeight:
                                                                         FontWeight
                                                                             .w500,
-                                                                        fontSize:
+                                                                    fontSize:
                                                                         14),
-                                                                  ),
-                                                                ],
                                                               ),
-                                                            )
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        child: Padding(
-                                                          padding:
-                                                          const EdgeInsets
-                                                              .all(8.0),
-                                                          child: Align(
-                                                            alignment: Alignment
-                                                                .topLeft,
-                                                            child: Text(
-                                                              bookings[index]
-                                                                  .serviceType,
-                                                              style: TextStyle(
-                                                                  color:
-                                                                  primaryColor,
-                                                                  fontFamily:
-                                                                  'Work Sans',
-                                                                  fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                                  fontSize: 14),
                                                             ),
                                                           ),
                                                         ),
-                                                      ),
-                                                    ],
+                                                      ],
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(10.0),
-                                            child: Container(
+                                              ],
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(10.0),
+                                              child: Container(
                                                 decoration: BoxDecoration(
                                                   color: Color(0XFFF6F7F9),
                                                   border: Border.all(
                                                     color: Color(0XFF6F7F9),
                                                   ),
                                                   borderRadius:
-                                                  BorderRadius.circular(10),
+                                                      BorderRadius.circular(10),
                                                 ),
                                                 child: Column(
                                                   children: [
                                                     Padding(
                                                       padding:
-                                                      const EdgeInsets.all(
-                                                          10),
+                                                          const EdgeInsets.all(
+                                                              10),
                                                       child: Row(
                                                         mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
                                                         children: [
                                                           Expanded(
-                                                            child: Text(
-                                                                "Date and Time :"),
-                                                          ),
-
+                                                              child: Text(
+                                                                  "Date and Time :")),
                                                           Expanded(
                                                             child: FittedBox(
-
-                                                              child: Text(
-                                                                  bookings[index]
-                                                                      .bookingTime),
+                                                              child: Text(bookings[
+                                                                      index]
+                                                                  .bookingTime),
                                                             ),
                                                           ),
                                                         ],
@@ -508,20 +254,20 @@ class _CustomerBookingsState extends ConsumerState<CustomerBookings> {
                                                     ),
                                                     Padding(
                                                       padding:
-                                                      const EdgeInsets.all(
-                                                          8.0),
+                                                          const EdgeInsets.all(
+                                                              8.0),
                                                       child: Divider(
                                                         height: 2,
                                                       ),
                                                     ),
                                                     Padding(
                                                       padding:
-                                                      const EdgeInsets.all(
-                                                          10),
+                                                          const EdgeInsets.all(
+                                                              10),
                                                       child: Row(
                                                         mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
                                                         children: [
                                                           Text("Provider"),
                                                           Text(bookings[index]
@@ -534,23 +280,334 @@ class _CustomerBookingsState extends ConsumerState<CustomerBookings> {
                                                     ),
                                                     Padding(
                                                       padding:
-                                                      const EdgeInsets.all(
-                                                          10),
+                                                          const EdgeInsets.all(
+                                                              10),
                                                       child: Row(
                                                         mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          InkWell(
+                                                            onTap: () {
+                                                              Navigator.push(
+                                                                  context,
+                                                                  MaterialPageRoute(
+                                                                      builder:
+                                                                          (context) {
+                                                                return LaundryGenerateBillScreen(
+                                                                    booking:
+                                                                        bookings[
+                                                                            index],
+                                                                    serviceName: bookings[
+                                                                            index]
+                                                                        .serviceLists[
+                                                                            0]
+                                                                        .name,
+                                                                    providername:
+                                                                        bookings[index]
+                                                                            .providerName[0]);
+                                                              }));
+                                                            },
+                                                            child: Text(
+                                                              "ORDER PREVIEW",
+                                                              style: TextStyle(
+                                                                  fontFamily:
+                                                                      'Work Sans',
+                                                                  color:
+                                                                      primaryColor),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                                margin:
+                                                    EdgeInsets.only(left: 10),
+                                                width: double.infinity,
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  children: [
+                                                    Align(
+                                                      alignment:
+                                                          Alignment.topLeft,
+                                                      child: Text(
+                                                        "Disclaimer:",
+                                                        style: TextStyle(
+                                                            fontFamily:
+                                                                'Work Sans',
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            fontSize: 14),
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      "You will asked for payment once your booking is completed by us!",
+                                                      style: TextStyle(
+                                                          fontFamily:
+                                                              'Work Sans',
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          color:
+                                                              Color(0xff6C757D),
+                                                          fontSize: 12),
+                                                    )
+                                                  ],
+                                                )),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                } else if (bookings[index].status ==
+                                        "Accepted" ||
+                                    bookings[index].status == "Completed" ||
+                                    bookings[index].status == "Done") {
+                                  return Padding(
+                                    padding: const EdgeInsets.all(20.0),
+                                    child: ReusableCard(
+                                      cardChild: Container(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.stretch,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Container(
+                                                  margin: EdgeInsets.all(10),
+                                                  decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                          color: Color(
+                                                              0XFFF6F7F9)),
+                                                      shape: BoxShape.circle,
+                                                      color: Color(0XFFF6F7F9)),
+                                                  child: buildImageIcon(
+                                                      bookings[index]
+                                                          .serviceLists[0]
+                                                          .name),
+                                                ),
+                                                SizedBox(
+                                                  width: 10,
+                                                ),
+                                                Expanded(
+                                                  child: Container(
+                                                    margin: EdgeInsets.only(
+                                                        right: 20),
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Container(
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                            children: [
+                                                              Container(
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  border: Border
+                                                                      .all(
+                                                                    color: Colors
+                                                                        .white,
+                                                                    width: 2,
+                                                                  ),
+                                                                  color: Colors
+                                                                      .greenAccent
+                                                                      .withOpacity(
+                                                                          0.5),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .all(
+                                                                    Radius
+                                                                        .circular(
+                                                                            10),
+                                                                  ),
+                                                                ),
+                                                                child: Padding(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                              .all(
+                                                                          8.0),
+                                                                  child: Text(
+                                                                    bookings[
+                                                                            index]
+                                                                        .status,
+                                                                    style: TextStyle(
+                                                                        color: Colors.green[
+                                                                            800],
+                                                                        fontFamily:
+                                                                            'Work Sans',
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .bold,
+                                                                        fontSize:
+                                                                            12),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              Container(
+// margin: EdgeInsets.all(10),
+                                                                child: Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceEvenly,
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .center,
+                                                                  children: [
+                                                                    Container(
+                                                                      child:
+                                                                          ImageIcon(
+                                                                        AssetImage(
+                                                                            ic_edit),
+                                                                      ),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      width: 10,
+                                                                    ),
+                                                                    Text(
+                                                                      '#${bookings[index].bookingId.toString()}',
+                                                                      style: TextStyle(
+                                                                          color:
+                                                                              primaryColor,
+                                                                          fontFamily:
+                                                                              'Work Sans',
+                                                                          fontWeight: FontWeight
+                                                                              .w500,
+                                                                          fontSize:
+                                                                              14),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        Container(
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8.0),
+                                                            child: Align(
+                                                              alignment:
+                                                                  Alignment
+                                                                      .topLeft,
+                                                              child: Text(
+                                                                bookings[index]
+                                                                    .serviceLists[
+                                                                        0]
+                                                                    .name,
+                                                                style: TextStyle(
+                                                                    color:
+                                                                        primaryColor,
+                                                                    fontFamily:
+                                                                        'Work Sans',
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                    fontSize:
+                                                                        14),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(10.0),
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  color: Color(0XFFF6F7F9),
+                                                  border: Border.all(
+                                                    color: Color(0XFF6F7F9),
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                ),
+                                                child: Column(
+                                                  children: [
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              10),
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Expanded(
+                                                            child: Text(
+                                                                "Date and Time :"),
+                                                          ),
+                                                          Expanded(
+                                                            child: FittedBox(
+                                                              child: Text(bookings[
+                                                                      index]
+                                                                  .bookingTime),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: Divider(
+                                                        height: 2,
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              10),
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Text("Provider"),
+                                                          Text(bookings[index]
+                                                              .providerName[0]),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    Divider(
+                                                      height: 2,
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              10),
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
                                                         children: [
                                                           Text(
                                                               "Payment Status"),
                                                           bookings[index]
-                                                              .status ==
-                                                              'Done'
-                                                              ? Text('Paid',
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .green,
-                                                                fontFamily: 'Work Sans'),)
+                                                                      .status ==
+                                                                  'Done'
+                                                              ? Text(
+                                                                  'Paid',
+                                                                  style: TextStyle(
+                                                                      color: Colors
+                                                                          .green,
+                                                                      fontFamily:
+                                                                          'Work Sans'),
+                                                                )
                                                               : Text("Pending"),
                                                         ],
                                                       ),
@@ -560,12 +617,12 @@ class _CustomerBookingsState extends ConsumerState<CustomerBookings> {
                                                     ),
                                                     Padding(
                                                       padding:
-                                                      const EdgeInsets.all(
-                                                          10),
+                                                          const EdgeInsets.all(
+                                                              10),
                                                       child: Row(
                                                         mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
+                                                            MainAxisAlignment
+                                                                .center,
                                                         children: [
                                                           InkWell(
                                                             onTap: () {
@@ -573,222 +630,229 @@ class _CustomerBookingsState extends ConsumerState<CustomerBookings> {
                                                                   context,
                                                                   MaterialPageRoute(
                                                                       builder:
-                                                                          (
-                                                                          context) {
-                                                                        return LaundryGenerateBillScreen(
-                                                                            booking:
-                                                                            bookings[
+                                                                          (context) {
+                                                                return LaundryGenerateBillScreen(
+                                                                    booking:
+                                                                        bookings[
                                                                             index],
-                                                                            serviceName:
-                                                                            bookings[index]
-                                                                                .serviceType,
-                                                                            providername:
-                                                                            bookings[index]
-                                                                                .providerName[0]);
-                                                                      }));
+                                                                    serviceName: bookings[
+                                                                            index]
+                                                                        .serviceLists[
+                                                                            0]
+                                                                        .name,
+                                                                    providername:
+                                                                        bookings[index]
+                                                                            .providerName[0]);
+                                                              }));
                                                             },
                                                             child: Text(
-                                                              "INVOICE",
+                                                              "ORDER PREVIEW",
                                                               style: TextStyle(
-                                                                  fontFamily: 'Work Sans',
+                                                                  fontFamily:
+                                                                      'Work Sans',
                                                                   color:
-                                                                  primaryColor),
+                                                                      primaryColor),
                                                             ),
                                                           ),
                                                         ],
                                                       ),
                                                     ),
                                                   ],
-                                                )),
-                                          )
-                                        ],
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                );
-                              } else if (bookings[index].status == "Rejected") {
-                                return Padding(
-                                  padding: const EdgeInsets.all(20.0),
-                                  child: ReusableCard(
-                                    cardChild: Container(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.stretch,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Container(
-                                                margin: EdgeInsets.all(10),
-                                                decoration: BoxDecoration(
-                                                    border: Border.all(
-                                                        color:
-                                                        Color(0XFFF6F7F9)),
-                                                    shape: BoxShape.circle,
-                                                    color: Color(0XFFF6F7F9)),
-                                                child: buildImageIcon(
-                                                    bookings[index]
-                                                        .serviceType),
-                                              ),
-                                              SizedBox(
-                                                width: 10,
-                                              ),
-                                              Expanded(
-                                                child: Container(
-                                                  margin: EdgeInsets.only(
-                                                      right: 20),
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                    children: [
-                                                      Container(
-                                                        child: Row(
-                                                          mainAxisAlignment:
+                                  );
+                                } else if (bookings[index].status ==
+                                    "Rejected") {
+                                  return Padding(
+                                    padding: const EdgeInsets.all(20.0),
+                                    child: ReusableCard(
+                                      cardChild: Container(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.stretch,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Container(
+                                                  margin: EdgeInsets.all(10),
+                                                  decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                          color: Color(
+                                                              0XFFF6F7F9)),
+                                                      shape: BoxShape.circle,
+                                                      color: Color(0XFFF6F7F9)),
+                                                  child: buildImageIcon(
+                                                      bookings[index]
+                                                          .serviceLists[0]
+                                                          .name),
+                                                ),
+                                                SizedBox(
+                                                  width: 10,
+                                                ),
+                                                Expanded(
+                                                  child: Container(
+                                                    margin: EdgeInsets.only(
+                                                        right: 20),
+                                                    child: Column(
+                                                      mainAxisAlignment:
                                                           MainAxisAlignment
-                                                              .spaceBetween,
-                                                          children: [
-                                                            Container(
-                                                              decoration:
-                                                              BoxDecoration(
-                                                                border:
-                                                                Border.all(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  width: 2,
-                                                                ),
-                                                                color: Colors
-                                                                    .redAccent
-                                                                    .withOpacity(
-                                                                    0.5),
-                                                                borderRadius:
-                                                                BorderRadius
-                                                                    .all(
-                                                                  Radius
-                                                                      .circular(
-                                                                      10),
-                                                                ),
-                                                              ),
-                                                              child: Padding(
-                                                                padding:
-                                                                const EdgeInsets
-                                                                    .all(
-                                                                    8.0),
-                                                                child: Text(
-                                                                  bookings[index]
-                                                                      .status,
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .red[
-                                                                      800],
-                                                                      fontFamily:
-                                                                      'Work Sans',
-                                                                      fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                      fontSize:
-                                                                      12),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            Container(
-// margin: EdgeInsets.all(10),
-                                                              child: Row(
-                                                                mainAxisAlignment:
+                                                              .start,
+                                                      children: [
+                                                        Container(
+                                                          child: Row(
+                                                            mainAxisAlignment:
                                                                 MainAxisAlignment
-                                                                    .spaceEvenly,
-                                                                crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                                children: [
-                                                                  Container(
-                                                                    child:
-                                                                    ImageIcon(
-                                                                      AssetImage(
-                                                                          ic_edit),
-                                                                    ),
+                                                                    .spaceBetween,
+                                                            children: [
+                                                              Container(
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  border: Border
+                                                                      .all(
+                                                                    color: Colors
+                                                                        .white,
+                                                                    width: 2,
                                                                   ),
-                                                                  SizedBox(
-                                                                    width: 10,
+                                                                  color: Colors
+                                                                      .redAccent
+                                                                      .withOpacity(
+                                                                          0.5),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .all(
+                                                                    Radius
+                                                                        .circular(
+                                                                            10),
                                                                   ),
-                                                                  Text(
-                                                                    '#${bookings[index]
-                                                                        .bookingId
-                                                                        .toString()}',
+                                                                ),
+                                                                child: Padding(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                              .all(
+                                                                          8.0),
+                                                                  child: Text(
+                                                                    bookings[
+                                                                            index]
+                                                                        .status,
                                                                     style: TextStyle(
-                                                                        color:
-                                                                        primaryColor,
+                                                                        color: Colors.red[
+                                                                            800],
                                                                         fontFamily:
-                                                                        'Work Sans',
+                                                                            'Work Sans',
                                                                         fontWeight:
+                                                                            FontWeight
+                                                                                .bold,
+                                                                        fontSize:
+                                                                            12),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              Container(
+                                                                child: Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceEvenly,
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .center,
+                                                                  children: [
+                                                                    Container(
+                                                                      child:
+                                                                          ImageIcon(
+                                                                        AssetImage(
+                                                                            ic_edit),
+                                                                      ),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      width: 10,
+                                                                    ),
+                                                                    Text(
+                                                                      '#${bookings[index].bookingId.toString()}',
+                                                                      style: TextStyle(
+                                                                          color:
+                                                                              primaryColor,
+                                                                          fontFamily:
+                                                                              'Work Sans',
+                                                                          fontWeight: FontWeight
+                                                                              .w500,
+                                                                          fontSize:
+                                                                              14),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        Container(
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8.0),
+                                                            child: Align(
+                                                              alignment:
+                                                                  Alignment
+                                                                      .topLeft,
+                                                              child: Text(
+                                                                bookings[index]
+                                                                    .serviceLists[
+                                                                        0]
+                                                                    .name,
+                                                                style: TextStyle(
+                                                                    color:
+                                                                        primaryColor,
+                                                                    fontFamily:
+                                                                        'Work Sans',
+                                                                    fontWeight:
                                                                         FontWeight
                                                                             .w500,
-                                                                        fontSize:
+                                                                    fontSize:
                                                                         14),
-                                                                  ),
-                                                                ],
                                                               ),
-                                                            )
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        child: Padding(
-                                                          padding:
-                                                          const EdgeInsets
-                                                              .all(8.0),
-                                                          child: Align(
-                                                            alignment: Alignment
-                                                                .topLeft,
-                                                            child: Text(
-                                                              bookings[index]
-                                                                  .serviceType,
-                                                              style: TextStyle(
-                                                                  color:
-                                                                  primaryColor,
-                                                                  fontFamily:
-                                                                  'Work Sans',
-                                                                  fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                                  fontSize: 14),
                                                             ),
                                                           ),
                                                         ),
-                                                      ),
-                                                    ],
+                                                      ],
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(10.0),
-                                            child: Container(
+                                              ],
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(10.0),
+                                              child: Container(
                                                 decoration: BoxDecoration(
                                                   color: Color(0XFFF6F7F9),
                                                   border: Border.all(
                                                     color: Color(0XFF6F7F9),
                                                   ),
                                                   borderRadius:
-                                                  BorderRadius.circular(10),
+                                                      BorderRadius.circular(10),
                                                 ),
                                                 child: Column(
                                                   children: [
                                                     Padding(
                                                       padding:
-                                                      const EdgeInsets.all(
-                                                          10),
+                                                          const EdgeInsets.all(
+                                                              10),
                                                       child: Row(
                                                         mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
                                                         children: [
                                                           Text(
                                                               "Date and Time :"),
                                                           Expanded(
                                                             child: FittedBox(
-                                                              child: Text(
-                                                                  bookings[index]
-                                                                      .bookingTime),
+                                                              child: Text(bookings[
+                                                                      index]
+                                                                  .bookingTime),
                                                             ),
                                                           ),
                                                         ],
@@ -796,20 +860,20 @@ class _CustomerBookingsState extends ConsumerState<CustomerBookings> {
                                                     ),
                                                     Padding(
                                                       padding:
-                                                      const EdgeInsets.all(
-                                                          8.0),
+                                                          const EdgeInsets.all(
+                                                              8.0),
                                                       child: Divider(
                                                         height: 2,
                                                       ),
                                                     ),
                                                     Padding(
                                                       padding:
-                                                      const EdgeInsets.all(
-                                                          10),
+                                                          const EdgeInsets.all(
+                                                              10),
                                                       child: Row(
                                                         mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
                                                         children: [
                                                           Text("Provider"),
                                                           Text(bookings[index]
@@ -817,26 +881,72 @@ class _CustomerBookingsState extends ConsumerState<CustomerBookings> {
                                                         ],
                                                       ),
                                                     ),
+                                                    Divider(
+                                                      height: 2,
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              10),
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          InkWell(
+                                                            onTap: () {
+                                                              Navigator.push(
+                                                                  context,
+                                                                  MaterialPageRoute(
+                                                                      builder:
+                                                                          (context) {
+                                                                return LaundryGenerateBillScreen(
+                                                                    booking:
+                                                                        bookings[
+                                                                            index],
+                                                                    serviceName: bookings[
+                                                                            index]
+                                                                        .serviceLists[
+                                                                            0]
+                                                                        .name,
+                                                                    providername:
+                                                                        bookings[index]
+                                                                            .providerName[0]);
+                                                              }));
+                                                            },
+                                                            child: Text(
+                                                              "ORDER PREVIEW",
+                                                              style: TextStyle(
+                                                                  fontFamily:
+                                                                      'Work Sans',
+                                                                  color:
+                                                                      primaryColor),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
                                                   ],
-                                                )),
-                                          ),
-                                          Container(
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
                                               margin: EdgeInsets.only(left: 10),
                                               width: double.infinity,
                                               child: Column(
                                                 mainAxisAlignment:
-                                                MainAxisAlignment.start,
+                                                    MainAxisAlignment.start,
                                                 children: [
                                                   Align(
                                                     alignment:
-                                                    Alignment.topLeft,
+                                                        Alignment.topLeft,
                                                     child: Text(
                                                       "Disclaimer:",
                                                       style: TextStyle(
                                                           fontFamily:
-                                                          'Work Sans',
+                                                              'Work Sans',
                                                           fontWeight:
-                                                          FontWeight.w500,
+                                                              FontWeight.w500,
                                                           fontSize: 14),
                                                     ),
                                                   ),
@@ -845,63 +955,63 @@ class _CustomerBookingsState extends ConsumerState<CustomerBookings> {
                                                     style: TextStyle(
                                                         fontFamily: 'Work Sans',
                                                         fontWeight:
-                                                        FontWeight.w500,
+                                                            FontWeight.w500,
                                                         color:
-                                                        Color(0xff6C757D),
+                                                            Color(0xff6C757D),
                                                         fontSize: 12),
                                                   )
                                                 ],
-                                              ),)
-                                        ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                );
-                              }
-                            }),
-                      ))
-                ],
-              )
+                                  );
+                                }
+                              }),
+                        ))
+                      ],
+                    )
                   : Center(
-                child: Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding:
-                        const EdgeInsets.only(left: 100.0, right: 100),
-                        child: Image(
-                          image: AssetImage(no_data_found),
+                      child: Container(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 100.0, right: 100),
+                              child: Image(
+                                image: AssetImage(no_data_found),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text("No Booking Found"),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              "Looks like you haven't tried our service",
+                            ),
+                            Text(
+                              "yet!",
+                            )
+                          ],
                         ),
                       ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text("No Booking Found"),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "Looks like you haven't tried our service",
-                      ),
-                      Text(
-                        "yet!",
-                      )
-                    ],
-                  ),
-                ),
-              );
+                    );
             },
             error: (err, s) => Text(err.toString()),
-            loading: () =>
-                Center(
-                  child: CircularProgressIndicator(),
-                ),
+            loading: () => Center(
+              child: CircularProgressIndicator(),
+            ),
           ),
         ),
       );
-    }else{
-      return  Center(
+    } else {
+      return Center(
         child: Container(
           margin: EdgeInsets.all(20),
           width: double.infinity,
@@ -913,13 +1023,11 @@ class _CustomerBookingsState extends ConsumerState<CustomerBookings> {
               // Background color
             ),
             onPressed: () async {
-
               Navigator.pushNamedAndRemoveUntil(
                 context,
                 '/sigin',
-                    (route) => true,
+                (route) => true,
               );
-
             },
             child: Padding(
               padding: EdgeInsets.all(15.0),
@@ -928,7 +1036,7 @@ class _CustomerBookingsState extends ConsumerState<CustomerBookings> {
                 children: [
                   ImageIcon(AssetImage(calling)),
                   Container(
-                    margin: EdgeInsets.only(right:100),
+                    margin: EdgeInsets.only(right: 100),
                     child: Text(
                       "Please sign in",
                       style: TextStyle(
@@ -945,7 +1053,6 @@ class _CustomerBookingsState extends ConsumerState<CustomerBookings> {
       );
     }
   }
-
 
   ImageIcon buildImageIcon(serviceType) {
     if (serviceType == 'Washing') {
@@ -969,13 +1076,12 @@ class _CustomerBookingsState extends ConsumerState<CustomerBookings> {
     }
   }
 
-
-
   Future<bool> isUserLoggedInd() async {
     var isLoggedIn = await SharedService.isLoggedIn();
 
     return isLoggedIn;
   }
+
   Future<void> whereToGo() async {
     var isLoggedIn = await SharedService.isLoggedIn();
     // var isLoggedIn = false;
@@ -994,10 +1100,9 @@ class _CustomerBookingsState extends ConsumerState<CustomerBookings> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) =>LandingScreen(),
+          builder: (context) => LandingScreen(),
         ),
       );
     }
   }
-
 }

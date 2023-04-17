@@ -107,6 +107,7 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
             color: Colors.white,
           ),
           onTap: () {
+
             Navigator.pop(context);
           },
         ),
@@ -327,7 +328,7 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
                         bookingRequest.status = "New";
                         bookingRequest.bookingTime = _scheduleController.text;
                         bookingRequest.customerId = customerId;
-                        bookingRequest.serviceType = serviceName;
+                        // bookingRequest.serviceType = serviceName;
                         bookingRequest.paymentMode = "UPI";
                         bookingRequest.providerId = providerId;
                         bookingRequest.bookingAddress = _locationController.text;

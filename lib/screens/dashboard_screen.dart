@@ -1,3 +1,5 @@
+
+import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mistry_customer/screens/auth/sign_in_screen.dart';
@@ -13,6 +15,7 @@ import 'package:mistry_customer/services/shared_service.dart';
 import 'package:mistry_customer/utils/colors.dart';
 import 'package:mistry_customer/utils/config.dart';
 import 'package:mistry_customer/utils/images.dart';
+import 'package:upgrader/upgrader.dart';
 
 class DashboadScreen extends ConsumerStatefulWidget {
   late final int currentIndex;
@@ -60,8 +63,12 @@ class _LandingScreenState extends ConsumerState<DashboadScreen> {
             fontSize: 18,
             fontWeight: FontWeight.w800),
       ),
-      body: SafeArea(
-        child: fragmentList[currentIndex],
+      body: UpgradeAlert(
+        upgrader: Upgrader(durationUntilAlertAgain: const Duration(days:1) ,
+        dialogStyle: Platform.isIOS ? UpgradeDialogStyle.cupertino: UpgradeDialogStyle.material ),
+        child: SafeArea(
+          child: fragmentList[currentIndex],
+        ),
       ),
       bottomNavigationBar: NavigationBarTheme(
         data: NavigationBarThemeData(

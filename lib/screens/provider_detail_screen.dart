@@ -9,6 +9,8 @@ import 'package:mistry_customer/utils/config.dart';
 import 'package:mistry_customer/utils/images.dart';
 import 'package:intl/intl.dart';
 
+import 'booking_steps.dart';
+
 class ProviderDetailScreen extends ConsumerStatefulWidget {
   // final Object? providerName;
   // final Object? serviceName;
@@ -598,11 +600,21 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
                                       onPressed: () async {
                                         var customerId =
                                             await SharedService.getCustomerId();
-                                        print(customerId);
+                                        // print(customerId);
+                                        // Navigator.push(context,
+                                        //     MaterialPageRoute(
+                                        //         builder: (context) {
+                                        //   return BookingScreen(
+                                        //     serviceName: serviceName,
+                                        //     providerId:
+                                        //         _data.providerDetails.id,
+                                        //     customerId: customerId,
+                                        //   );
+                                        // }));
                                         Navigator.push(context,
                                             MaterialPageRoute(
                                                 builder: (context) {
-                                          return BookingScreen(
+                                          return StepperDemo(
                                             serviceName: serviceName,
                                             providerId:
                                                 _data.providerDetails.id,
