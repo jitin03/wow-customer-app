@@ -11,6 +11,8 @@ import 'package:mistry_customer/utils/images.dart';
 
 import 'package:snippet_coder_utils/FormHelper.dart';
 
+import '../dashboard_screen.dart';
+
 class LandingScreen extends ConsumerStatefulWidget {
   final bool? isFromDashboard;
   LandingScreen({this.isFromDashboard});
@@ -43,16 +45,35 @@ class _SignInState extends ConsumerState<LandingScreen> {
     if (mounted) super.setState(fn);
   }
 
-  @override
-  void dispose() {
-    if (widget.isFromDashboard == true) {
-    } else {}
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          leading: GestureDetector(
+            child: Icon(
+              Icons.arrow_back_ios,
+              color: Colors.black,
+            ),
+            onTap: () {
+
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>DashboadScreen(currentIndex: 0),
+                ),
+              );
+              // Navigator.of(context, rootNavigator: true).pop(context);
+            },
+          ),
+
+          backgroundColor: Colors.white,
+          titleTextStyle: TextStyle(
+              color: Colors.white,
+              fontFamily: "Work Sans",
+              fontSize: 18,
+              fontWeight: FontWeight.w800),
+        ),
       body: SafeArea(
         child: Center(
           child: Container(

@@ -29,6 +29,7 @@ class MyApp extends StatelessWidget {
       title: 'Customer App',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
+
       //define the routes file here in order to access the routes any where all over the app
       routes: {
 
@@ -51,6 +52,7 @@ class MyApp extends StatelessWidget {
 
         // '/add-service': (context) =>  ProviderAddServiceFragment(),
       },
+
     );
   }
 }

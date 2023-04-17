@@ -16,6 +16,8 @@ class Config {
   static const requestOtpAPI = "/api/v1/auth/requestOtp";
   static const verifyOtpAPI = "/api/v1/auth/verifyOtp/";
   static const reviewsEndPoint='/api/v1/reviews';
+  static const notificationEndPoint='/api/v1/notifications';
+
 
   static const List<String> appBarTitles = [
     "Dashboard",
@@ -34,7 +36,7 @@ const LAUNDRY_COLOR = Color(0XFF1C1F34);
 const APP_NAME = 'Handyman Services';
 const DEFAULT_LANGUAGE = 'en';
 
-const primaryColor = Color(0xFF3946CD);
+const primaryColor = Color(0xFF5F60B9);
 //var appFontFamily = GoogleFonts.workSans().fontFamily;
 
 const DOMAIN_URL = ''; // Don't add slash at the end of the url

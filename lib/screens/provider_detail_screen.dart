@@ -9,6 +9,8 @@ import 'package:mistry_customer/utils/config.dart';
 import 'package:mistry_customer/utils/images.dart';
 import 'package:intl/intl.dart';
 
+import 'booking_steps.dart';
+
 class ProviderDetailScreen extends ConsumerStatefulWidget {
   // final Object? providerName;
   // final Object? serviceName;
@@ -237,18 +239,34 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
                                                           color: primaryColor),
                                                       shape: BoxShape.circle,
                                                       color: Colors.white),
-                                                  child: Stack(
-                                                    children: [
-                                                      Align(
-                                                        alignment:
-                                                            Alignment.topLeft,
-                                                        child: ImageIcon(
-                                                          AssetImage(
-                                                              ic_fill_profile),
-                                                          size: 20,
+                                                  child:  Container(
+                                                    decoration: BoxDecoration(
+                                                        border: Border.all(
+                                                            color:
+                                                            primaryColor),
+                                                        shape: BoxShape
+                                                            .circle,
+                                                        color: Colors
+                                                            .white),
+                                                    child:
+                                                    ClipOval(
+                                                      child:
+                                                      Material(
+                                                        color: Colors
+                                                            .transparent,
+                                                        child: Ink
+                                                            .image(
+                                                          image: AssetImage(
+                                                              male_default_profile_iamge),
+                                                          fit: BoxFit
+                                                              .cover,
+                                                          width:
+                                                          30,
+                                                          height:
+                                                          30,
                                                         ),
                                                       ),
-                                                    ],
+                                                    ),
                                                   ),
                                                 ),
                                                 SizedBox(
@@ -270,100 +288,100 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
                                           SizedBox(
                                             height: 20,
                                           ),
-                                          Container(
-                                            child: Row(
-                                              children: [
-                                                Image.asset(
-                                                  ic_message,
-                                                  height: 15,
-                                                  width: 15,
-                                                  color: Color(0xFF6C757D),
-                                                ),
-                                                SizedBox(
-                                                  width: 10,
-                                                ),
-                                                Text(
-                                                  _data.providerDetails.email,
-                                                  style: TextStyle(
-                                                      fontFamily: 'Work Sans',
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                          FontWeight.w800),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 20,
-                                          ),
-                                          Container(
-                                            child: Row(
-                                              children: [
-                                                Image.asset(
-                                                  ic_location,
-                                                  height: 15,
-                                                  width: 15,
-                                                  color: Color(0xFF6C757D),
-                                                ),
-                                                SizedBox(
-                                                  width: 10,
-                                                ),
-                                                Expanded(
-                                                  child: Text(
-                                                    _data
-                                                            .providerDetails
-                                                            .address[0]
-                                                            .address1 +
-                                                        ' ' +
-                                                        _data
-                                                            .providerDetails
-                                                            .address[0]
-                                                            .address2 +
-                                                        ' ' +
-                                                        _data.providerDetails
-                                                            .address[0].city +
-                                                        ' ' +
-                                                        _data.providerDetails
-                                                            .address[0].state +
-                                                        ' ' +
-                                                        _data.providerDetails
-                                                            .address[0].pincode,
-                                                    style: TextStyle(
-                                                        fontFamily: 'Work Sans',
-                                                        fontSize: 12,
-                                                        fontWeight:
-                                                            FontWeight.w800),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 20,
-                                          ),
-                                          Container(
-                                            child: Row(
-                                              children: [
-                                                Image.asset(
-                                                  calling,
-                                                  height: 15,
-                                                  width: 15,
-                                                  color: Color(0xFF6C757D),
-                                                ),
-                                                SizedBox(
-                                                  width: 10,
-                                                ),
-                                                Text(
-                                                  "+91-${_data.providerDetails.phonenumber}",
-                                                  style: TextStyle(
-                                                      fontFamily: 'Work Sans',
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                          FontWeight.w800),
-                                                )
-                                              ],
-                                            ),
-                                          )
+                                          // Container(
+                                          //   child: Row(
+                                          //     children: [
+                                          //       Image.asset(
+                                          //         ic_message,
+                                          //         height: 15,
+                                          //         width: 15,
+                                          //         color: Color(0xFF6C757D),
+                                          //       ),
+                                          //       SizedBox(
+                                          //         width: 10,
+                                          //       ),
+                                          //       Text(
+                                          //         _data.providerDetails.email,
+                                          //         style: TextStyle(
+                                          //             fontFamily: 'Work Sans',
+                                          //             fontSize: 12,
+                                          //             fontWeight:
+                                          //                 FontWeight.w800),
+                                          //       )
+                                          //     ],
+                                          //   ),
+                                          // ),
+                                          // SizedBox(
+                                          //   height: 20,
+                                          // ),
+                                          // Container(
+                                          //   child: Row(
+                                          //     children: [
+                                          //       Image.asset(
+                                          //         ic_location,
+                                          //         height: 15,
+                                          //         width: 15,
+                                          //         color: Color(0xFF6C757D),
+                                          //       ),
+                                          //       SizedBox(
+                                          //         width: 10,
+                                          //       ),
+                                          //       Expanded(
+                                          //         child: Text(
+                                          //           _data
+                                          //                   .providerDetails
+                                          //                   .address[0]
+                                          //                   .address1 +
+                                          //               ' ' +
+                                          //               _data
+                                          //                   .providerDetails
+                                          //                   .address[0]
+                                          //                   .address2 +
+                                          //               ' ' +
+                                          //               _data.providerDetails
+                                          //                   .address[0].city +
+                                          //               ' ' +
+                                          //               _data.providerDetails
+                                          //                   .address[0].state +
+                                          //               ' ' +
+                                          //               _data.providerDetails
+                                          //                   .address[0].pincode,
+                                          //           style: TextStyle(
+                                          //               fontFamily: 'Work Sans',
+                                          //               fontSize: 12,
+                                          //               fontWeight:
+                                          //                   FontWeight.w800),
+                                          //         ),
+                                          //       )
+                                          //     ],
+                                          //   ),
+                                          // ),
+                                          // SizedBox(
+                                          //   height: 20,
+                                          // ),
+                                          // Container(
+                                          //   child: Row(
+                                          //     children: [
+                                          //       Image.asset(
+                                          //         calling,
+                                          //         height: 15,
+                                          //         width: 15,
+                                          //         color: Color(0xFF6C757D),
+                                          //       ),
+                                          //       SizedBox(
+                                          //         width: 10,
+                                          //       ),
+                                          //       Text(
+                                          //         "+91-${_data.providerDetails.phonenumber}",
+                                          //         style: TextStyle(
+                                          //             fontFamily: 'Work Sans',
+                                          //             fontSize: 12,
+                                          //             fontWeight:
+                                          //                 FontWeight.w800),
+                                          //       )
+                                          //     ],
+                                          //   ),
+                                          // )
                                         ],
                                       ),
                                     ),
@@ -582,11 +600,21 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
                                       onPressed: () async {
                                         var customerId =
                                             await SharedService.getCustomerId();
-                                        print(customerId);
+                                        // print(customerId);
+                                        // Navigator.push(context,
+                                        //     MaterialPageRoute(
+                                        //         builder: (context) {
+                                        //   return BookingScreen(
+                                        //     serviceName: serviceName,
+                                        //     providerId:
+                                        //         _data.providerDetails.id,
+                                        //     customerId: customerId,
+                                        //   );
+                                        // }));
                                         Navigator.push(context,
                                             MaterialPageRoute(
                                                 builder: (context) {
-                                          return BookingScreen(
+                                          return StepperDemo(
                                             serviceName: serviceName,
                                             providerId:
                                                 _data.providerDetails.id,
