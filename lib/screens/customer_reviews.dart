@@ -83,53 +83,53 @@ class _CustomerReviewsState extends ConsumerState<CustomerReviews> {
                               ),
                             ),
                           ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Container(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.only(left: 10),
-                                  child: Text(
-                                    _data.providerReviews[0].customerProfile!
-                                        .name!,
-                                    style: TextStyle(
-                                        fontFamily: 'Work Sans',
-                                        fontSize: 11,
-                                        fontWeight: FontWeight.w500),
+
+                          Flexible(
+                            child: Container(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.only(left: 10),
+                                    child: Text(
+                                      _data.providerReviews[index].customerProfile!
+                                          .name!,
+                                      style: TextStyle(
+                                          fontFamily: 'Work Sans',
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.w500),
+                                    ),
                                   ),
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Container(
-                                  padding: EdgeInsets.only(left: 10),
-                                  child: Text(DateFormat('dd MMM yyyy').format(
-                                      DateTime.parse(_data
-                                          .providerReviews[index]
-                                          .createDate!))),
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Container(
-                                  padding: EdgeInsets.only(left: 10),
-                                  child: Text(
-                                    _data.providerReviews[index].reviewMessage!,
-                                    overflow: TextOverflow.ellipsis,
+                                  SizedBox(
+                                    height: 10,
                                   ),
-                                )
-                              ],
+                                  Container(
+                                    padding: EdgeInsets.only(left: 10),
+                                    child: Text(DateFormat('dd MMM yyyy').format(
+                                        DateTime.parse(_data
+                                            .providerReviews[index]
+                                            .createDate!))),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.only(left: 10),
+                                    child: Text(
+                                      _data.providerReviews[index].reviewMessage!,
+                                      // overflow: TextOverflow.ellipsis,
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                           // SizedBox(
                           //   width: 10,
                           // ),
                           Expanded(
-                            flex: 1,
+
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [

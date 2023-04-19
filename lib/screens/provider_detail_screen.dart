@@ -112,7 +112,6 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
                                             "assets/images/default_image.png"),
                                       ),
                                     ),
-
                                     Container(
                                       margin:
                                           EdgeInsets.only(left: 10, top: 10),
@@ -162,7 +161,6 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
                                       SizedBox(
                                         height: 10,
                                       ),
-
                                       Container(
                                         child: ListView.builder(
                                           physics:
@@ -239,31 +237,23 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
                                                           color: primaryColor),
                                                       shape: BoxShape.circle,
                                                       color: Colors.white),
-                                                  child:  Container(
+                                                  child: Container(
                                                     decoration: BoxDecoration(
                                                         border: Border.all(
                                                             color:
-                                                            primaryColor),
-                                                        shape: BoxShape
-                                                            .circle,
-                                                        color: Colors
-                                                            .white),
-                                                    child:
-                                                    ClipOval(
-                                                      child:
-                                                      Material(
-                                                        color: Colors
-                                                            .transparent,
-                                                        child: Ink
-                                                            .image(
+                                                                primaryColor),
+                                                        shape: BoxShape.circle,
+                                                        color: Colors.white),
+                                                    child: ClipOval(
+                                                      child: Material(
+                                                        color:
+                                                            Colors.transparent,
+                                                        child: Ink.image(
                                                           image: AssetImage(
                                                               male_default_profile_iamge),
-                                                          fit: BoxFit
-                                                              .cover,
-                                                          width:
-                                                          30,
-                                                          height:
-                                                          30,
+                                                          fit: BoxFit.cover,
+                                                          width: 30,
+                                                          height: 30,
                                                         ),
                                                       ),
                                                     ),
@@ -405,12 +395,13 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
                                       Container(
                                         margin: EdgeInsets.only(right: 20),
                                         child: InkWell(
-                                          onTap: (){
+                                          onTap: () {
                                             Navigator.pushNamedAndRemoveUntil(
                                               context,
                                               '/customer-reviews',
-                                              arguments: _data.providerDetails.id,
-                                                  (route) => true,
+                                              arguments:
+                                                  _data.providerDetails.id,
+                                              (route) => true,
                                             );
                                           },
                                           child: Text("View All"),
@@ -428,50 +419,51 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
                                         : _data.providerReviews.length,
                                     itemBuilder: (context, index) {
                                       return Container(
-                                          decoration: BoxDecoration(
-                                            color: Color(0XFFF6F7F9),
-                                            border: Border.all(
-                                              color: Color(0XFF6F7F9),
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(10),
+                                        decoration: BoxDecoration(
+                                          color: Color(0XFFF6F7F9),
+                                          border: Border.all(
+                                            color: Color(0XFF6F7F9),
                                           ),
-                                          margin: EdgeInsets.only(
-                                              left: 20, right: 20),
-                                          padding: EdgeInsets.only(
-                                              left: 10,
-                                              right: 10,
-                                              top: 10,
-                                              bottom: 10),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Container(
-                                                decoration: BoxDecoration(
-                                                    border: Border.all(
-                                                        color: primaryColor),
-                                                    shape: BoxShape.circle,
-                                                    color: Colors.white),
-                                                child: ClipOval(
-                                                  child: Material(
-                                                    color: Colors.transparent,
-                                                    child: Ink.image(
-                                                      image: AssetImage(
-                                                          male_default_profile_iamge),
-                                                      fit: BoxFit.cover,
-                                                      width: 30,
-                                                      height: 30,
-                                                    ),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                        margin: EdgeInsets.only(
+                                            left: 20, right: 20),
+                                        padding: EdgeInsets.only(
+                                            left: 10,
+                                            right: 10,
+                                            top: 10,
+                                            bottom: 10),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                      color: primaryColor),
+                                                  shape: BoxShape.circle,
+                                                  color: Colors.white),
+                                              child: ClipOval(
+                                                child: Material(
+                                                  color: Colors.transparent,
+                                                  child: Ink.image(
+                                                    image: AssetImage(
+                                                        male_default_profile_iamge),
+                                                    fit: BoxFit.cover,
+                                                    width: 30,
+                                                    height: 30,
                                                   ),
                                                 ),
                                               ),
-                                              SizedBox(
-                                                width: 10,
-                                              ),
-                                              Container(
+                                            ),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            Flexible(
+                                              child: Container(
                                                 child: Column(
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
@@ -483,7 +475,7 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
                                                           left: 10),
                                                       child: Text(
                                                         _data
-                                                            .providerReviews[0]
+                                                            .providerReviews[index]
                                                             .customerProfile!
                                                             .name!,
                                                         style: TextStyle(
@@ -491,8 +483,7 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
                                                                 'Work Sans',
                                                             fontSize: 11,
                                                             fontWeight:
-                                                                FontWeight
-                                                                    .w500),
+                                                                FontWeight.w500),
                                                       ),
                                                     ),
                                                     SizedBox(
@@ -503,8 +494,8 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
                                                           left: 10),
                                                       child: Text(DateFormat(
                                                               'dd MMM yyyy')
-                                                          .format(DateTime
-                                                              .parse(_data
+                                                          .format(DateTime.parse(
+                                                              _data
                                                                   .providerReviews[
                                                                       index]
                                                                   .createDate!))),
@@ -515,66 +506,60 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
                                                     Container(
                                                       padding: EdgeInsets.only(
                                                           left: 10),
-                                                      child: Text(
-                                                        _data
-                                                            .providerReviews[
-                                                                index]
-                                                            .reviewMessage!,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                              // SizedBox(
-                                              //   width: 10,
-                                              // ),
-                                              Expanded(
-                                                flex: 1,
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.end,
-                                                  children: [
-                                                    RatingBarIndicator(
-                                                      rating: double.parse(
-                                                          _data!
+                                                      child: Expanded(
+                                                        child: Text(
+                                                          _data
                                                               .providerReviews[
                                                                   index]
-                                                              .rating!),
-                                                      itemBuilder:
-                                                          (context, index) =>
-                                                              Icon(
-                                                        Icons.star,
-                                                        color: Colors.green,
+                                                              .reviewMessage!,
+                                                        ),
                                                       ),
-                                                      itemCount: 5,
-                                                      itemSize: 15.0,
-                                                      direction:
-                                                          Axis.horizontal,
-                                                    ),
-                                                    SizedBox(
-                                                      width: 10,
-                                                    ),
-                                                    Text(
-                                                      _data!
-                                                          .providerReviews[
-                                                              index]
-                                                          .rating
-                                                          .toString(),
-                                                      style: TextStyle(
-                                                          fontSize: 15,
-                                                          fontFamily:
-                                                              'Work Sans',
-                                                          color: Colors.green,
-                                                          fontWeight:
-                                                              FontWeight.w500),
                                                     )
                                                   ],
                                                 ),
                                               ),
-                                            ],
-                                          ));
+                                            ),
+                                            Expanded(
+                                              flex: 1,
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.end,
+                                                children: [
+                                                  RatingBarIndicator(
+                                                    rating: double.parse(_data!
+                                                        .providerReviews[index]
+                                                        .rating!),
+                                                    itemBuilder:
+                                                        (context, index) =>
+                                                            Icon(
+                                                      Icons.star,
+                                                      color: Colors.green,
+                                                    ),
+                                                    itemCount: 5,
+                                                    itemSize: 15.0,
+                                                    direction: Axis.horizontal,
+                                                  ),
+                                                  SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  Text(
+                                                    _data!
+                                                        .providerReviews[index]
+                                                        .rating
+                                                        .toString(),
+                                                    style: TextStyle(
+                                                        fontSize: 15,
+                                                        fontFamily: 'Work Sans',
+                                                        color: Colors.green,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      );
                                     },
                                     separatorBuilder:
                                         (BuildContext context, int index) {
