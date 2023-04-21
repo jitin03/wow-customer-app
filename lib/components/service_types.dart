@@ -12,9 +12,9 @@ class ServiceTypes extends StatelessWidget {
 
   ServiceTypes(
       {required this.servicename,
-      required this.iconName,
-      required this.isSearchedEnabled,
-       required this.selectedSearch});
+        required this.iconName,
+        required this.isSearchedEnabled,
+        required this.selectedSearch});
 
 
   @override
@@ -29,9 +29,9 @@ class ServiceTypes extends StatelessWidget {
               width: 120,
               height: 80,
               decoration: BoxDecoration(
-                  border: Border.all(color: Color(0XFFF6F7F9)),
-                  shape: BoxShape.circle,
-                  color: Color(0XFFF6F7F9),),
+                border: Border.all(color: Color(0XFFAFB3D3)),
+                shape: BoxShape.circle,
+                color: Color(0XFFF6F7F9),),
               child: Stack(
                 children: [
                   Align(

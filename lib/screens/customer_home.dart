@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mistry_customer/components/slider_screen.dart';
 import 'package:mistry_customer/provider/data_provider.dart';
-import 'package:mistry_customer/screens/dashboard_screen.dart';
-import 'package:mistry_customer/screens/vehicle_service_detail_screen.dart';
 import 'package:mistry_customer/utils/config.dart';
-import 'package:mistry_customer/utils/images.dart';
+
 
 import '../services/shared_service.dart';
 
@@ -310,14 +308,11 @@ class _CustomerHomeFragmentState extends ConsumerState<CustomerHomeFragment> {
                         //   height: 10,
                         // ),
                         Container(
-                          // width: double.infinity,
-                          // margin: EdgeInsets.only(left: 40, right: 40),
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.white,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10.0)),
-// Background color
                             ),
                             onPressed: () {
                               Navigator.pushNamedAndRemoveUntil(
