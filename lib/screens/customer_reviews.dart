@@ -90,16 +90,51 @@ class _CustomerReviewsState extends ConsumerState<CustomerReviews> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  Container(
-                                    padding: EdgeInsets.only(left: 10),
-                                    child: Text(
-                                      _data.providerReviews[index].customerProfile!
-                                          .name!,
-                                      style: TextStyle(
-                                          fontFamily: 'Work Sans',
-                                          fontSize: 11,
-                                          fontWeight: FontWeight.w500),
-                                    ),
+                                  Row(
+                                    children: [
+                                      Container(
+                                        padding: EdgeInsets.only(left: 10),
+                                        child: Text(
+                                          _data.providerReviews[index].customerProfile!
+                                              .name!,
+                                          style: TextStyle(
+                                              fontFamily: 'Work Sans',
+                                              fontSize: 11,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                      ),
+                                      Expanded(
+
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.end,
+                                          children: [
+                                            RatingBarIndicator(
+                                              rating: double.parse(
+                                                  _data!.providerReviews[index].rating!),
+                                              itemBuilder: (context, index) => Icon(
+                                                Icons.star,
+                                                color: Colors.green,
+                                              ),
+                                              itemCount: 5,
+                                              itemSize: 15.0,
+                                              direction: Axis.horizontal,
+                                            ),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            Text(
+                                              _data!.providerReviews[index].rating
+                                                  .toString(),
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontFamily: 'Work Sans',
+                                                  color: Colors.green,
+                                                  fontWeight: FontWeight.w500),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                   SizedBox(
                                     height: 10,
@@ -128,37 +163,7 @@ class _CustomerReviewsState extends ConsumerState<CustomerReviews> {
                           // SizedBox(
                           //   width: 10,
                           // ),
-                          Expanded(
 
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                RatingBarIndicator(
-                                  rating: double.parse(
-                                      _data!.providerReviews[index].rating!),
-                                  itemBuilder: (context, index) => Icon(
-                                    Icons.star,
-                                    color: Colors.green,
-                                  ),
-                                  itemCount: 5,
-                                  itemSize: 15.0,
-                                  direction: Axis.horizontal,
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  _data!.providerReviews[index].rating
-                                      .toString(),
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      fontFamily: 'Work Sans',
-                                      color: Colors.green,
-                                      fontWeight: FontWeight.w500),
-                                )
-                              ],
-                            ),
-                          ),
                         ],
                       ));
                 },

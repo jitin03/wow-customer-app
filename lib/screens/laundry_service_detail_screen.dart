@@ -45,6 +45,7 @@ class _LaundryServiceDetailScreenState
   void initState() {
     super.initState();
     serviceName = widget.serviceName.toString();
+    print(serviceName);
   }
 
   @override
@@ -128,6 +129,7 @@ class _LaundryServiceDetailScreenState
                       height: 20,
                     ),
                     Expanded(child: Consumer(builder: (context, ref, child) {
+                      print(serviceName);
                       final _data = ref.watch(
                         categoryProvidersListDataProvider(serviceName!),
                       );
@@ -135,10 +137,6 @@ class _LaundryServiceDetailScreenState
                         data: (_data) {
                           List<ProvidersByCategoryResponse> providers =
                               _data.map((e) => e).toList();
-                          print("no of providers");
-                          print(providers.length);
-
-
                           print("serviceName" + serviceName!);
                           if ( providers !=null &&serviceName == 'All-Laundry') {
                             return providers.length > 0
@@ -255,6 +253,7 @@ class _LaundryServiceDetailScreenState
                                                             .start,
                                                     children: [
                                                       Card(
+                                                  elevation:10,
                                                         child: InkWell(
                                                           onTap: () {
                                                             Navigator
@@ -288,143 +287,146 @@ class _LaundryServiceDetailScreenState
                                                               (route) => true,
                                                             );
                                                           },
-                                                          child: Container(
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              border: Border.all(
-                                                                  color: Color(
-                                                                      0XFFF6F7F9)),
-                                                              shape: BoxShape
-                                                                  .circle,
-                                                              color: Color(
-                                                                  0XFFF6F7F9),
-                                                            ),
-                                                            child: Column(
-                                                              children: [
-                                                                Container(
-                                                                  // height: 200,
-                                                                  color: Colors
-                                                                      .white,
-                                                                  child: Image(
-                                                                    image: AssetImage(
-                                                                        service_image),
-                                                                    // fit: BoxFit.cover,
-                                                                  ),
-                                                                ),
-                                                                SizedBox(
-                                                                  height: 20,
-                                                                ),
-                                                                Padding(
-                                                                  padding: const EdgeInsets
-                                                                          .only(
-                                                                      right:
-                                                                          20),
-                                                                  child:
-                                                                      Container(
-                                                                    child: Row(
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .spaceBetween,
-                                                                      children: [
-                                                                        Container(
-                                                                          child:
-                                                                              Row(
-                                                                            children: [
-                                                                              SizedBox(
-                                                                                width: 10,
-                                                                              ),
-                                                                              RatingBarIndicator(
-                                                                                rating: agg_rating ?? 0.0,
-                                                                                itemBuilder: (context, index) => Icon(
-                                                                                  Icons.star,
-                                                                                  color: Colors.green,
-                                                                                ),
-                                                                                itemCount: 5,
-                                                                                itemSize: 15.0,
-                                                                                direction: Axis.horizontal,
-                                                                              ),
-                                                                              SizedBox(
-                                                                                width: 10,
-                                                                              ),
-                                                                              Text(
-                                                                                agg_rating.toStringAsPrecision(2),
-                                                                                style: TextStyle(fontSize: 16),
-                                                                              ),
-                                                                            ],
-                                                                          ),
-                                                                        ),
-                                                                        Container(
-                                                                          child:
-                                                                              Text(
-                                                                            '${providers[index].providerDetail.serviceLists[serviceListsIndex].name}',
-                                                                            style: TextStyle(
-                                                                                fontSize: 16,
-                                                                                fontWeight: FontWeight.w800,
-                                                                                fontFamily: 'Work Sans'),
-                                                                          ),
-                                                                        ),
-                                                                      ],
+                                                          child: Material(
+                                                            elevation: 10,
+                                                            child: Container(
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                border: Border.all(
+                                                                    color: Color(
+                                                                        0XFFF6F7F9)),
+                                                                shape: BoxShape
+                                                                    .circle,
+                                                                color: Color(
+                                                                    0XFFF6F7F9),
+                                                              ),
+                                                              child: Column(
+                                                                children: [
+                                                                  Container(
+                                                                    // height: 200,
+                                                                    color: Colors
+                                                                        .white,
+                                                                    child: Image(
+                                                                      image: AssetImage(
+                                                                          service_image),
+                                                                      // fit: BoxFit.cover,
                                                                     ),
                                                                   ),
-                                                                ),
-                                                                Container(
-                                                                  padding: EdgeInsets
-                                                                      .only(
-                                                                          left:
-                                                                              10,
-                                                                          bottom:
-                                                                              10,
-                                                                          top:
-                                                                              10),
-                                                                  child: Row(
-                                                                    children: [
-                                                                      Container(
-                                                                        decoration: BoxDecoration(
-                                                                            border:
-                                                                                Border.all(color: primaryColor),
-                                                                            shape: BoxShape.circle,
-                                                                            color: Colors.white),
-                                                                        child:
-                                                                            Container(
+                                                                  SizedBox(
+                                                                    height: 20,
+                                                                  ),
+                                                                  Padding(
+                                                                    padding: const EdgeInsets
+                                                                            .only(
+                                                                        right:
+                                                                            20),
+                                                                    child:
+                                                                        Container(
+                                                                      child: Row(
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment
+                                                                                .spaceBetween,
+                                                                        children: [
+                                                                          Container(
+                                                                            child:
+                                                                                Row(
+                                                                              children: [
+                                                                                SizedBox(
+                                                                                  width: 10,
+                                                                                ),
+                                                                                RatingBarIndicator(
+                                                                                  rating: agg_rating ?? 0.0,
+                                                                                  itemBuilder: (context, index) => Icon(
+                                                                                    Icons.star,
+                                                                                    color: Colors.green,
+                                                                                  ),
+                                                                                  itemCount: 5,
+                                                                                  itemSize: 15.0,
+                                                                                  direction: Axis.horizontal,
+                                                                                ),
+                                                                                SizedBox(
+                                                                                  width: 10,
+                                                                                ),
+                                                                                Text(
+                                                                                  agg_rating.toStringAsPrecision(2),
+                                                                                  style: TextStyle(fontSize: 16),
+                                                                                ),
+                                                                              ],
+                                                                            ),
+                                                                          ),
+                                                                          Container(
+                                                                            child:
+                                                                                Text(
+                                                                              '${providers[index].providerDetail.serviceLists[serviceListsIndex].name}',
+                                                                              style: TextStyle(
+                                                                                  fontSize: 16,
+                                                                                  fontWeight: FontWeight.w800,
+                                                                                  fontFamily: 'Work Sans'),
+                                                                            ),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  Container(
+                                                                    padding: EdgeInsets
+                                                                        .only(
+                                                                            left:
+                                                                                10,
+                                                                            bottom:
+                                                                                10,
+                                                                            top:
+                                                                                10),
+                                                                    child: Row(
+                                                                      children: [
+                                                                        Container(
                                                                           decoration: BoxDecoration(
-                                                                              border: Border.all(color: primaryColor),
+                                                                              border:
+                                                                                  Border.all(color: primaryColor),
                                                                               shape: BoxShape.circle,
                                                                               color: Colors.white),
                                                                           child:
-                                                                              ClipOval(
+                                                                              Container(
+                                                                            decoration: BoxDecoration(
+                                                                                border: Border.all(color: primaryColor),
+                                                                                shape: BoxShape.circle,
+                                                                                color: Colors.white),
                                                                             child:
-                                                                                Material(
-                                                                              color: Colors.transparent,
-                                                                              child: Ink.image(
-                                                                                image: AssetImage(male_default_profile_iamge),
-                                                                                fit: BoxFit.cover,
-                                                                                width: 30,
-                                                                                height: 30,
+                                                                                ClipOval(
+                                                                              child:
+                                                                                  Material(
+                                                                                color: Colors.transparent,
+                                                                                child: Ink.image(
+                                                                                  image: AssetImage(male_default_profile_iamge),
+                                                                                  fit: BoxFit.cover,
+                                                                                  width: 30,
+                                                                                  height: 30,
+                                                                                ),
                                                                               ),
                                                                             ),
                                                                           ),
                                                                         ),
-                                                                      ),
-                                                                      SizedBox(
-                                                                        width:
-                                                                            10,
-                                                                      ),
-                                                                      Container(
-                                                                        child:
-                                                                            Text(
-                                                                          providers[index]
-                                                                              .providerDetail
-                                                                              .name,
-                                                                          style: TextStyle(
-                                                                              fontFamily: 'Work Sans',
-                                                                              fontSize: 16,
-                                                                              fontWeight: FontWeight.w800),
+                                                                        SizedBox(
+                                                                          width:
+                                                                              10,
                                                                         ),
-                                                                      )
-                                                                    ],
+                                                                        Container(
+                                                                          child:
+                                                                              Text(
+                                                                            providers[index]
+                                                                                .providerDetail
+                                                                                .name,
+                                                                            style: TextStyle(
+                                                                                fontFamily: 'Work Sans',
+                                                                                fontSize: 16,
+                                                                                fontWeight: FontWeight.w800),
+                                                                          ),
+                                                                        )
+                                                                      ],
+                                                                    ),
                                                                   ),
-                                                                ),
-                                                              ],
+                                                                ],
+                                                              ),
                                                             ),
                                                           ),
                                                         ),
@@ -548,6 +550,7 @@ class _LaundryServiceDetailScreenState
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Card(
+                                          elevation:10,
                                                 child: InkWell(
                                                   onTap: () {
                                                     Navigator

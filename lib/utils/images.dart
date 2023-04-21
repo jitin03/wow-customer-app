@@ -93,3 +93,18 @@ const ic_car_services ='assets/icons/car-service.png';
 
 const ic_privacy='assets/icons/Shield Done.png';
 const ic_term_condition='assets/icons/Document.png';
+
+
+// ac & appliances service icons
+const ic_ac_window_clean='assets/icons/ac_window_clean.png';
+const ic_ac_split_clean='assets/icons/ac_clean.png';
+const ic_ac_repair='assets/icons/ac_repair.png';
+
+const default_ac_repair='assets/images/default_ac_repair.png';
+const default_ac_window='assets/images/default_ac_window.png';
+const default_ac_split='assets/images/default_ac_split.png';
+const default_ac_install_uninstall='assets/images/default_ac_install_uninstall.png';
+
+
+
+const IconData check_circle_rounded = IconData(0xf635, fontFamily: 'MaterialIcons');

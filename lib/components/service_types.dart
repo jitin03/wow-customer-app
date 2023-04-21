@@ -29,7 +29,7 @@ class ServiceTypes extends StatelessWidget {
               width: 120,
               height: 80,
               decoration: BoxDecoration(
-                  border: Border.all(color: Color(0XFFF6F7F9)),
+                  border: Border.all(color: Color(0XFFAFB3D3)),
                   shape: BoxShape.circle,
                   color: Color(0XFFF6F7F9),),
               child: Stack(

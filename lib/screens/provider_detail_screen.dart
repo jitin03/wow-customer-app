@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mistry_customer/provider/data_provider.dart';
-import 'package:mistry_customer/screens/booking_screen.dart';
-import 'package:mistry_customer/screens/dashboard_screen.dart';
 import 'package:mistry_customer/services/shared_service.dart';
 import 'package:mistry_customer/utils/config.dart';
 import 'package:mistry_customer/utils/images.dart';
@@ -12,10 +10,6 @@ import 'package:intl/intl.dart';
 import 'booking_steps.dart';
 
 class ProviderDetailScreen extends ConsumerStatefulWidget {
-  // final Object? providerName;
-  // final Object? serviceName;
-  //
-  // ProviderDetailScreen({this.providerName, this.serviceName});
 
   @override
   ConsumerState<ProviderDetailScreen> createState() =>
@@ -42,16 +36,11 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
   @override
   void initState() {
     super.initState();
-
-    // print("asdasd");
-    // print(widget.providerName);
-    // print("asdasd");
-    // print(widget.serviceName);
   }
 
   @override
   Widget build(BuildContext context) {
-    // final _data = ref.watch(providerDetailDataProvider(providerId));
+
     final _providerDetails = ref.watch(providerDetailsData(providerId!));
     return Scaffold(
       body: SafeArea(
@@ -59,8 +48,14 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
           child: Container(
             child: _providerDetails.when(
               data: (_data) {
-                print("test");
-                print(_data);
+
+                String default_image;
+                print(serviceName);
+                if(serviceName.contains("AC")){
+                  default_image = "assets/images/ac_services.png";
+                }else{
+                  default_image="assets/images/default_image.png";
+                }
                 var agg_rating = 0.0;
                 if (_providerDetails.value != null) {
                   var total_reviews =
@@ -89,6 +84,7 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
                     indexOfServiceName = 0;
                   }
                 }
+
                 return Container(
                   child: Column(
                     children: [
@@ -109,7 +105,7 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
                                       ),
                                       child: Image(
                                         image: AssetImage(
-                                            "assets/images/default_image.png"),
+                                            default_image),
                                       ),
                                     ),
                                     Container(
@@ -470,21 +466,63 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.start,
                                                   children: [
-                                                    Container(
-                                                      padding: EdgeInsets.only(
-                                                          left: 10),
-                                                      child: Text(
-                                                        _data
-                                                            .providerReviews[index]
-                                                            .customerProfile!
-                                                            .name!,
-                                                        style: TextStyle(
-                                                            fontFamily:
-                                                                'Work Sans',
-                                                            fontSize: 11,
-                                                            fontWeight:
-                                                                FontWeight.w500),
-                                                      ),
+                                                    Row(
+                                                      children: [
+                                                        Container(
+                                                          padding: EdgeInsets.only(
+                                                              left: 10),
+                                                          child: Text(
+                                                            _data
+                                                                .providerReviews[index]
+                                                                .customerProfile!
+                                                                .name!,
+                                                            style: TextStyle(
+                                                                fontFamily:
+                                                                    'Work Sans',
+                                                                fontSize: 11,
+                                                                fontWeight:
+                                                                    FontWeight.w500),
+                                                          ),
+                                                        ),
+                                                        Expanded(
+                                                          flex: 1,
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                            MainAxisAlignment.end,
+                                                            children: [
+                                                              RatingBarIndicator(
+                                                                rating: double.parse(_data!
+                                                                    .providerReviews[index]
+                                                                    .rating!),
+                                                                itemBuilder:
+                                                                    (context, index) =>
+                                                                    Icon(
+                                                                      Icons.star,
+                                                                      color: Colors.green,
+                                                                    ),
+                                                                itemCount: 5,
+                                                                itemSize: 15.0,
+                                                                direction: Axis.horizontal,
+                                                              ),
+                                                              SizedBox(
+                                                                width: 10,
+                                                              ),
+                                                              Text(
+                                                                _data!
+                                                                    .providerReviews[index]
+                                                                    .rating
+                                                                    .toString(),
+                                                                style: TextStyle(
+                                                                    fontSize: 15,
+                                                                    fontFamily: 'Work Sans',
+                                                                    color: Colors.green,
+                                                                    fontWeight:
+                                                                    FontWeight.w500),
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ],
                                                     ),
                                                     SizedBox(
                                                       height: 10,
@@ -519,44 +557,7 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
                                                 ),
                                               ),
                                             ),
-                                            Expanded(
-                                              flex: 1,
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.end,
-                                                children: [
-                                                  RatingBarIndicator(
-                                                    rating: double.parse(_data!
-                                                        .providerReviews[index]
-                                                        .rating!),
-                                                    itemBuilder:
-                                                        (context, index) =>
-                                                            Icon(
-                                                      Icons.star,
-                                                      color: Colors.green,
-                                                    ),
-                                                    itemCount: 5,
-                                                    itemSize: 15.0,
-                                                    direction: Axis.horizontal,
-                                                  ),
-                                                  SizedBox(
-                                                    width: 10,
-                                                  ),
-                                                  Text(
-                                                    _data!
-                                                        .providerReviews[index]
-                                                        .rating
-                                                        .toString(),
-                                                    style: TextStyle(
-                                                        fontSize: 15,
-                                                        fontFamily: 'Work Sans',
-                                                        color: Colors.green,
-                                                        fontWeight:
-                                                            FontWeight.w500),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
+
                                           ],
                                         ),
                                       );
