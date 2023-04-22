@@ -274,100 +274,7 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
                                           SizedBox(
                                             height: 20,
                                           ),
-                                          // Container(
-                                          //   child: Row(
-                                          //     children: [
-                                          //       Image.asset(
-                                          //         ic_message,
-                                          //         height: 15,
-                                          //         width: 15,
-                                          //         color: Color(0xFF6C757D),
-                                          //       ),
-                                          //       SizedBox(
-                                          //         width: 10,
-                                          //       ),
-                                          //       Text(
-                                          //         _data.providerDetails.email,
-                                          //         style: TextStyle(
-                                          //             fontFamily: 'Work Sans',
-                                          //             fontSize: 12,
-                                          //             fontWeight:
-                                          //                 FontWeight.w800),
-                                          //       )
-                                          //     ],
-                                          //   ),
-                                          // ),
-                                          // SizedBox(
-                                          //   height: 20,
-                                          // ),
-                                          // Container(
-                                          //   child: Row(
-                                          //     children: [
-                                          //       Image.asset(
-                                          //         ic_location,
-                                          //         height: 15,
-                                          //         width: 15,
-                                          //         color: Color(0xFF6C757D),
-                                          //       ),
-                                          //       SizedBox(
-                                          //         width: 10,
-                                          //       ),
-                                          //       Expanded(
-                                          //         child: Text(
-                                          //           _data
-                                          //                   .providerDetails
-                                          //                   .address[0]
-                                          //                   .address1 +
-                                          //               ' ' +
-                                          //               _data
-                                          //                   .providerDetails
-                                          //                   .address[0]
-                                          //                   .address2 +
-                                          //               ' ' +
-                                          //               _data.providerDetails
-                                          //                   .address[0].city +
-                                          //               ' ' +
-                                          //               _data.providerDetails
-                                          //                   .address[0].state +
-                                          //               ' ' +
-                                          //               _data.providerDetails
-                                          //                   .address[0].pincode,
-                                          //           style: TextStyle(
-                                          //               fontFamily: 'Work Sans',
-                                          //               fontSize: 12,
-                                          //               fontWeight:
-                                          //                   FontWeight.w800),
-                                          //         ),
-                                          //       )
-                                          //     ],
-                                          //   ),
-                                          // ),
-                                          // SizedBox(
-                                          //   height: 20,
-                                          // ),
-                                          // Container(
-                                          //   child: Row(
-                                          //     children: [
-                                          //       Image.asset(
-                                          //         calling,
-                                          //         height: 15,
-                                          //         width: 15,
-                                          //         color: Color(0xFF6C757D),
-                                          //       ),
-                                          //       SizedBox(
-                                          //         width: 10,
-                                          //       ),
-                                          //       Text(
-                                          //         "+91-${_data.providerDetails.phonenumber}",
-                                          //         style: TextStyle(
-                                          //             fontFamily: 'Work Sans',
-                                          //             fontSize: 12,
-                                          //             fontWeight:
-                                          //                 FontWeight.w800),
-                                          //       )
-                                          //     ],
-                                          //   ),
-                                          // )
+                                          
                                         ],
                                       ),
                                     ),
@@ -467,6 +374,8 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
                                                       MainAxisAlignment.start,
                                                   children: [
                                                     Row(
+                                                      mainAxisAlignment:
+                                                      MainAxisAlignment.spaceBetween,
                                                       children: [
                                                         Container(
                                                           padding: EdgeInsets.only(
@@ -484,43 +393,40 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
                                                                     FontWeight.w500),
                                                           ),
                                                         ),
-                                                        Expanded(
-                                                          flex: 1,
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                            MainAxisAlignment.end,
-                                                            children: [
-                                                              RatingBarIndicator(
-                                                                rating: double.parse(_data!
-                                                                    .providerReviews[index]
-                                                                    .rating!),
-                                                                itemBuilder:
-                                                                    (context, index) =>
-                                                                    Icon(
-                                                                      Icons.star,
-                                                                      color: Colors.green,
-                                                                    ),
-                                                                itemCount: 5,
-                                                                itemSize: 15.0,
-                                                                direction: Axis.horizontal,
-                                                              ),
-                                                              SizedBox(
-                                                                width: 10,
-                                                              ),
-                                                              Text(
-                                                                _data!
-                                                                    .providerReviews[index]
-                                                                    .rating
-                                                                    .toString(),
-                                                                style: TextStyle(
-                                                                    fontSize: 15,
-                                                                    fontFamily: 'Work Sans',
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                          MainAxisAlignment.end,
+                                                          children: [
+                                                            RatingBarIndicator(
+                                                              rating: double.parse(_data!
+                                                                  .providerReviews[index]
+                                                                  .rating!),
+                                                              itemBuilder:
+                                                                  (context, index) =>
+                                                                  Icon(
+                                                                    Icons.star,
                                                                     color: Colors.green,
-                                                                    fontWeight:
-                                                                    FontWeight.w500),
-                                                              )
-                                                            ],
-                                                          ),
+                                                                  ),
+                                                              itemCount: 5,
+                                                              itemSize: 15.0,
+                                                              direction: Axis.horizontal,
+                                                            ),
+                                                            SizedBox(
+                                                              width: 10,
+                                                            ),
+                                                            Text(
+                                                              _data!
+                                                                  .providerReviews[index]
+                                                                  .rating
+                                                                  .toString(),
+                                                              style: TextStyle(
+                                                                  fontSize: 15,
+                                                                  fontFamily: 'Work Sans',
+                                                                  color: Colors.green,
+                                                                  fontWeight:
+                                                                  FontWeight.w500),
+                                                            )
+                                                          ],
                                                         ),
                                                       ],
                                                     ),
@@ -544,13 +450,11 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
                                                     Container(
                                                       padding: EdgeInsets.only(
                                                           left: 10),
-                                                      child: Expanded(
-                                                        child: Text(
-                                                          _data
-                                                              .providerReviews[
-                                                                  index]
-                                                              .reviewMessage!,
-                                                        ),
+                                                      child: Text(
+                                                        _data
+                                                            .providerReviews[
+                                                                index]
+                                                            .reviewMessage!,
                                                       ),
                                                     )
                                                   ],

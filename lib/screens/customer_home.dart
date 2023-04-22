@@ -266,14 +266,11 @@ class _CustomerHomeFragmentState extends ConsumerState<CustomerHomeFragment> {
                         //   height: 10,
                         // ),
                         Container(
-                          // width: double.infinity,
-                          // margin: EdgeInsets.only(left: 40, right: 40),
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.white,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10.0)),
-// Background color
                             ),
                             onPressed: () {
                               Navigator.pushNamedAndRemoveUntil(
