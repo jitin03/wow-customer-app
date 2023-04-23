@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:mistry_customer/model/create_booking_order.dart';
 import 'package:mistry_customer/model/customer_review_request.dart';
 import 'package:mistry_customer/model/notification_response.dart';
 import 'package:mistry_customer/model/update_booking_request.dart';
-
 import 'package:mistry_customer/provider/data_provider.dart';
-
-import 'package:mistry_customer/services/shared_service.dart';
-
 import 'package:mistry_customer/utils/config.dart';
 import 'package:mistry_customer/utils/images.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+
 import '../api/cferrorresponse/cferrorresponse.dart';
 import '../api/cfpayment/cfdropcheckoutpayment.dart';
 import '../api/cfpaymentcomponents/cfpaymentcomponent.dart';
@@ -21,7 +17,6 @@ import '../api/cfpaymentgateway/cfpaymentgatewayservice.dart';
 import '../api/cfsession/cfsession.dart';
 import '../api/cftheme/cftheme.dart';
 import '../model/customer_booking_response.dart';
-import '../services/booking_service.dart';
 import '../utils/cfenums.dart';
 import '../utils/cfexceptions.dart';
 
@@ -601,92 +596,7 @@ class _GenerateBillScreenState
                                                   ),
                                                 ),
                                               ),
-                                              InkWell(
-                                                // payment gateway waiting
-                                                onTap: null,
-                                                //     () {
-                                                //   setState(() {
-                                                //     if (isSelect_UPIOnly ==
-                                                //         false) {
-                                                //       isSelect_UPIOnly =
-                                                //       true;
-                                                //       isSelect_OnlinePaymentSelected =
-                                                //       false;
-                                                //       isSelect_CashOnly =false;
-                                                //     }
-                                                //   });
-                                                // },
-                                                child: Container(
-                                                  margin:
-                                                  EdgeInsets.only(
-                                                      bottom: 10),
-                                                  decoration: BoxDecoration(
-                                                      borderRadius:
-                                                      BorderRadius
-                                                          .circular(
-                                                          20 /
-                                                              4),
-                                                      color: Colors.white,
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                            color: Colors
-                                                                .grey[
-                                                            200]!,
-                                                            blurRadius:
-                                                            5,
-                                                            spreadRadius:
-                                                            1)
-                                                      ]),
-                                                  child: ListTile(
-                                                    // leading: Radio<PaymentOptions>(
-                                                    //   value: PaymentOptions.Cash_only,
-                                                    //   groupValue: _character,
-                                                    //   onChanged: (PaymentOptions? value) {
-                                                    //     setState(() {
-                                                    //       _character = value;
-                                                    //     });
-                                                    //   },
-                                                    // ),
-                                                    title: Text(
-                                                      "Pay via UPI",
-                                                      style: TextStyle(
-                                                          fontFamily:
-                                                          'Work Sans',
-                                                          fontSize: 20,
-                                                          fontWeight:
-                                                          FontWeight
-                                                              .w500),
-                                                    ),
-                                                    subtitle: Text(
-                                                      'you pay after task is completed',
-                                                      maxLines: 1,
-                                                      overflow:
-                                                      TextOverflow
-                                                          .ellipsis,
-                                                      style: TextStyle(
-                                                        fontFamily:
-                                                        'Work Sans',
-                                                        color: Theme.of(
-                                                            context)
-                                                            .disabledColor,
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                        FontWeight
-                                                            .w500,
-                                                      ),
-                                                    ),
-                                                    trailing:
-                                                    isSelect_UPIOnly
-                                                        ? Icon(
-                                                      Icons
-                                                          .check_circle,
-                                                      color: Theme.of(context)
-                                                          .primaryColor,
-                                                    )
-                                                        : null,
-                                                  ),
-                                                ),
-                                              ),
+
                                               InkWell(
                                                 onTap: null,
                                                 //     () {
@@ -1295,207 +1205,205 @@ showReviewDialog(BuildContext context, String bookingId, WidgetRef ref,
       return Center(
         child: Material(
           type: MaterialType.transparency,
-          child: Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.white,
-              ),
-              // padding: EdgeInsets.all(15),
-              height: MediaQuery.of(context).size.height * 0.5,
-              width: MediaQuery.of(context).size.width * 0.7,
-              child: Column(
-                children: [
-                  Container(
-                    padding: EdgeInsets.only(left: 20, right: 10),
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.rectangle,
-                      color: primaryColor,
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(10),
-                          topRight: Radius.circular(10)),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Review",
-                          style: TextStyle(
-                              fontFamily: 'Work Sans',
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500),
-                        ),
-                        Container(
-                          alignment: FractionalOffset.topRight,
-                          child: IconButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            icon: const Icon(
-                              Icons.clear,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.white,
+            ),
+            // padding: EdgeInsets.all(15),
+            height: MediaQuery.of(context).size.height * 0.5,
+            width: MediaQuery.of(context).size.width * 0.7,
+            child: Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.only(left: 20, right: 10),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.rectangle,
+                    color: primaryColor,
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10),
+                        topRight: Radius.circular(10)),
                   ),
-                  Container(
-                    padding: EdgeInsets.all(20),
-                    child: Column(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Color(0XFFF6F7F9),
-                            border: Border.all(
-                              color: Color(0XFF6F7F9),
-                            ),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Row(
-                            children: [
-                              Container(
-                                padding: EdgeInsets.all(10),
-                                child: Text(
-                                  "Your Rating:",
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontFamily: 'Work Sans',
-                                      color: Color(0xff6C757D)),
-                                ),
-                              ),
-                              Expanded(
-                                child: FittedBox(
-                                  child: RatingBar(
-                                      initialRating: 0,
-                                      direction: Axis.horizontal,
-                                      allowHalfRating: true,
-                                      itemCount: 5,
-                                      itemSize: 5,
-                                      ratingWidget: RatingWidget(
-                                          full: const Icon(Icons.star,
-                                              color: Colors.orange),
-                                          half: const Icon(
-                                            Icons.star_half,
-                                            color: Colors.orange,
-                                          ),
-                                          empty: const Icon(
-                                            Icons.star_outline,
-                                            color: Colors.orange,
-                                          )),
-                                      onRatingUpdate: (value) {
-                                        print(value);
-                                        customerReviewRequest.rating =
-                                            value.toString();
-                                      }),
-                                ),
-                              ),
-                            ],
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Review",
+                        style: TextStyle(
+                            fontFamily: 'Work Sans',
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500),
+                      ),
+                      Container(
+                        alignment: FractionalOffset.topRight,
+                        child: IconButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          icon: const Icon(
+                            Icons.clear,
+                            color: Colors.white,
                           ),
                         ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Color(0XFFF6F7F9),
-                            border: Border.all(
-                              color: Color(0XFF6F7F9),
-                            ),
-                            borderRadius: BorderRadius.circular(10),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.all(20),
+                  child: Column(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Color(0XFFF6F7F9),
+                          border: Border.all(
+                            color: Color(0XFF6F7F9),
                           ),
-                          child: TextFormField(
-                            controller: _reviewMessage,
-                            maxLines: 3,
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Please provide your feedback';
-                              }
-                            },
-                            decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide: BorderSide(
-                                    width: 0,
-                                    style: BorderStyle.none,
-                                  ),
-                                ),
-                                hintStyle: TextStyle(
-                                    fontFamily: 'Work Sans',
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Row(
+                          children: [
+                            Container(
+                              padding: EdgeInsets.all(10),
+                              child: Text(
+                                "Your Rating:",
+                                style: TextStyle(
                                     fontSize: 14,
+                                    fontFamily: 'Work Sans',
                                     color: Color(0xff6C757D)),
-                                hintText: "Your Reviews (Optional)"),
-                          ),
+                              ),
+                            ),
+                            Expanded(
+                              child: FittedBox(
+                                child: RatingBar(
+                                    initialRating: 0,
+                                    direction: Axis.horizontal,
+                                    allowHalfRating: true,
+                                    itemCount: 5,
+                                    itemSize: 5,
+                                    ratingWidget: RatingWidget(
+                                        full: const Icon(Icons.star,
+                                            color: Colors.orange),
+                                        half: const Icon(
+                                          Icons.star_half,
+                                          color: Colors.orange,
+                                        ),
+                                        empty: const Icon(
+                                          Icons.star_outline,
+                                          color: Colors.orange,
+                                        )),
+                                    onRatingUpdate: (value) {
+                                      print(value);
+                                      customerReviewRequest.rating =
+                                          value.toString();
+                                    }),
+                              ),
+                            ),
+                          ],
                         ),
-                        Container(
-                          margin: EdgeInsets.only(top: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Color(0Xff5F60B9),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10.0)),
-                                  // Background color
-                                ),
-                                onPressed: () async {
-                                  customerReviewRequest.reviewMessage =
-                                      _reviewMessage.text! ?? "None";
-                                  customerReviewRequest.customerBookingId =
-                                      int.parse(bookingId);
-                                  customerReviewRequest.providerId = providerId;
-                                  customerReviewRequest.customerId = customerId;
-
-                                  print(customerReviewRequest.toJson());
-                                  var response = await ref
-                                      .read(reviewProvider)
-                                      .createCustomerReview(
-                                          customerReviewRequest);
-                                  if (response != null) {
-                                    Navigator.pushNamedAndRemoveUntil(
-                                      context,
-                                      '/dashboard',
-                                      (route) => false,
-                                    );
-                                  }
-                                },
-                                child: const Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Text(
-                                    "SUBMIT",
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                ),
-                              ),
-                              ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.white,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10.0)),
-                                  // Background color
-                                ),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: const Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Text(
-                                    "CANCEL",
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                ),
-                              ),
-                            ],
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Color(0XFFF6F7F9),
+                          border: Border.all(
+                            color: Color(0XFF6F7F9),
                           ),
-                        )
-                      ],
-                    ),
-                  )
-                ],
-              ),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: TextFormField(
+                          controller: _reviewMessage,
+                          maxLines: 3,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please provide your feedback';
+                            }
+                          },
+                          decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(
+                                  width: 0,
+                                  style: BorderStyle.none,
+                                ),
+                              ),
+                              hintStyle: TextStyle(
+                                  fontFamily: 'Work Sans',
+                                  fontSize: 14,
+                                  color: Color(0xff6C757D)),
+                              hintText: "Your Reviews (Optional)"),
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Color(0Xff5F60B9),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0)),
+                                // Background color
+                              ),
+                              onPressed: () async {
+                                customerReviewRequest.reviewMessage =
+                                    _reviewMessage.text! ?? "None";
+                                customerReviewRequest.customerBookingId =
+                                    int.parse(bookingId);
+                                customerReviewRequest.providerId = providerId;
+                                customerReviewRequest.customerId = customerId;
+
+                                print(customerReviewRequest.toJson());
+                                var response = await ref
+                                    .read(reviewProvider)
+                                    .createCustomerReview(
+                                    customerReviewRequest);
+                                if (response != null) {
+                                  Navigator.pushNamedAndRemoveUntil(
+                                    context,
+                                    '/dashboard',
+                                        (route) => false,
+                                  );
+                                }
+                              },
+                              child: const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Text(
+                                  "SUBMIT",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            ),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0)),
+                                // Background color
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Text(
+                                  "CANCEL",
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                )
+              ],
             ),
           ),
         ),

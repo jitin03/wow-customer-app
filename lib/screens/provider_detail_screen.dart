@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mistry_customer/components/accordion.dart';
 import 'package:mistry_customer/provider/data_provider.dart';
 import 'package:mistry_customer/services/shared_service.dart';
 import 'package:mistry_customer/utils/config.dart';
 import 'package:mistry_customer/utils/images.dart';
 import 'package:intl/intl.dart';
 
+import '../components/ac_cooling_service_data.dart';
+import '../components/ac_motor_service_data.dart';
 import 'booking_steps.dart';
 
 class ProviderDetailScreen extends ConsumerStatefulWidget {
-
   @override
   ConsumerState<ProviderDetailScreen> createState() =>
       _ProviderDetailScreenState();
@@ -40,7 +42,6 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     final _providerDetails = ref.watch(providerDetailsData(providerId!));
     return Scaffold(
       body: SafeArea(
@@ -48,13 +49,12 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
           child: Container(
             child: _providerDetails.when(
               data: (_data) {
-
                 String default_image;
                 print(serviceName);
-                if(serviceName.contains("AC")){
+                if (serviceName.contains("AC")) {
                   default_image = "assets/images/ac_services.png";
-                }else{
-                  default_image="assets/images/default_image.png";
+                } else {
+                  default_image = "assets/images/default_image.png";
                 }
                 var agg_rating = 0.0;
                 if (_providerDetails.value != null) {
@@ -104,8 +104,7 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       child: Image(
-                                        image: AssetImage(
-                                            default_image),
+                                        image: AssetImage(default_image),
                                       ),
                                     ),
                                     Container(
@@ -169,41 +168,53 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
                                               .length,
                                           itemBuilder: (context, index) {
                                             return Container(
-                                                margin: EdgeInsets.only(
-                                                    left: 10, right: 10),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Text(
-                                                      _data
-                                                          .providerDetails
-                                                          .serviceLists![
-                                                              indexOfServiceName]
-                                                          .subCategory![index]
-                                                          .name!,
+                                              margin: EdgeInsets.only(
+                                                  left: 10, right: 10),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    _data
+                                                        .providerDetails
+                                                        .serviceLists![
+                                                            indexOfServiceName]
+                                                        .subCategory![index]
+                                                        .name!,
+                                                    style: TextStyle(
+                                                        fontFamily: 'Work Sans',
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  ),
+                                                  Text(
+                                                      '\u{20B9} ${_data.providerDetails.serviceLists![indexOfServiceName].subCategory![index].price!}',
                                                       style: TextStyle(
                                                           fontFamily:
                                                               'Work Sans',
                                                           fontSize: 14,
                                                           fontWeight:
-                                                              FontWeight.w500),
-                                                    ),
-                                                    Text(
-                                                        '\u{20B9} ${_data.providerDetails.serviceLists![indexOfServiceName].subCategory![index].price!}',
-                                                        style: TextStyle(
-                                                            fontFamily:
-                                                                'Work Sans',
-                                                            fontSize: 14,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w500))
-                                                  ],
-                                                ));
+                                                              FontWeight.w500))
+                                                ],
+                                              ),
+                                            );
                                           },
                                         ),
-                                      )
+                                      ),
+                                      serviceName.contains("AC Repair")
+                                          ? Container(
+                                        margin: EdgeInsets.only(left: 10,top: 10),
+                                              child: InkWell(
+                                                onTap: () async {
+                                                  _bottomSheetMore(
+                                                      context, ref);
+                                                },
+                                                child: Text(
+                                                    "Other service details",style: TextStyle(color: primaryColor,fontFamily: 'Work Sans',fontWeight: FontWeight.w800),),
+                                              ),
+                                            )
+                                          : Container()
                                     ],
                                   ),
                                 ),
@@ -274,7 +285,6 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
                                           SizedBox(
                                             height: 20,
                                           ),
-                                          
                                         ],
                                       ),
                                     ),
@@ -375,14 +385,17 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
                                                   children: [
                                                     Row(
                                                       mainAxisAlignment:
-                                                      MainAxisAlignment.spaceBetween,
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
                                                       children: [
                                                         Container(
-                                                          padding: EdgeInsets.only(
-                                                              left: 10),
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  left: 10),
                                                           child: Text(
                                                             _data
-                                                                .providerReviews[index]
+                                                                .providerReviews[
+                                                                    index]
                                                                 .customerProfile!
                                                                 .name!,
                                                             style: TextStyle(
@@ -390,41 +403,52 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
                                                                     'Work Sans',
                                                                 fontSize: 11,
                                                                 fontWeight:
-                                                                    FontWeight.w500),
+                                                                    FontWeight
+                                                                        .w500),
                                                           ),
                                                         ),
                                                         Row(
                                                           mainAxisAlignment:
-                                                          MainAxisAlignment.end,
+                                                              MainAxisAlignment
+                                                                  .end,
                                                           children: [
                                                             RatingBarIndicator(
-                                                              rating: double.parse(_data!
-                                                                  .providerReviews[index]
-                                                                  .rating!),
+                                                              rating: double
+                                                                  .parse(_data!
+                                                                      .providerReviews[
+                                                                          index]
+                                                                      .rating!),
                                                               itemBuilder:
-                                                                  (context, index) =>
-                                                                  Icon(
-                                                                    Icons.star,
-                                                                    color: Colors.green,
-                                                                  ),
+                                                                  (context,
+                                                                          index) =>
+                                                                      Icon(
+                                                                Icons.star,
+                                                                color: Colors
+                                                                    .green,
+                                                              ),
                                                               itemCount: 5,
                                                               itemSize: 15.0,
-                                                              direction: Axis.horizontal,
+                                                              direction: Axis
+                                                                  .horizontal,
                                                             ),
                                                             SizedBox(
                                                               width: 10,
                                                             ),
                                                             Text(
                                                               _data!
-                                                                  .providerReviews[index]
+                                                                  .providerReviews[
+                                                                      index]
                                                                   .rating
                                                                   .toString(),
                                                               style: TextStyle(
                                                                   fontSize: 15,
-                                                                  fontFamily: 'Work Sans',
-                                                                  color: Colors.green,
+                                                                  fontFamily:
+                                                                      'Work Sans',
+                                                                  color: Colors
+                                                                      .green,
                                                                   fontWeight:
-                                                                  FontWeight.w500),
+                                                                      FontWeight
+                                                                          .w500),
                                                             )
                                                           ],
                                                         ),
@@ -438,8 +462,8 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
                                                           left: 10),
                                                       child: Text(DateFormat(
                                                               'dd MMM yyyy')
-                                                          .format(DateTime.parse(
-                                                              _data
+                                                          .format(DateTime
+                                                              .parse(_data
                                                                   .providerReviews[
                                                                       index]
                                                                   .createDate!))),
@@ -461,7 +485,6 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
                                                 ),
                                               ),
                                             ),
-
                                           ],
                                         ),
                                       );
@@ -490,17 +513,7 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
                                       onPressed: () async {
                                         var customerId =
                                             await SharedService.getCustomerId();
-                                        // print(customerId);
-                                        // Navigator.push(context,
-                                        //     MaterialPageRoute(
-                                        //         builder: (context) {
-                                        //   return BookingScreen(
-                                        //     serviceName: serviceName,
-                                        //     providerId:
-                                        //         _data.providerDetails.id,
-                                        //     customerId: customerId,
-                                        //   );
-                                        // }));
+
                                         Navigator.push(context,
                                             MaterialPageRoute(
                                                 builder: (context) {
@@ -561,41 +574,39 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text('Rating',
+                                          const Text('Rating',
                                               style: TextStyle(
                                                   fontSize: 14,
                                                   color: Color(0xff6C757D),
                                                   fontWeight: FontWeight.w800,
                                                   fontFamily: 'Work Sans')),
-                                          Container(
-                                            child: Row(
-                                              children: [
-                                                RatingBarIndicator(
-                                                  rating: agg_rating,
-                                                  itemBuilder:
-                                                      (context, index) => Icon(
-                                                    Icons.star,
-                                                    color: Colors.green,
-                                                  ),
-                                                  itemCount: 5,
-                                                  itemSize: 15.0,
-                                                  direction: Axis.horizontal,
+                                          Row(
+                                            children: [
+                                              RatingBarIndicator(
+                                                rating: agg_rating,
+                                                itemBuilder:
+                                                    (context, index) => Icon(
+                                                  Icons.star,
+                                                  color: Colors.green,
                                                 ),
-                                                SizedBox(
-                                                  width: 10,
-                                                ),
-                                                Text(
-                                                    agg_rating
-                                                        .toStringAsPrecision(2),
-                                                    style: TextStyle(
-                                                        fontSize: 14,
-                                                        color: Colors.green,
-                                                        fontWeight:
-                                                            FontWeight.w800,
-                                                        fontFamily:
-                                                            'Work Sans'))
-                                              ],
-                                            ),
+                                                itemCount: 5,
+                                                itemSize: 15.0,
+                                                direction: Axis.horizontal,
+                                              ),
+                                              SizedBox(
+                                                width: 10,
+                                              ),
+                                              Text(
+                                                  agg_rating
+                                                      .toStringAsPrecision(2),
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: Colors.green,
+                                                      fontWeight:
+                                                          FontWeight.w800,
+                                                      fontFamily:
+                                                          'Work Sans'))
+                                            ],
                                           ),
                                         ],
                                       )
@@ -621,4 +632,42 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
       ),
     );
   }
+}
+
+void _bottomSheetMore(BuildContext context, WidgetRef ref) {
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    enableDrag: true,
+    builder: (builder) {
+      return StatefulBuilder(builder: (context, setState) {
+        return Container(
+          height: MediaQuery.of(context).size.height * .5,
+          padding: const EdgeInsets.only(
+            left: 5.0,
+            right: 5.0,
+            top: 5.0,
+            bottom: 5.0,
+          ),
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(10.0),
+              topRight: Radius.circular(10.0),
+            ),
+          ),
+          child:
+          SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+                child: Column(
+                  children: const [
+                    Accordion(title: "Fan Motors", content: ACFanMotorServiceData()),
+                    Accordion(title: "Gas Charging", content: ACGasChargeServiceData()),
+                  ],
+                ),
+              ),
+        );
+      });
+    },
+  );
 }
