@@ -66,6 +66,7 @@ DateTime todayDate = DateTime(2022, 8, 24);
 const SADAD_API_URL = 'https://api-s.sadad.qa';
 const SADAD_PAY_URL = "https://d.sadad.qa";
 double defaultRadius = 8.0;
+const AC_REPAIR_CHARGES =280;
 
 const Map<String, Map<String, String>> WOW_SERVICES = {
   'service1': {

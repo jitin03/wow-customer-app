@@ -278,14 +278,15 @@ class _GenerateBillScreenState
                                   Container(
                                     child: Text(
                                       softWrap: true,
-                                      '(\u{20B9} ${_data[0].serviceLists![indexOfServiceName].subCategories![index].price.toString()!}*${_data[0].serviceLists![indexOfServiceName].subCategories![index].count})',
+                                      '(\u{20B9} ${_data[0].serviceLists![indexOfServiceName].subCategories![index].price.toString()!} * ${_data[0].serviceLists![indexOfServiceName].subCategories![index].count})',
                                       style: TextStyle(
-                                          fontWeight: FontWeight.w500,
+                                          fontWeight: FontWeight.w800,
                                           fontFamily: 'Work Sans',
-                                          color: Color(0Xff6C757D),
+                                          color: primaryColor,
                                           fontSize: 14),
                                     ),
                                   ),
+                                  SizedBox(width: 10,),
                                   Container(
                                     child: Text(
                                       softWrap: true,
@@ -362,6 +363,14 @@ class _GenerateBillScreenState
                                 Text("\u{20B9}00.00"),
                               ],
                             ),
+                            widget.serviceName.contains("AC Repair") ? Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
+                              children: const [
+                                Text("AC Repair Visiting Charge"),
+                                Text("\u{20B9} ${AC_REPAIR_CHARGES}"),
+                              ],
+                            ) : Container(),
                             const SizedBox(height: 8),
                             // Row(
                             //   mainAxisAlignment:
@@ -391,11 +400,11 @@ class _GenerateBillScreenState
                                       fontWeight: FontWeight.bold,
                                       color: Colors.black),
                                 ),
-                                // Text(
-                                //     "\u{20B9}${(double.parse(_data[0].grossAmount) + double.parse(_data[0].grossAmount) * 0.18).toStringAsFixed(2)}",
-                                //     style: const TextStyle(
-                                //         fontWeight: FontWeight.bold,
-                                //         color: primaryColor))
+                               widget.serviceName.contains("AC Repair") ? Text(
+                                    "\u{20B9}${(double.parse(_data[0].grossAmount) + AC_REPAIR_CHARGES).toStringAsFixed(2)}",
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: primaryColor)):
                                 Text(
                                     "\u{20B9}${(double.parse(_data[0].grossAmount!))}",
                                     style: const TextStyle(
