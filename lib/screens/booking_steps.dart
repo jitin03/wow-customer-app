@@ -9,6 +9,9 @@ import '../components/round_button_icon.dart';
 
 import '../model/booking_request.dart';
 import '../model/cart.dart';
+import '../model/customer_coupons_response.dart';
+import '../model/validate_wow_coupon_request.dart';
+import '../model/validate_wow_coupon_response.dart';
 import '../provider/cart_view_model.dart';
 import '../provider/data_provider.dart';
 import '../services/booking_service.dart';
@@ -27,6 +30,9 @@ class StepperDemo extends ConsumerStatefulWidget {
 }
 
 class _StepperDemoState extends ConsumerState<StepperDemo> {
+  int value = 0;
+  late int discountRate;
+  late String apply_coupon;
   String? providerId;
   String? customerId;
   String? serviceName;
@@ -113,6 +119,8 @@ class _StepperDemoState extends ConsumerState<StepperDemo> {
     serviceName = widget.serviceName;
     print(providerId);
     print(customerId);
+    discountRate = 0;
+    apply_coupon = "Apply Coupon";
   }
 
   @override
@@ -121,6 +129,8 @@ class _StepperDemoState extends ConsumerState<StepperDemo> {
     final format = DateFormat('dd-MM-yyyy HH:mma');
     String location = 'Null, Press Button';
     final _providerDetails = ref.watch(providerDetailsData(providerId!));
+    var customerCoupons =
+        ref.watch(providerCustomerCouponProvider(widget.serviceName!));
     var cartList = ref.watch(cartListProvider).list =
         (ref.watch(cartListProvider).list.length == 0)
             ? [
@@ -169,7 +179,6 @@ class _StepperDemoState extends ConsumerState<StepperDemo> {
             totalAmount = 0.0;
             cartList = [];
             Navigator.pop(context);
-
           },
         ),
         backgroundColor: primaryColor,
@@ -244,27 +253,29 @@ class _StepperDemoState extends ConsumerState<StepperDemo> {
                                 // details.onStepCancel!();
 
                                 bookingRequest.status = "New";
-                                bookingRequest.bookingTime = _scheduleController.text;
+                                bookingRequest.bookingTime =
+                                    _scheduleController.text;
                                 bookingRequest.customerId = customerId;
 
                                 //HACK AS OF NOW DUE TO PAYMENT GATEWAY UNAVAILABILITY
                                 bookingRequest.paymentMode = "CASH";
                                 bookingRequest.providerId = providerId;
-                                bookingRequest.bookingAddress = _locationController.text;
+                                bookingRequest.bookingAddress =
+                                    _locationController.text;
 
                                 bookingRequest.grossAmount =
                                     totalAmount.toStringAsFixed(2);
                                 bookingRequest.paymentStatus = "Pending";
 
                                 for (int index = 0;
-                                index <
-                                    _providerDetails
-                                        .value!
-                                        .providerDetails
-                                        .serviceLists![indexOfServiceName]
-                                        .subCategory!
-                                        .length;
-                                index++) {
+                                    index <
+                                        _providerDetails
+                                            .value!
+                                            .providerDetails
+                                            .serviceLists![indexOfServiceName]
+                                            .subCategory!
+                                            .length;
+                                    index++) {
                                   var subCategories = SubCategories();
                                   subCategories.name = _providerDetails
                                       .value!
@@ -293,27 +304,26 @@ class _StepperDemoState extends ConsumerState<StepperDemo> {
                                 print(bookingRequest.toJson());
                                 showConfirmBookDialog(context, () async {
                                   setState(() {
-                                    isApiCallProcess =true;
+                                    isApiCallProcess = true;
                                   });
                                   var resp = await ref
                                       .read(bookingServiceProvider)
                                       .saveBooking(bookingRequest);
                                   setState(() {
-                                    isApiCallProcess =false;
+                                    isApiCallProcess = false;
                                   });
                                   ref.invalidate(cartListProvider);
 
                                   totalAmount = 0.0;
                                   cartList = [];
-                                  if(resp !=null){
-                                    Navigator
-                                        .pushNamedAndRemoveUntil(
+                                  if (resp != null) {
+                                    Navigator.pushNamedAndRemoveUntil(
                                       context,
                                       '/bookings',
-                                          (route) => false,
+                                      (route) => false,
                                     );
                                   }
-                                },isApiCallProcess);
+                                }, isApiCallProcess);
                               },
                               child: const Text(
                                 'CONFIRM',
@@ -342,7 +352,6 @@ class _StepperDemoState extends ConsumerState<StepperDemo> {
                     if (_currentStep == 1) {
                       // TODO: add your custom action here
                       print('Custom action executed on last step');
-
                     } else {
                       if (isBookingDetailValid) {
                         continued();
@@ -606,13 +615,13 @@ class _StepperDemoState extends ConsumerState<StepperDemo> {
                                                 padding:
                                                     const EdgeInsets.all(5),
                                                 decoration: BoxDecoration(
-                                                    border: Border.all(
-                                                        color: primaryColor),
-                                                    shape: BoxShape.rectangle,
-                                                    borderRadius:
-                                                        const BorderRadius.all(
-                                                            Radius.circular(
-                                                                4))),
+                                                  color: Color(0XFFF6F7F9),
+                                                  border: Border.all(
+                                                    color: Color(0XFF6F7F9),
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                ),
                                                 child: ListView.separated(
                                                   scrollDirection:
                                                       Axis.vertical,
@@ -641,30 +650,6 @@ class _StepperDemoState extends ConsumerState<StepperDemo> {
                                                         .serviceLists![
                                                             indexOfServiceName]
                                                         .price;
-
-                                                    // if (!isEdit) {
-                                                    //   if (_data.billingResponse != null &&
-                                                    //       _data.billingResponse.isNotEmpty &&
-                                                    //       _data.billingResponse[0].serviceLists !=
-                                                    //           null &&
-                                                    //       _data.billingResponse[0].serviceLists
-                                                    //           .isNotEmpty) {
-                                                    //     var subCategories = _data.billingResponse[0]
-                                                    //         .serviceLists[0].subCategories;
-                                                    //     if (subCategories != null &&
-                                                    //         index < subCategories.length) {
-                                                    //       cartList[index].count = int.tryParse(
-                                                    //           subCategories[index].count) ??
-                                                    //           0;
-                                                    //       totalAmount = double.parse(_data
-                                                    //           .billingResponse![0].grossAmount);
-                                                    //     } else {
-                                                    //       cartList[index].count = 0;
-                                                    //     }
-                                                    //   } else {
-                                                    //     cartList[index].count = 0;
-                                                    //   }
-                                                    // }
 
                                                     return Align(
                                                       alignment:
@@ -813,88 +798,591 @@ class _StepperDemoState extends ConsumerState<StepperDemo> {
                                                           const Divider(),
                                                 ),
                                               ),
-                                              Container(
-                                                padding:
-                                                    const EdgeInsets.all(16),
-                                                margin: const EdgeInsets.only(
-                                                    top: 8),
-                                                decoration: BoxDecoration(
-                                                    border: Border.all(
-                                                        color: primaryColor),
-                                                    shape: BoxShape.rectangle,
-                                                    borderRadius:
-                                                        const BorderRadius.all(
-                                                            Radius.circular(
-                                                                4))),
-                                                child: Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  children: [
-                                                    Row(
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(height: 10,),
+                                        Align(
+                                          alignment: Alignment.topLeft,
+                                          child: Text(
+                                            "Price Details",
+                                            style: TextStyle(
+                                                fontFamily: 'Work Sans',
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                        ),
+                                        Container(
+                                          padding: const EdgeInsets.all(16),
+                                          margin: const EdgeInsets.only(top: 8),
+                                          decoration: BoxDecoration(
+                                            color: Color(0XFFF6F7F9),
+                                            border: Border.all(
+                                              color: Color(0XFF6F7F9),
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  // Text("Items (${cartList.length})"),
+                                                  // Text("\$${totalAmount.toStringAsFixed(2)}"),
+                                                ],
+                                              ),
+                                              const SizedBox(height: 8),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: const [
+                                                  Text("Shipping"),
+                                                  Text("\u{20B9}00.00"),
+                                                ],
+                                              ),
+                                              const Divider(
+                                                  color: primaryColor),
+
+                                              (discountRate != null)
+                                                  ? Row(
                                                       mainAxisAlignment:
                                                           MainAxisAlignment
                                                               .spaceBetween,
                                                       children: [
-                                                        Text("Items price"),
-                                                        Text(
-                                                          "\u{20B9}${(totalAmount).toStringAsFixed(2)}",
-                                                          style:
-                                                              const TextStyle(
+                                                        Row(
+                                                          children: [
+                                                            Text('Discount '),
+                                                            Text(
+                                                              '(${discountRate}% off)',
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .green,
+                                                                  fontFamily:
+                                                                      'Work Sans',
                                                                   fontWeight:
                                                                       FontWeight
-                                                                          .bold,
-                                                                  color: Colors
-                                                                      .blue),
-                                                        )
-                                                      ],
-                                                    ),
-                                                    const SizedBox(height: 8),
-                                                    // Row(
-                                                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                    //   children: const [
-                                                    //     Text("Shipping"),
-                                                    //     Text("\$40.00"),
-                                                    //   ],
-                                                    // ),
-                                                    const SizedBox(height: 8),
-                                                    // Row(
-                                                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                    //   children: [
-                                                    //     const Text("GST (18%)"),
-                                                    //     Text("\$${(totalAmount * 0.18).toStringAsFixed(2)}")
-                                                    //   ],
-                                                    // ),
-                                                    const SizedBox(height: 8),
-                                                    const Divider(
-                                                        color: primaryColor),
-                                                    const SizedBox(height: 8),
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        const Text(
-                                                          "Total Price",
-                                                          style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              color:
-                                                                  Colors.black),
+                                                                          .w600),
+                                                            ),
+                                                          ],
                                                         ),
                                                         Text(
-                                                            "\u{20B9}${(totalAmount).toStringAsFixed(2)}",
+                                                            "- \u{20B9}${(totalAmount * discountRate / 100).toStringAsFixed(2)}",
                                                             style: const TextStyle(
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .bold,
+                                                                fontFamily:
+                                                                    'Work Sans',
                                                                 color: Colors
-                                                                    .blue))
+                                                                    .green))
+                                                      ],
+                                                    )
+                                                  : Container(),
+                                              const Divider(
+                                                  color: primaryColor),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    "Coupon",
+                                                    style: TextStyle(
+                                                      fontFamily: 'Work Sans',
+                                                      fontSize: 14,
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        InkWell(
+                                                          onTap: () async {
+                                                            if (apply_coupon ==
+                                                                "Apply Coupon") {
+                                                              var customerCoupons =
+                                                                  ref.watch(
+                                                                      providerCustomerCouponProvider(
+                                                                          widget
+                                                                              .serviceName!));
+                                                              late TextEditingController
+                                                                  _wowCoupon =
+                                                                  TextEditingController();
+                                                              await showModalBottomSheet(
+                                                                context:
+                                                                    context,
+                                                                isScrollControlled:
+                                                                    true,
+                                                                enableDrag:
+                                                                    true,
+                                                                builder:
+                                                                    (BuildContext
+                                                                        builder) {
+                                                                  return StatefulBuilder(
+                                                                      builder:
+                                                                          (context,
+                                                                              setState) {
+                                                                    return Container(
+                                                                      width:
+                                                                          100,
+                                                                      height: MediaQuery.of(context)
+                                                                              .size
+                                                                              .height *
+                                                                          .8,
+                                                                      padding:
+                                                                          EdgeInsets
+                                                                              .only(
+                                                                        left:
+                                                                            5.0,
+                                                                        right:
+                                                                            5.0,
+                                                                        top:
+                                                                            5.0,
+                                                                        bottom:
+                                                                            5.0,
+                                                                      ),
+                                                                      decoration: new BoxDecoration(
+                                                                          color: Colors
+                                                                              .white,
+                                                                          borderRadius: new BorderRadius.only(
+                                                                              topLeft: const Radius.circular(10.0),
+                                                                              topRight: const Radius.circular(10.0))),
+                                                                      child: customerCoupons
+                                                                          .when(
+                                                                        data:
+                                                                            (_data) {
+                                                                          List<WowCustomerCoupons>
+                                                                              coupons =
+                                                                              _data.coupons;
+                                                                          List<WowCustomerCoupons>
+                                                                              referralCoupons =
+                                                                              _data.referralCoupons;
+
+                                                                          Set<WowCustomerCoupons>
+                                                                              uniqueCoupons =
+                                                                              Set<WowCustomerCoupons>.from(coupons);
+                                                                          for (WowCustomerCoupons referralCoupon
+                                                                              in referralCoupons) {
+                                                                            uniqueCoupons.add(referralCoupon);
+                                                                          }
+
+                                                                          coupons =
+                                                                              uniqueCoupons.toList();
+
+                                                                          return SingleChildScrollView(
+                                                                            child:
+                                                                                Container(
+                                                                              child: Column(
+                                                                                children: [
+                                                                                  Container(
+                                                                                    padding: EdgeInsets.only(left: 20, right: 10),
+                                                                                    width: double.infinity,
+                                                                                    decoration: BoxDecoration(
+                                                                                      shape: BoxShape.rectangle,
+                                                                                      color: primaryColor,
+                                                                                      borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+                                                                                    ),
+                                                                                    child: Row(
+                                                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                      children: [
+                                                                                        Text(
+                                                                                          "Coupons",
+                                                                                          style: TextStyle(fontFamily: 'Work Sans', color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
+                                                                                        ),
+                                                                                        Container(
+                                                                                          alignment: FractionalOffset.topRight,
+                                                                                          child: IconButton(
+                                                                                            onPressed: () {
+                                                                                              Navigator.pop(context);
+                                                                                            },
+                                                                                            icon: const Icon(
+                                                                                              Icons.clear,
+                                                                                              color: Colors.white,
+                                                                                            ),
+                                                                                          ),
+                                                                                        ),
+                                                                                      ],
+                                                                                    ),
+                                                                                  ),
+                                                                                  Container(
+                                                                                    padding: EdgeInsets.all(20),
+                                                                                    child: Column(
+                                                                                      children: [
+                                                                                        SizedBox(
+                                                                                          height: 10,
+                                                                                        ),
+                                                                                        Row(
+                                                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                                                                          children: [
+                                                                                            Expanded(
+                                                                                              child: Container(
+                                                                                                width: 100,
+                                                                                                decoration: BoxDecoration(
+                                                                                                  color: Color(0XFFF6F7F9),
+                                                                                                  border: Border.all(
+                                                                                                    color: Color(0XFF6F7F9),
+                                                                                                  ),
+                                                                                                  borderRadius: BorderRadius.circular(10),
+                                                                                                ),
+                                                                                                child: TextFormField(
+                                                                                                  controller: _wowCoupon,
+                                                                                                  validator: (value) {
+                                                                                                    if (value!.isEmpty) {
+                                                                                                      return 'Please enter coupon code';
+                                                                                                    }
+                                                                                                  },
+                                                                                                  onChanged: (value) {
+                                                                                                    setState(() {
+                                                                                                      // Trigger a rebuild when the text in _wowCoupon changes
+                                                                                                    });
+                                                                                                  },
+                                                                                                  textCapitalization: TextCapitalization.characters,
+                                                                                                  // Capitalize the text to uppercase
+                                                                                                  decoration: InputDecoration(
+                                                                                                    suffixIcon: IconButton(
+                                                                                                      onPressed: () {
+                                                                                                        setState(() {
+                                                                                                          _wowCoupon.clear(); // Clear the text in _wowCoupon controller
+                                                                                                        });
+                                                                                                      },
+                                                                                                      icon: Icon(Icons.clear),
+                                                                                                    ),
+                                                                                                    border: OutlineInputBorder(
+                                                                                                      borderRadius: BorderRadius.circular(8),
+                                                                                                      borderSide: BorderSide(
+                                                                                                        style: BorderStyle.none,
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                    hintStyle: TextStyle(
+                                                                                                      fontFamily: 'Work Sans',
+                                                                                                      fontSize: 14,
+                                                                                                      color: Color(0xff6C757D),
+                                                                                                    ),
+                                                                                                    hintText: "Enter Coupon Code",
+                                                                                                  ),
+                                                                                                ),
+                                                                                              ),
+                                                                                            ),
+                                                                                            Container(
+                                                                                              margin: EdgeInsets.all(5),
+                                                                                              child: ElevatedButton(
+                                                                                                style: ElevatedButton.styleFrom(
+                                                                                                  backgroundColor: Color(0Xff5F60B9),
+                                                                                                  shape: RoundedRectangleBorder(
+                                                                                                    borderRadius: BorderRadius.circular(10.0),
+                                                                                                  ),
+                                                                                                  // Background color
+                                                                                                ),
+                                                                                                onPressed: _wowCoupon.text != null && _wowCoupon.text.isNotEmpty // Check if _wowCoupon.text is not empty
+                                                                                                    ? () async {
+                                                                                                        ValidateCouponRequest couponRequest = ValidateCouponRequest();
+                                                                                                        couponRequest.couponCode = _wowCoupon.text;
+
+                                                                                                        try {
+                                                                                                          ValidateCouponResponse resp;
+                                                                                                          if (_wowCoupon.text.toUpperCase().startsWith("WOW")) {
+                                                                                                            resp = await ref.read(couponProvider).validateWowCoupon(_wowCoupon.text.toUpperCase(), widget.serviceName!);
+                                                                                                          } else {
+                                                                                                            resp = await ref.read(couponProvider).validateReferralCoupon(_wowCoupon.text.toUpperCase(), widget.serviceName!);
+                                                                                                          }
+
+                                                                                                          if (resp != null) {
+                                                                                                            print(resp);
+
+                                                                                                            WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {
+                                                                                                                  print("hello");
+                                                                                                                  print(discountRate);
+                                                                                                                  print(resp.message);
+                                                                                                                  print("hello");
+                                                                                                                  discountRate = resp.discountRate;
+                                                                                                                  apply_coupon = _wowCoupon.text.toUpperCase();
+                                                                                                                }));
+                                                                                                            setState(() {
+                                                                                                              print("hello");
+                                                                                                              print(discountRate);
+                                                                                                              print(resp.message);
+                                                                                                              print("hello");
+                                                                                                              discountRate = resp.discountRate;
+                                                                                                              // apply_coupon = "Applied";
+                                                                                                              apply_coupon = _wowCoupon.text.toUpperCase();
+                                                                                                            });
+
+                                                                                                            // Navigator.pop(context, resp);
+                                                                                                            Navigator.of(context).pop(resp);
+                                                                                                          }
+                                                                                                        } catch (e) {
+                                                                                                          ScaffoldMessenger.of(context).showSnackBar(
+                                                                                                            SnackBar(content: Text('${_wowCoupon.text} is invalid coupon')),
+                                                                                                          );
+                                                                                                          Navigator.of(context).pop();
+                                                                                                        }
+                                                                                                      }
+                                                                                                    : null,
+                                                                                                child: Padding(
+                                                                                                  padding: const EdgeInsets.all(15.0),
+                                                                                                  child: Text(
+                                                                                                    "APPLY",
+                                                                                                    style: TextStyle(
+                                                                                                      color: Colors.white,
+                                                                                                      fontSize: 16,
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                ),
+                                                                                              ),
+                                                                                            ),
+                                                                                          ],
+                                                                                        ),
+                                                                                        SizedBox(
+                                                                                          height: 10,
+                                                                                        ),
+                                                                                      ],
+                                                                                    ),
+                                                                                  ),
+                                                                                  Container(
+                                                                                    child: Column(
+                                                                                      mainAxisAlignment: MainAxisAlignment.start,
+                                                                                      children: [
+                                                                                        Align(
+                                                                                          alignment: Alignment.topLeft,
+                                                                                          child: Text(
+                                                                                            "Available Coupons",
+                                                                                            style: TextStyle(fontFamily: 'Work Sans', fontSize: 16),
+                                                                                          ),
+                                                                                        ),
+                                                                                        SizedBox(
+                                                                                          height: 10,
+                                                                                        ),
+                                                                                      ],
+                                                                                    ),
+                                                                                  ),
+                                                                                  coupons.length > 0
+                                                                                      ? Container(
+                                                                                          child: ListView.separated(
+                                                                                            physics: NeverScrollableScrollPhysics(),
+                                                                                            shrinkWrap: true,
+                                                                                            itemCount: coupons.length,
+                                                                                            itemBuilder: (context, index) {
+                                                                                              return Container(
+                                                                                                width: double.infinity,
+                                                                                                decoration: BoxDecoration(
+                                                                                                  color: Color(0XFFF6F7F9),
+                                                                                                  border: Border.all(
+                                                                                                    color: Color(0XFF6F7F9),
+                                                                                                  ),
+                                                                                                  borderRadius: BorderRadius.circular(10),
+                                                                                                ),
+                                                                                                child: Container(
+                                                                                                  width: double.infinity,
+                                                                                                  padding: EdgeInsets.all(20),
+                                                                                                  child: Column(
+                                                                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                                                                    children: [
+                                                                                                      Row(
+                                                                                                        children: [
+                                                                                                          Text(
+                                                                                                            "COUPON:",
+                                                                                                            style: TextStyle(fontFamily: 'Work Sans', color: primaryColor),
+                                                                                                          ),
+                                                                                                          SizedBox(
+                                                                                                            width: 10,
+                                                                                                          ),
+                                                                                                          Text(coupons![index].couponCode)
+                                                                                                        ],
+                                                                                                      ),
+                                                                                                      SizedBox(
+                                                                                                        height: 10,
+                                                                                                      ),
+                                                                                                      Text(
+                                                                                                        "Avail ${coupons[0].discountRate}% discount on total amount of your order",
+                                                                                                        style: TextStyle(fontFamily: 'Work Sans', fontSize: 14, color: Colors.green, fontWeight: FontWeight.w800),
+                                                                                                      ),
+                                                                                                      SizedBox(
+                                                                                                        height: 30,
+                                                                                                      ),
+                                                                                                      Row(
+                                                                                                        children: [
+                                                                                                          Text("Expiry Date: "),
+                                                                                                          Text(DateFormat('dd MMM yyyy').format(DateTime.parse(coupons[0].expiryTime)))
+                                                                                                        ],
+                                                                                                      ),
+                                                                                                    ],
+                                                                                                  ),
+                                                                                                ),
+                                                                                              );
+                                                                                            },
+                                                                                            separatorBuilder: (context, index) => SizedBox(
+                                                                                              height: 10,
+                                                                                            ),
+                                                                                          ),
+                                                                                        )
+                                                                                      : Container(
+                                                                                          width: double.infinity,
+                                                                                          decoration: BoxDecoration(
+                                                                                            color: Color(0XFFF6F7F9),
+                                                                                            border: Border.all(
+                                                                                              color: Color(0XFF6F7F9),
+                                                                                            ),
+                                                                                            borderRadius: BorderRadius.circular(10),
+                                                                                          ),
+                                                                                          child: Container(
+                                                                                            width: double.infinity,
+                                                                                            padding: EdgeInsets.all(20),
+                                                                                            child: Column(
+                                                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                                                              children: [
+                                                                                                Row(
+                                                                                                  children: [
+                                                                                                    Text(
+                                                                                                      "COUPON: ",
+                                                                                                      style: TextStyle(fontFamily: 'Work Sans', color: primaryColor),
+                                                                                                    ),
+                                                                                                    Text(
+                                                                                                      "No Coupon found for this service type ",
+                                                                                                      style: TextStyle(fontFamily: 'Work Sans', color: Colors.redAccent),
+                                                                                                    ),
+                                                                                                  ],
+                                                                                                ),
+                                                                                              ],
+                                                                                            ),
+                                                                                          ),
+                                                                                        )
+                                                                                ],
+                                                                              ),
+                                                                            ),
+                                                                          );
+                                                                        },
+                                                                        error: (err,
+                                                                                s) =>
+                                                                            Text(err.toString()),
+                                                                        loading:
+                                                                            () =>
+                                                                                Center(
+                                                                          child:
+                                                                              CircularProgressIndicator(),
+                                                                        ),
+                                                                      ),
+                                                                    );
+                                                                  });
+                                                                },
+                                                              );
+                                                              setState(() {});
+                                                            } else {
+                                                              setState(() {});
+                                                            }
+                                                          },
+                                                          child: Text(
+                                                            apply_coupon,
+                                                            style: TextStyle(
+                                                                fontFamily:
+                                                                    'Work Sans',
+                                                                fontSize: 14,
+                                                                color:
+                                                                    primaryColor,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w800),
+                                                          ),
+                                                        ),
+                                                        apply_coupon !=
+                                                                "Apply Coupon"
+                                                            ? Container(
+                                                                child: InkWell(
+                                                                onTap: () {
+                                                                  setState(() {
+                                                                    apply_coupon =
+                                                                        "Apply Coupon";
+                                                                    discountRate =
+                                                                        0;
+                                                                  });
+                                                                },
+                                                                child: Icon(
+                                                                  Icons.clear,
+                                                                ),
+                                                              ))
+                                                            : Container()
                                                       ],
                                                     ),
-                                                  ],
-                                                ),
+                                                  )
+                                                ],
                                               ),
+                                              widget.serviceName!
+                                                      .contains("AC Repair")
+                                                  ? Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: const [
+                                                        Text(
+                                                            "AC Repair Visiting Charge"),
+                                                        Text(
+                                                            "\u{20B9} ${AC_REPAIR_CHARGES}"),
+                                                      ],
+                                                    )
+                                                  : Container(),
+                                              const SizedBox(height: 8),
+                                              // Row(
+                                              //   mainAxisAlignment:
+                                              //       MainAxisAlignment.spaceBetween,
+                                              //   children: [
+                                              //     const Text("GST (18%)"),
+                                              //     Text(
+                                              //         "\u{20B9}${(double.parse(_data[0].grossAmount) * 0.18).toStringAsFixed(2)}",
+                                              //         style: const TextStyle(
+                                              //             fontWeight: FontWeight.bold,
+                                              //             color: primaryColor))
+                                              //
+                                              //     // Text("\u{20B9}${(totalAmount * 0.18).toStringAsFixed(2)}")
+                                              //   ],
+                                              // ),
+                                              const SizedBox(height: 8),
+                                              const Divider(
+                                                  color: primaryColor),
+                                              const SizedBox(height: 8),
+                                              const SizedBox(height: 8),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  const Text(
+                                                    "Total Amount",
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Colors.black),
+                                                  ),
+                                                  widget.serviceName!
+                                                          .contains("AC Repair")
+                                                      ? Text(
+                                                          "\u{20B9}${(double.parse(totalAmount.toStringAsFixed(2)) + AC_REPAIR_CHARGES - (totalAmount * discountRate / 100)).toStringAsFixed(2)}",
+                                                          style: const TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              color:
+                                                                  primaryColor))
+                                                      : Text(
+                                                          "\u{20B9}${double.parse(totalAmount.toStringAsFixed(2)) - (double.parse(totalAmount.toStringAsFixed(2)) * discountRate / 100)}",
+                                                          style: const TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              color:
+                                                                  primaryColor))
+                                                ],
+                                              ),
+                                              const SizedBox(height: 8),
                                             ],
                                           ),
                                         )

@@ -660,7 +660,30 @@ void _bottomSheetMore(BuildContext context, WidgetRef ref) {
           SingleChildScrollView(
             scrollDirection: Axis.vertical,
                 child: Column(
-                  children: const [
+                  children:  [
+                    Container(
+                      child: Align(
+                        alignment: Alignment.topRight,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Color(0Xff5F60B9),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0)),
+                            // Background color
+                          ),
+                          onPressed: () async {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text(
+                              "CLOSE",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                     Accordion(title: "Fan Motors", content: ACFanMotorServiceData()),
                     Accordion(title: "Gas Charging", content: ACGasChargeServiceData()),
                   ],

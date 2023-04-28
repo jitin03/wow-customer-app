@@ -5,8 +5,8 @@ import 'images.dart';
 class Config {
   static const String appName = "Wow!";
   // static const String apiURL = '127.0.0.1:8989'; //IOS
-  // static const String apiURL = '10.0.2.2:8989'; //ANDROID
-  static const String apiURL = 'a3992b62ac3fa47beb5687155c17e860-274100500.us-east-1.elb.amazonaws.com:80'; //AWS
+  static const String apiURL = '10.0.2.2:8989'; //ANDROID
+  // static const String apiURL = 'a3992b62ac3fa47beb5687155c17e860-274100500.us-east-1.elb.amazonaws.com:80'; //AWS
   static const loginAPI = "/api/v1/auth/login";
   static const registerAPI = "/api/v1/auth/signup";
   static const providerBookingAPI = "/api/v1/booking/provider";
@@ -19,6 +19,8 @@ class Config {
   static const verifyOtpAPI = "/api/v1/auth/verifyOtp/";
   static const reviewsEndPoint = '/api/v1/reviews';
   static const notificationEndPoint = '/api/v1/notifications';
+  static const couponsEndPoint = '/api/v1/coupons';
+  static const referralCouponsEndPoint = '/api/v1/referral/coupons';
 
   static const List<String> appBarTitles = [
     "Dashboard",
