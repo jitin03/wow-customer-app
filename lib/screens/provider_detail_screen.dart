@@ -1,22 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mistry_customer/components/accordion.dart';
 import 'package:mistry_customer/provider/data_provider.dart';
-import 'package:mistry_customer/screens/booking_screen.dart';
-import 'package:mistry_customer/screens/dashboard_screen.dart';
 import 'package:mistry_customer/services/shared_service.dart';
 import 'package:mistry_customer/utils/config.dart';
 import 'package:mistry_customer/utils/images.dart';
 import 'package:intl/intl.dart';
 
+import '../components/ac_cooling_service_data.dart';
+import '../components/ac_motor_service_data.dart';
 import 'booking_steps.dart';
 
 class ProviderDetailScreen extends ConsumerStatefulWidget {
-  // final Object? providerName;
-  // final Object? serviceName;
-  //
-  // ProviderDetailScreen({this.providerName, this.serviceName});
-
   @override
   ConsumerState<ProviderDetailScreen> createState() =>
       _ProviderDetailScreenState();
@@ -42,16 +38,10 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
   @override
   void initState() {
     super.initState();
-
-    // print("asdasd");
-    // print(widget.providerName);
-    // print("asdasd");
-    // print(widget.serviceName);
   }
 
   @override
   Widget build(BuildContext context) {
-    // final _data = ref.watch(providerDetailDataProvider(providerId));
     final _providerDetails = ref.watch(providerDetailsData(providerId!));
     return Scaffold(
       body: SafeArea(
@@ -59,8 +49,13 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
           child: Container(
             child: _providerDetails.when(
               data: (_data) {
-                print("test");
-                print(_data);
+                String default_image;
+                print(serviceName);
+                if (serviceName.contains("AC")) {
+                  default_image = "assets/images/ac_services.png";
+                } else {
+                  default_image = "assets/images/default_image.png";
+                }
                 var agg_rating = 0.0;
                 if (_providerDetails.value != null) {
                   var total_reviews =
@@ -89,6 +84,7 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
                     indexOfServiceName = 0;
                   }
                 }
+
                 return Container(
                   child: Column(
                     children: [
@@ -108,11 +104,9 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       child: Image(
-                                        image: AssetImage(
-                                            "assets/images/default_image.png"),
+                                        image: AssetImage(default_image),
                                       ),
                                     ),
-
                                     Container(
                                       margin:
                                           EdgeInsets.only(left: 10, top: 10),
@@ -162,7 +156,6 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
                                       SizedBox(
                                         height: 10,
                                       ),
-
                                       Container(
                                         child: ListView.builder(
                                           physics:
@@ -175,41 +168,53 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
                                               .length,
                                           itemBuilder: (context, index) {
                                             return Container(
-                                                margin: EdgeInsets.only(
-                                                    left: 10, right: 10),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Text(
-                                                      _data
-                                                          .providerDetails
-                                                          .serviceLists![
-                                                              indexOfServiceName]
-                                                          .subCategory![index]
-                                                          .name!,
+                                              margin: EdgeInsets.only(
+                                                  left: 10, right: 10),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    _data
+                                                        .providerDetails
+                                                        .serviceLists![
+                                                            indexOfServiceName]
+                                                        .subCategory![index]
+                                                        .name!,
+                                                    style: TextStyle(
+                                                        fontFamily: 'Work Sans',
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  ),
+                                                  Text(
+                                                      '\u{20B9} ${_data.providerDetails.serviceLists![indexOfServiceName].subCategory![index].price!}',
                                                       style: TextStyle(
                                                           fontFamily:
                                                               'Work Sans',
                                                           fontSize: 14,
                                                           fontWeight:
-                                                              FontWeight.w500),
-                                                    ),
-                                                    Text(
-                                                        '\u{20B9} ${_data.providerDetails.serviceLists![indexOfServiceName].subCategory![index].price!}',
-                                                        style: TextStyle(
-                                                            fontFamily:
-                                                                'Work Sans',
-                                                            fontSize: 14,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w500))
-                                                  ],
-                                                ));
+                                                              FontWeight.w500))
+                                                ],
+                                              ),
+                                            );
                                           },
                                         ),
-                                      )
+                                      ),
+                                      serviceName.contains("AC Repair")
+                                          ? Container(
+                                        margin: EdgeInsets.only(left: 10,top: 10),
+                                              child: InkWell(
+                                                onTap: () async {
+                                                  _bottomSheetMore(
+                                                      context, ref);
+                                                },
+                                                child: Text(
+                                                    "Other service details",style: TextStyle(color: primaryColor,fontFamily: 'Work Sans',fontWeight: FontWeight.w800),),
+                                              ),
+                                            )
+                                          : Container()
                                     ],
                                   ),
                                 ),
@@ -239,31 +244,23 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
                                                           color: primaryColor),
                                                       shape: BoxShape.circle,
                                                       color: Colors.white),
-                                                  child:  Container(
+                                                  child: Container(
                                                     decoration: BoxDecoration(
                                                         border: Border.all(
                                                             color:
-                                                            primaryColor),
-                                                        shape: BoxShape
-                                                            .circle,
-                                                        color: Colors
-                                                            .white),
-                                                    child:
-                                                    ClipOval(
-                                                      child:
-                                                      Material(
-                                                        color: Colors
-                                                            .transparent,
-                                                        child: Ink
-                                                            .image(
+                                                                primaryColor),
+                                                        shape: BoxShape.circle,
+                                                        color: Colors.white),
+                                                    child: ClipOval(
+                                                      child: Material(
+                                                        color:
+                                                            Colors.transparent,
+                                                        child: Ink.image(
                                                           image: AssetImage(
                                                               male_default_profile_iamge),
-                                                          fit: BoxFit
-                                                              .cover,
-                                                          width:
-                                                          30,
-                                                          height:
-                                                          30,
+                                                          fit: BoxFit.cover,
+                                                          width: 30,
+                                                          height: 30,
                                                         ),
                                                       ),
                                                     ),
@@ -288,100 +285,6 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
                                           SizedBox(
                                             height: 20,
                                           ),
-                                          // Container(
-                                          //   child: Row(
-                                          //     children: [
-                                          //       Image.asset(
-                                          //         ic_message,
-                                          //         height: 15,
-                                          //         width: 15,
-                                          //         color: Color(0xFF6C757D),
-                                          //       ),
-                                          //       SizedBox(
-                                          //         width: 10,
-                                          //       ),
-                                          //       Text(
-                                          //         _data.providerDetails.email,
-                                          //         style: TextStyle(
-                                          //             fontFamily: 'Work Sans',
-                                          //             fontSize: 12,
-                                          //             fontWeight:
-                                          //                 FontWeight.w800),
-                                          //       )
-                                          //     ],
-                                          //   ),
-                                          // ),
-                                          // SizedBox(
-                                          //   height: 20,
-                                          // ),
-                                          // Container(
-                                          //   child: Row(
-                                          //     children: [
-                                          //       Image.asset(
-                                          //         ic_location,
-                                          //         height: 15,
-                                          //         width: 15,
-                                          //         color: Color(0xFF6C757D),
-                                          //       ),
-                                          //       SizedBox(
-                                          //         width: 10,
-                                          //       ),
-                                          //       Expanded(
-                                          //         child: Text(
-                                          //           _data
-                                          //                   .providerDetails
-                                          //                   .address[0]
-                                          //                   .address1 +
-                                          //               ' ' +
-                                          //               _data
-                                          //                   .providerDetails
-                                          //                   .address[0]
-                                          //                   .address2 +
-                                          //               ' ' +
-                                          //               _data.providerDetails
-                                          //                   .address[0].city +
-                                          //               ' ' +
-                                          //               _data.providerDetails
-                                          //                   .address[0].state +
-                                          //               ' ' +
-                                          //               _data.providerDetails
-                                          //                   .address[0].pincode,
-                                          //           style: TextStyle(
-                                          //               fontFamily: 'Work Sans',
-                                          //               fontSize: 12,
-                                          //               fontWeight:
-                                          //                   FontWeight.w800),
-                                          //         ),
-                                          //       )
-                                          //     ],
-                                          //   ),
-                                          // ),
-                                          // SizedBox(
-                                          //   height: 20,
-                                          // ),
-                                          // Container(
-                                          //   child: Row(
-                                          //     children: [
-                                          //       Image.asset(
-                                          //         calling,
-                                          //         height: 15,
-                                          //         width: 15,
-                                          //         color: Color(0xFF6C757D),
-                                          //       ),
-                                          //       SizedBox(
-                                          //         width: 10,
-                                          //       ),
-                                          //       Text(
-                                          //         "+91-${_data.providerDetails.phonenumber}",
-                                          //         style: TextStyle(
-                                          //             fontFamily: 'Work Sans',
-                                          //             fontSize: 12,
-                                          //             fontWeight:
-                                          //                 FontWeight.w800),
-                                          //       )
-                                          //     ],
-                                          //   ),
-                                          // )
                                         ],
                                       ),
                                     ),
@@ -405,12 +308,13 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
                                       Container(
                                         margin: EdgeInsets.only(right: 20),
                                         child: InkWell(
-                                          onTap: (){
+                                          onTap: () {
                                             Navigator.pushNamedAndRemoveUntil(
                                               context,
                                               '/customer-reviews',
-                                              arguments: _data.providerDetails.id,
-                                                  (route) => true,
+                                              arguments:
+                                                  _data.providerDetails.id,
+                                              (route) => true,
                                             );
                                           },
                                           child: Text("View All"),
@@ -428,72 +332,127 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
                                         : _data.providerReviews.length,
                                     itemBuilder: (context, index) {
                                       return Container(
-                                          decoration: BoxDecoration(
-                                            color: Color(0XFFF6F7F9),
-                                            border: Border.all(
-                                              color: Color(0XFF6F7F9),
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(10),
+                                        decoration: BoxDecoration(
+                                          color: Color(0XFFF6F7F9),
+                                          border: Border.all(
+                                            color: Color(0XFF6F7F9),
                                           ),
-                                          margin: EdgeInsets.only(
-                                              left: 20, right: 20),
-                                          padding: EdgeInsets.only(
-                                              left: 10,
-                                              right: 10,
-                                              top: 10,
-                                              bottom: 10),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Container(
-                                                decoration: BoxDecoration(
-                                                    border: Border.all(
-                                                        color: primaryColor),
-                                                    shape: BoxShape.circle,
-                                                    color: Colors.white),
-                                                child: ClipOval(
-                                                  child: Material(
-                                                    color: Colors.transparent,
-                                                    child: Ink.image(
-                                                      image: AssetImage(
-                                                          male_default_profile_iamge),
-                                                      fit: BoxFit.cover,
-                                                      width: 30,
-                                                      height: 30,
-                                                    ),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                        margin: EdgeInsets.only(
+                                            left: 20, right: 20),
+                                        padding: EdgeInsets.only(
+                                            left: 10,
+                                            right: 10,
+                                            top: 10,
+                                            bottom: 10),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                      color: primaryColor),
+                                                  shape: BoxShape.circle,
+                                                  color: Colors.white),
+                                              child: ClipOval(
+                                                child: Material(
+                                                  color: Colors.transparent,
+                                                  child: Ink.image(
+                                                    image: AssetImage(
+                                                        male_default_profile_iamge),
+                                                    fit: BoxFit.cover,
+                                                    width: 30,
+                                                    height: 30,
                                                   ),
                                                 ),
                                               ),
-                                              SizedBox(
-                                                width: 10,
-                                              ),
-                                              Container(
+                                            ),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            Flexible(
+                                              child: Container(
                                                 child: Column(
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.start,
                                                   children: [
-                                                    Container(
-                                                      padding: EdgeInsets.only(
-                                                          left: 10),
-                                                      child: Text(
-                                                        _data
-                                                            .providerReviews[0]
-                                                            .customerProfile!
-                                                            .name!,
-                                                        style: TextStyle(
-                                                            fontFamily:
-                                                                'Work Sans',
-                                                            fontSize: 11,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w500),
-                                                      ),
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Container(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  left: 10),
+                                                          child: Text(
+                                                            _data
+                                                                .providerReviews[
+                                                                    index]
+                                                                .customerProfile!
+                                                                .name!,
+                                                            style: TextStyle(
+                                                                fontFamily:
+                                                                    'Work Sans',
+                                                                fontSize: 11,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500),
+                                                          ),
+                                                        ),
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .end,
+                                                          children: [
+                                                            RatingBarIndicator(
+                                                              rating: double
+                                                                  .parse(_data!
+                                                                      .providerReviews[
+                                                                          index]
+                                                                      .rating!),
+                                                              itemBuilder:
+                                                                  (context,
+                                                                          index) =>
+                                                                      Icon(
+                                                                Icons.star,
+                                                                color: Colors
+                                                                    .green,
+                                                              ),
+                                                              itemCount: 5,
+                                                              itemSize: 15.0,
+                                                              direction: Axis
+                                                                  .horizontal,
+                                                            ),
+                                                            SizedBox(
+                                                              width: 10,
+                                                            ),
+                                                            Text(
+                                                              _data!
+                                                                  .providerReviews[
+                                                                      index]
+                                                                  .rating
+                                                                  .toString(),
+                                                              style: TextStyle(
+                                                                  fontSize: 15,
+                                                                  fontFamily:
+                                                                      'Work Sans',
+                                                                  color: Colors
+                                                                      .green,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500),
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ],
                                                     ),
                                                     SizedBox(
                                                       height: 10,
@@ -520,61 +479,15 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
                                                             .providerReviews[
                                                                 index]
                                                             .reviewMessage!,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
                                                       ),
                                                     )
                                                   ],
                                                 ),
                                               ),
-                                              // SizedBox(
-                                              //   width: 10,
-                                              // ),
-                                              Expanded(
-                                                flex: 1,
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.end,
-                                                  children: [
-                                                    RatingBarIndicator(
-                                                      rating: double.parse(
-                                                          _data!
-                                                              .providerReviews[
-                                                                  index]
-                                                              .rating!),
-                                                      itemBuilder:
-                                                          (context, index) =>
-                                                              Icon(
-                                                        Icons.star,
-                                                        color: Colors.green,
-                                                      ),
-                                                      itemCount: 5,
-                                                      itemSize: 15.0,
-                                                      direction:
-                                                          Axis.horizontal,
-                                                    ),
-                                                    SizedBox(
-                                                      width: 10,
-                                                    ),
-                                                    Text(
-                                                      _data!
-                                                          .providerReviews[
-                                                              index]
-                                                          .rating
-                                                          .toString(),
-                                                      style: TextStyle(
-                                                          fontSize: 15,
-                                                          fontFamily:
-                                                              'Work Sans',
-                                                          color: Colors.green,
-                                                          fontWeight:
-                                                              FontWeight.w500),
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          ));
+                                            ),
+                                          ],
+                                        ),
+                                      );
                                     },
                                     separatorBuilder:
                                         (BuildContext context, int index) {
@@ -600,17 +513,7 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
                                       onPressed: () async {
                                         var customerId =
                                             await SharedService.getCustomerId();
-                                        // print(customerId);
-                                        // Navigator.push(context,
-                                        //     MaterialPageRoute(
-                                        //         builder: (context) {
-                                        //   return BookingScreen(
-                                        //     serviceName: serviceName,
-                                        //     providerId:
-                                        //         _data.providerDetails.id,
-                                        //     customerId: customerId,
-                                        //   );
-                                        // }));
+
                                         Navigator.push(context,
                                             MaterialPageRoute(
                                                 builder: (context) {
@@ -671,41 +574,39 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text('Rating',
+                                          const Text('Rating',
                                               style: TextStyle(
                                                   fontSize: 14,
                                                   color: Color(0xff6C757D),
                                                   fontWeight: FontWeight.w800,
                                                   fontFamily: 'Work Sans')),
-                                          Container(
-                                            child: Row(
-                                              children: [
-                                                RatingBarIndicator(
-                                                  rating: agg_rating,
-                                                  itemBuilder:
-                                                      (context, index) => Icon(
-                                                    Icons.star,
-                                                    color: Colors.green,
-                                                  ),
-                                                  itemCount: 5,
-                                                  itemSize: 15.0,
-                                                  direction: Axis.horizontal,
+                                          Row(
+                                            children: [
+                                              RatingBarIndicator(
+                                                rating: agg_rating,
+                                                itemBuilder:
+                                                    (context, index) => Icon(
+                                                  Icons.star,
+                                                  color: Colors.green,
                                                 ),
-                                                SizedBox(
-                                                  width: 10,
-                                                ),
-                                                Text(
-                                                    agg_rating
-                                                        .toStringAsPrecision(2),
-                                                    style: TextStyle(
-                                                        fontSize: 14,
-                                                        color: Colors.green,
-                                                        fontWeight:
-                                                            FontWeight.w800,
-                                                        fontFamily:
-                                                            'Work Sans'))
-                                              ],
-                                            ),
+                                                itemCount: 5,
+                                                itemSize: 15.0,
+                                                direction: Axis.horizontal,
+                                              ),
+                                              SizedBox(
+                                                width: 10,
+                                              ),
+                                              Text(
+                                                  agg_rating
+                                                      .toStringAsPrecision(2),
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: Colors.green,
+                                                      fontWeight:
+                                                          FontWeight.w800,
+                                                      fontFamily:
+                                                          'Work Sans'))
+                                            ],
                                           ),
                                         ],
                                       )
@@ -731,4 +632,65 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
       ),
     );
   }
+}
+
+void _bottomSheetMore(BuildContext context, WidgetRef ref) {
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    enableDrag: true,
+    builder: (builder) {
+      return StatefulBuilder(builder: (context, setState) {
+        return Container(
+          height: MediaQuery.of(context).size.height * .5,
+          padding: const EdgeInsets.only(
+            left: 5.0,
+            right: 5.0,
+            top: 5.0,
+            bottom: 5.0,
+          ),
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(10.0),
+              topRight: Radius.circular(10.0),
+            ),
+          ),
+          child:
+          SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+                child: Column(
+                  children:  [
+                    Container(
+                      child: Align(
+                        alignment: Alignment.topRight,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Color(0Xff5F60B9),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0)),
+                            // Background color
+                          ),
+                          onPressed: () async {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text(
+                              "CLOSE",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Accordion(title: "Fan Motors", content: ACFanMotorServiceData()),
+                    Accordion(title: "Gas Charging", content: ACGasChargeServiceData()),
+                  ],
+                ),
+              ),
+        );
+      });
+    },
+  );
 }

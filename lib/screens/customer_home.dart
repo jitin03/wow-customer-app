@@ -2,11 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mistry_customer/components/slider_screen.dart';
 import 'package:mistry_customer/provider/data_provider.dart';
-import 'package:mistry_customer/screens/dashboard_screen.dart';
-import 'package:mistry_customer/screens/vehicle_service_detail_screen.dart';
 import 'package:mistry_customer/utils/config.dart';
-import 'package:mistry_customer/utils/images.dart';
-
 import '../services/shared_service.dart';
 
 class CustomerHomeFragment extends ConsumerStatefulWidget {
@@ -18,12 +14,13 @@ class CustomerHomeFragment extends ConsumerStatefulWidget {
 }
 
 class _CustomerHomeFragmentState extends ConsumerState<CustomerHomeFragment> {
-   var isLoggedIn;
+  var isLoggedIn;
   @override
   void initState() {
     super.initState();
     initializeLoginStatus();
   }
+
   Future<void> initializeLoginStatus() async {
     bool loginStatus = await whereToGo();
     setState(() {
@@ -33,7 +30,7 @@ class _CustomerHomeFragmentState extends ConsumerState<CustomerHomeFragment> {
 
   @override
   Widget build(BuildContext context) {
-    if ( isLoggedIn!=null &&!isLoggedIn) {
+    if (isLoggedIn != null && !isLoggedIn) {
       return Stack(
         children: [
           Container(
@@ -44,71 +41,54 @@ class _CustomerHomeFragmentState extends ConsumerState<CustomerHomeFragment> {
                     children: [
                       SliderScreen(),
                       Container(
-                        child: Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: Column(
-                            children: [
-                              Container(
-                                width: double.infinity,
-                                child: Row(
-                                  children: [Text("Services")],
-                                ),
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              Row(
-                                children: [
-                                  Expanded(
-                                      child: InkWell(
-                                    onTap: () {
-                                      ref.invalidate(
-                                          categoryProvidersListDataProvider);
-                                      Navigator.pushNamedAndRemoveUntil(
-                                        context,
-                                        '/laundry-service',
-                                        arguments: "All-Laundry",
-                                        (route) => true,
-                                      );
-                                    },
-                                    child: ClipRect(
-                                      child: ServiceWidget(
-                                        iconName:
-                                            "assets/icons/ic_laundry_service.png",
-                                        serviceName: "Laundry",
-                                        icon_color: primaryColor,
-                                      ),
-                                    ),
-                                  )),
-                                  Expanded(
-                                    child: InkWell(
-                                      onTap: () {
-                                        ref.invalidate(
-                                            categoryProvidersListDataProvider);
-                                        Navigator.pushNamedAndRemoveUntil(
-                                          context,
-                                          '/vehicle-service',
-                                          arguments: "All-Vehicles",
-                                          (route) => true,
-                                        );
-                                      },
-                                      child: ClipRect(
-                                        child: ServiceWidget(
-                                          iconName:
-                                              "assets/icons/ic_car_services.png",
-                                          serviceName: "Vehicle Service",
-                                          icon_color: primaryColor,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
+                        child: Column(
+                          children: [
+                            SizedBox(height: 20,),
+                            Container(
+                              width: double.infinity,
+                              child: Row(
+                                children: const [
+
+                                  Text(
+                                    "Services",
+                                    style: TextStyle(
+                                        fontFamily: 'Work Sans',
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w800),
+                                  )
                                 ],
                               ),
-                              SizedBox(
-                                height: 30,
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Container(
+                              child: Container(
+                                height: 120,
+                                child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: WOW_SERVICES.length,
+                                  itemBuilder: (context, index) {
+                                    String serviceKey =
+                                        WOW_SERVICES.keys.elementAt(index);
+                                    Map<String, String> service =
+                                        WOW_SERVICES[serviceKey]!;
+                                    return ServiceWidget(
+                                      iconName: service!['serviceIcon'],
+                                      serviceName: service!['serviceName'],
+                                      icon_color: primaryColor,
+                                      routeArg: service['routeArgument'],
+                                      routePath: service['servicePath'],
+                                    );
+                                  },
+                                ),
                               ),
-                            ],
-                          ),
+                            )
+                           ,
+                            SizedBox(
+                              height: 30,
+                            ),
+                          ],
                         ),
                       ),
                     ],
@@ -125,7 +105,7 @@ class _CustomerHomeFragmentState extends ConsumerState<CustomerHomeFragment> {
               decoration: BoxDecoration(
                   color: primaryColor,
                   border: Border.all(color: primaryColor),
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                       topRight: Radius.circular(20),
                       topLeft: Radius.circular(20))),
               child: Container(
@@ -133,13 +113,13 @@ class _CustomerHomeFragmentState extends ConsumerState<CustomerHomeFragment> {
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   children: [
-                    ClipRect(
+                    const ClipRect(
                       child: Text(
                         "Don't find your service? Don't worry,",
                         style: TextStyle(color: Colors.white, fontSize: 18),
                       ),
                     ),
-                    ClipRect(
+                    const ClipRect(
                       child: Text(
                         " You can share your service request",
                         style: TextStyle(color: Colors.white, fontSize: 18),
@@ -163,12 +143,12 @@ class _CustomerHomeFragmentState extends ConsumerState<CustomerHomeFragment> {
                             context,
                             '/suggestion',
                             arguments: "anonymous",
-                                (route) => true,
+                            (route) => true,
                           );
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
+                          children: const [
                             Icon(
                               Icons.add,
                             ),
@@ -215,57 +195,33 @@ class _CustomerHomeFragmentState extends ConsumerState<CustomerHomeFragment> {
                                       children: [Text("Services")],
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 20,
                                   ),
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                          child: InkWell(
-                                        onTap: () {
-                                          ref.invalidate(
-                                              categoryProvidersListDataProvider);
-                                          Navigator.pushNamedAndRemoveUntil(
-                                            context,
-                                            '/laundry-service',
-                                            arguments: "All-Laundry",
-                                            (route) => true,
+                                  Container(
+                                    child: Container(
+                                      height: 230,
+                                      child: ListView.builder(
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount: WOW_SERVICES.length,
+                                        itemBuilder: (context, index) {
+                                          String serviceKey = WOW_SERVICES.keys
+                                              .elementAt(index);
+                                          Map<String, String> service =
+                                              WOW_SERVICES[serviceKey]!;
+                                          return ServiceWidget(
+                                            iconName: service!['serviceIcon'],
+                                            serviceName:
+                                                service!['serviceName'],
+                                            icon_color: primaryColor,
+                                            routeArg: service['routeArgument'],
+                                            routePath: service['servicePath'],
                                           );
                                         },
-                                        child: ClipRect(
-                                          child: ServiceWidget(
-                                            iconName:
-                                                "assets/icons/ic_laundry_service.png",
-                                            serviceName: "Laundry",
-                                            icon_color: primaryColor,
-                                          ),
-                                        ),
-                                      )),
-                                      Expanded(
-                                        child: InkWell(
-                                          onTap: () {
-                                            ref.invalidate(
-                                                categoryProvidersListDataProvider);
-                                            Navigator.pushNamedAndRemoveUntil(
-                                              context,
-                                              '/vehicle-service',
-                                              arguments: "All-Vehicles",
-                                              (route) => true,
-                                            );
-                                          },
-                                          child: ClipRect(
-                                            child: ServiceWidget(
-                                              iconName:
-                                                  "assets/icons/ic_car_services.png",
-                                              serviceName: "Vehicle Service",
-                                              icon_color: primaryColor,
-                                            ),
-                                          ),
-                                        ),
                                       ),
-                                    ],
+                                    ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 30,
                                   ),
                                 ],
@@ -286,7 +242,7 @@ class _CustomerHomeFragmentState extends ConsumerState<CustomerHomeFragment> {
                   decoration: BoxDecoration(
                       color: primaryColor,
                       border: Border.all(color: primaryColor),
-                      borderRadius: BorderRadius.only(
+                      borderRadius: const BorderRadius.only(
                           topRight: Radius.circular(20),
                           topLeft: Radius.circular(20))),
                   child: Container(
@@ -294,13 +250,13 @@ class _CustomerHomeFragmentState extends ConsumerState<CustomerHomeFragment> {
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
                       children: [
-                        ClipRect(
+                        const ClipRect(
                           child: Text(
                             "Don't find your service? Don't worry,",
                             style: TextStyle(color: Colors.white, fontSize: 18),
                           ),
                         ),
-                        ClipRect(
+                        const ClipRect(
                           child: Text(
                             " You can share your service request",
                             style: TextStyle(color: Colors.white, fontSize: 18),
@@ -310,14 +266,11 @@ class _CustomerHomeFragmentState extends ConsumerState<CustomerHomeFragment> {
                         //   height: 10,
                         // ),
                         Container(
-                          // width: double.infinity,
-                          // margin: EdgeInsets.only(left: 40, right: 40),
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.white,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10.0)),
-// Background color
                             ),
                             onPressed: () {
                               Navigator.pushNamedAndRemoveUntil(
@@ -329,7 +282,7 @@ class _CustomerHomeFragmentState extends ConsumerState<CustomerHomeFragment> {
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
+                              children: const [
                                 Icon(
                                   Icons.add,
                                 ),
@@ -354,7 +307,7 @@ class _CustomerHomeFragmentState extends ConsumerState<CustomerHomeFragment> {
           );
         },
         error: (err, s) => Text(err.toString()),
-        loading: () => Center(
+        loading: () => const Center(
           child: CircularProgressIndicator(),
         ),
       );
@@ -362,55 +315,67 @@ class _CustomerHomeFragmentState extends ConsumerState<CustomerHomeFragment> {
   }
 }
 
-class ServiceWidget extends StatelessWidget {
-  String iconName;
-  String serviceName;
-  Color icon_color;
-  ServiceWidget({
-    required this.iconName,
-    required this.serviceName,
-    required this.icon_color,
-  });
+class ServiceWidget extends ConsumerWidget {
+  String? iconName;
+  String? serviceName;
+  Color? icon_color;
+  String? routeArg;
+  String? routePath;
+  ServiceWidget(
+      {required this.iconName,
+      required this.serviceName,
+      required this.icon_color,
+      required this.routeArg,
+      required this.routePath});
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    ImageProvider<Object> image;
+
+    image = AssetImage(iconName!);
     return Container(
-      decoration: BoxDecoration(
-          border: Border.all(color: Color(0XFFEBEBEB)),
-          borderRadius: BorderRadius.circular(5)),
       child: Column(
         children: [
-          Container(
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: Colors.white,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: ImageIcon(
-                AssetImage(iconName),
-                color: icon_color,
-                size: 50,
+          InkWell(
+            onTap: () {
+              ref.invalidate(categoryProvidersListDataProvider);
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                routePath!,
+                arguments: routeArg,
+                (route) => true,
+              );
+            },
+            child: Container(
+              width: 120,
+              height: 80,
+              decoration: BoxDecoration(
+                border: Border.all(color: Color(0XFFAFB3D3)),
+                shape: BoxShape.circle,
+                color: Color(0XFFF6F7F9),
+              ),
+              child: Stack(
+                children: [
+                  Align(
+                    alignment: Alignment.center,
+                    child: ImageIcon(
+                      AssetImage(iconName!),
+                      size: 50,
+                      color: primaryColor,
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
-          Container(
-            decoration: BoxDecoration(),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-              child: Text(
-                serviceName,
-                style: TextStyle(color: Color(0XFF1C1F34), fontSize: 12),
-              ),
-            ),
+          SizedBox(
+            height: 10,
           ),
+          Text(serviceName!),
         ],
       ),
-      margin: EdgeInsets.all(10),
     );
   }
 }
-
-
 
 Future<bool> whereToGo() async {
   var isLoggedIn = await SharedService.isLoggedIn();

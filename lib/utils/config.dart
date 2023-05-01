@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
+import 'images.dart';
+
 class Config {
   static const String appName = "Wow!";
   // static const String apiURL = '127.0.0.1:8989'; //IOS
-  // static const String apiURL = '10.0.2.2:8989'; //ANDROID
-  static const String apiURL = 'a3992b62ac3fa47beb5687155c17e860-274100500.us-east-1.elb.amazonaws.com:80'; //AWS
+  static const String apiURL = '10.0.2.2:8989'; //ANDROID
+  // static const String apiURL = 'a3992b62ac3fa47beb5687155c17e860-274100500.us-east-1.elb.amazonaws.com:80'; //AWS
   static const loginAPI = "/api/v1/auth/login";
   static const registerAPI = "/api/v1/auth/signup";
   static const providerBookingAPI = "/api/v1/booking/provider";
@@ -15,9 +17,10 @@ class Config {
   static const customerProfileAPI = '/api/v1/customers';
   static const requestOtpAPI = "/api/v1/auth/requestOtp";
   static const verifyOtpAPI = "/api/v1/auth/verifyOtp/";
-  static const reviewsEndPoint='/api/v1/reviews';
-  static const notificationEndPoint='/api/v1/notifications';
-
+  static const reviewsEndPoint = '/api/v1/reviews';
+  static const notificationEndPoint = '/api/v1/notifications';
+  static const couponsEndPoint = '/api/v1/coupons';
+  static const referralCouponsEndPoint = '/api/v1/referral/coupons';
 
   static const List<String> appBarTitles = [
     "Dashboard",
@@ -65,3 +68,25 @@ DateTime todayDate = DateTime(2022, 8, 24);
 const SADAD_API_URL = 'https://api-s.sadad.qa';
 const SADAD_PAY_URL = "https://d.sadad.qa";
 double defaultRadius = 8.0;
+const AC_REPAIR_CHARGES =280;
+
+const Map<String, Map<String, String>> WOW_SERVICES = {
+  'service1': {
+    'serviceIcon': 'assets/icons/ic_laundry_service.png',
+    'servicePath': '/laundry-service',
+    'routeArgument': 'All-Laundry',
+    'serviceName': 'Laundry'
+  },
+  'service2': {
+    'serviceIcon': ic_ac_repair,
+    'servicePath': '/appliances-service',
+    'routeArgument': 'All-Appliances',
+    'serviceName': 'AC Services'
+  },
+  'service3': {
+    'serviceIcon': 'assets/icons/ic_car_services.png',
+    'servicePath': '/vehicle-service',
+    'routeArgument': 'All-Vehicles',
+    'serviceName': 'Vehicle Service'
+  },
+};

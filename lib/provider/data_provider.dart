@@ -15,14 +15,17 @@ import 'package:mistry_customer/model/provider_detail_response.dart';
 import 'package:mistry_customer/model/request_otp_response.dart';
 import 'package:mistry_customer/model/update_booking_status.dart';
 import 'package:mistry_customer/model/user_model.dart';
+import 'package:mistry_customer/model/validate_wow_coupon_response.dart';
 import 'package:mistry_customer/services/auth_service.dart';
 import 'package:mistry_customer/services/booking_service.dart';
 import 'package:mistry_customer/services/category_service.dart';
+import 'package:mistry_customer/services/coupons_service.dart';
 import 'package:mistry_customer/services/customer_service.dart';
 import 'package:mistry_customer/services/notifications_service.dart';
 import 'package:mistry_customer/services/shared_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../model/customer_coupons_response.dart';
 import '../model/shared_preference_helper.dart';
 import '../model/update_booking_request.dart';
 import '../services/review_service.dart';
@@ -35,12 +38,12 @@ final categoryProvidersListDataProvider = FutureProvider.autoDispose
       .getProvidersByCategory(categoryName);
 });
 final sharedPreferences =
-FutureProvider((_) async => await SharedPreferences.getInstance());
+    FutureProvider((_) async => await SharedPreferences.getInstance());
 final sharedPreferencesHelper = Provider(
-        (ref) => SharedPreferencesHelper(ref.watch(sharedPreferences).maybeWhen(
-      data: (value) => value,
-      orElse: () => null,
-    )));
+    (ref) => SharedPreferencesHelper(ref.watch(sharedPreferences).maybeWhen(
+          data: (value) => value,
+          orElse: () => null,
+        )));
 
 final bookingDetailDataProvider = FutureProvider.autoDispose
     .family<List<BookingResponse>, String>((ref, id) async {
@@ -78,6 +81,7 @@ class CustomerReviewNotifier extends ChangeNotifier {
     resp = await service.createCustomerReview(request);
     return resp;
   }
+
   Future<String> createCustomerFeedback(CustomerFeedbackRequest request) async {
     final service = ref.read(reviewServiceProvider);
     late String resp;
@@ -87,35 +91,77 @@ class CustomerReviewNotifier extends ChangeNotifier {
   }
 }
 
-
 class BookingNotificationNotifier extends ChangeNotifier {
   BookingNotificationNotifier(this.ref) : super();
   final Ref ref;
-  Future<List<NotificationResponse>> getNotifications(String  bookingId) async {
+  Future<List<NotificationResponse>> getNotifications(String bookingId) async {
     final service = ref.read(notificationServiceProvider);
     late List<NotificationResponse> resp;
 
     resp = await service.getBookingNotification(bookingId);
     return resp;
   }
-
 }
+
 final notificationProvider = ChangeNotifierProvider.autoDispose((ref) {
   return BookingNotificationNotifier(ref);
 });
 
+class CouponsNotifier extends ChangeNotifier {
+  CouponsNotifier(this.ref) : super();
+  final Ref ref;
+  Future<ValidateCouponResponse> validateWowCoupon(String couponCode,String serviceName) async {
+    final service = ref.read(couponServiceProvider);
+    late ValidateCouponResponse resp;
 
+    resp = await service.validateCoupon(couponCode,serviceName);
+    return resp;
+  }
+
+  Future<ValidateCouponResponse> validateReferralCoupon(String couponCode,String serviceName) async {
+    final service = ref.read(couponServiceProvider);
+    late ValidateCouponResponse resp;
+
+    resp = await service.validateReferralCoupon(couponCode,serviceName);
+    return resp;
+  }
+}
+
+final couponProvider = ChangeNotifierProvider.autoDispose((ref) {
+  return CouponsNotifier(ref);
+});
 
 final providerReviewDataProvider = FutureProvider.autoDispose
     .family<List<CustomerReviewsResponse>, String>((ref, id) async {
   return ref.watch(reviewServiceProvider).getProviderReviews(id);
 });
 
-
 final providerNotificationDataProvider = FutureProvider.autoDispose
     .family<List<NotificationResponse>, String>((ref, id) async {
   return ref.watch(notificationServiceProvider).getBookingNotification(id);
 });
+
+
+
+final providerCustomerCouponProvider = FutureProvider.autoDispose
+    .family<CustomerDiscountCoupons, String>((ref, serviceName) async {
+  final customerCoupons = ref
+      .watch(couponServiceProvider)
+      .getCustomerCouponsWithServiceName(serviceName);
+
+  final customerReferralCoupons = ref
+      .watch(couponServiceProvider)
+      .getCustomerReferralCouponsWithServiceName(serviceName);
+
+  return CustomerDiscountCoupons(coupons: await customerCoupons,referralCoupons: await customerReferralCoupons);
+});
+
+class CustomerDiscountCoupons{
+  final List<WowCustomerCoupons> coupons;
+  final List<WowCustomerCoupons> referralCoupons;
+
+  CustomerDiscountCoupons({ required this.coupons,required this.referralCoupons});
+}
 
 final shareServiceDataProvider = FutureProvider.autoDispose<void>((ref) async {
   return ref.read(sharedServiceProvider).logout();

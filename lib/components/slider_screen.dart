@@ -13,8 +13,11 @@ class SliderScreen extends StatefulWidget {
 
 class _SliderScreenState extends State<SliderScreen> {
   List imageList = [
-    {"id": 1, "image_path": 'assets/images/Banner_01.png'},
-    {"id": 2, "image_path": 'assets/images/Banner_02.png'},
+    {"id": 1, "image_path": 'assets/images/ac_service.png'},
+    {"id": 2, "image_path": 'assets/images/shoe_dry_clean.png'},
+    {"id": 3, "image_path": 'assets/images/Banner_01.png'},
+    {"id": 4, "image_path": 'assets/images/Banner_02.png'},
+
     // {"id": 3, "image_path": 'assets/images/banner.png'}
   ];
   final CarouselController carouselController = CarouselController();
@@ -137,15 +140,15 @@ class _SliderScreenState extends State<SliderScreen> {
                 if(currentIndex==0){
                   Navigator.pushNamedAndRemoveUntil(
                     context,
-                    '/laundry-service',
-                    arguments: "All-Laundry",
+                    '/appliances-service',
+                    arguments: "All-Appliances",
                         (route) => true,
                   );
-                }else{
+                }else if(currentIndex==1){
                   Navigator.pushNamedAndRemoveUntil(
                     context,
-                    '/vehicle-service',
-                    arguments: "All-Vehicles",
+                    '/laundry-service',
+                    arguments: "All-Laundry",
                         (route) => true,
                   );
                 }
@@ -201,59 +204,7 @@ class _SliderScreenState extends State<SliderScreen> {
                       );
                     }).toList(),
                   ),
-                  // InkWell(
-                  //   onTap: () {
-                  //     _getUserCurrentLocation();
-                  //     print(_currentPosition);
-                  //   },
-                  //   child: Card(
-                  //     color: Color(0xffFFFFFF),
-                  //     margin: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-                  //     child: Padding(
-                  //       padding: const EdgeInsets.all(8.0),
-                  //       child: Row(
-                  //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  //         children: [
-                  //           Container(
-                  //             child: Row(
-                  //               mainAxisAlignment:
-                  //                   MainAxisAlignment.spaceAround,
-                  //               children: [
-                  //                 ImageIcon(
-                  //                   AssetImage(ic_location),
-                  //                   color: Color(0XFF1C1F34),
-                  //                   size: 16,
-                  //                 ),
-                  //                 SizedBox(
-                  //                   width: 20,
-                  //                 ),
-                  //                 Text(
-                  //                   _currentAddress == null
-                  //                       ? "Your location"
-                  //                       : _currentAddress!,
-                  //                   style: TextStyle(
-                  //                     fontFamily: 'SourceSans-Regular',
-                  //                     color: Color(0XFF6C757D),
-                  //                   ),
-                  //                 ),
-                  //               ],
-                  //             ),
-                  //           ),
-                  //           Expanded(
-                  //             child: Container(
-                  //               alignment: Alignment.topRight,
-                  //               child: ImageIcon(
-                  //                 AssetImage(ic_search_location),
-                  //                 color: Color(0XFF1C1F34),
-                  //                 size: 16,
-                  //               ),
-                  //             ),
-                  //           ),
-                  //         ],
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
+
                 ],
               ),
             ),
