@@ -263,8 +263,7 @@ class _StepperDemoState extends ConsumerState<StepperDemo> {
                                 bookingRequest.bookingAddress =
                                     _locationController.text;
 
-                                bookingRequest.grossAmount =
-                                    totalAmount.toStringAsFixed(2);
+                               
                                 bookingRequest.paymentStatus = "Pending";
 
                                 for (int index = 0;
@@ -300,7 +299,15 @@ class _StepperDemoState extends ConsumerState<StepperDemo> {
                                 serviceLists.add(serviceList);
 
                                 bookingRequest.serviceLists = serviceLists;
+                                bookingRequest.discountPrice = (totalAmount * discountRate.toDouble() / 100);
+                                bookingRequest.couponCode = apply_coupon=='Apply Coupon'? "No Coupon": apply_coupon;
+                                bookingRequest.discountRate = discountRate;
 
+                                bookingRequest.grossAmount =
+                                    widget.serviceName!
+                                        .contains("AC Repair") ? (double.parse(totalAmount.toStringAsFixed(2)) + AC_REPAIR_CHARGES - (totalAmount * discountRate / 100)).toStringAsFixed(2)
+                                : (double.parse(totalAmount.toStringAsFixed(2)) - (double.parse(totalAmount.toStringAsFixed(2)) * discountRate / 100)).toStringAsFixed(2);
+                                
                                 print(bookingRequest.toJson());
                                 showConfirmBookDialog(context, () async {
                                   setState(() {

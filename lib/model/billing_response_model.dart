@@ -21,6 +21,9 @@ class BookingResponse {
     required this.customerPhoneNo,
     required this.customerEmail,
     required this.providerId,
+    required this.discountRate,
+    required this.discountPrice,
+    required this.couponCode,
   });
   late final String status;
   late final String paymentStatus;
@@ -34,15 +37,23 @@ class BookingResponse {
   late final List<num> customerPhoneNo;
   late final List<String> customerEmail;
   late final List<String> providerId;
+  late final num discountRate;
+  late final num discountPrice;
+  late final String couponCode;
 
-  BookingResponse.fromJson(Map<String, dynamic> json){
+  BookingResponse.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     paymentStatus = json['paymentStatus'];
     paymentMode = json['paymentMode'];
     bookingTime = json['bookingTime'];
     bookingAddress = json['bookingAddress'];
     grossAmount = json['grossAmount'];
-    serviceLists = List.from(json['serviceLists']).map((e)=>ServiceLists.fromJson(e)).toList();
+    discountRate = json['discountRate'];
+    discountPrice = json['discountPrice'];
+    couponCode = json['couponCode'];
+    serviceLists = List.from(json['serviceLists'])
+        .map((e) => ServiceLists.fromJson(e))
+        .toList();
     bookingId = json['bookingId'];
     customerId = List.castFrom<dynamic, String>(json['customerId']);
     customerPhoneNo = List.castFrom<dynamic, num>(json['customerPhoneNo']);
@@ -58,7 +69,7 @@ class BookingResponse {
     _data['bookingTime'] = bookingTime;
     _data['bookingAddress'] = bookingAddress;
     _data['grossAmount'] = grossAmount;
-    _data['serviceLists'] = serviceLists.map((e)=>e.toJson()).toList();
+    _data['serviceLists'] = serviceLists.map((e) => e.toJson()).toList();
     _data['bookingId'] = bookingId;
     _data['customerId'] = customerId;
     _data['customerPhoneNo'] = customerPhoneNo;
@@ -78,16 +89,18 @@ class ServiceLists {
   late final List<SubCategories> subCategories;
   late final num price;
 
-  ServiceLists.fromJson(Map<String, dynamic> json){
+  ServiceLists.fromJson(Map<String, dynamic> json) {
     name = json['name'];
-    subCategories = List.from(json['subCategories']).map((e)=>SubCategories.fromJson(e)).toList();
+    subCategories = List.from(json['subCategories'])
+        .map((e) => SubCategories.fromJson(e))
+        .toList();
     price = json['price'];
   }
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
     _data['name'] = name;
-    _data['subCategories'] = subCategories.map((e)=>e.toJson()).toList();
+    _data['subCategories'] = subCategories.map((e) => e.toJson()).toList();
     _data['price'] = price;
     return _data;
   }
@@ -103,7 +116,7 @@ class SubCategories {
   late final num price;
   late final String count;
 
-  SubCategories.fromJson(Map<String, dynamic> json){
+  SubCategories.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     price = json['price'];
     count = json['count'];

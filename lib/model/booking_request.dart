@@ -15,6 +15,9 @@ class BookingRequest {
      this.providerId,
      this.serviceLists,
      this.status,
+     this.discountPrice,
+     this.discountRate,
+     this.couponCode,
   });
    String? bookingAddress;
    String? bookingTime;
@@ -25,6 +28,9 @@ class BookingRequest {
    String? providerId;
    List<ServiceLists>? serviceLists;
    String? status;
+   num? discountPrice;
+   num? discountRate;
+   String? couponCode;
 
   BookingRequest.fromJson(Map<String, dynamic> json){
     bookingAddress = json['bookingAddress'];
@@ -36,6 +42,9 @@ class BookingRequest {
     providerId = json['providerId'];
     serviceLists = List.from(json['serviceLists']).map((e)=>ServiceLists.fromJson(e)).toList();
     status = json['status'];
+    discountPrice = json['discountPrice'];
+    discountRate = json['discountRate'];
+    couponCode = json['couponCode'];
   }
 
   Map<String, dynamic> toJson() {
@@ -49,6 +58,10 @@ class BookingRequest {
     _data['providerId'] = providerId;
     _data['serviceLists'] = serviceLists!.map((e)=>e.toJson()).toList();
     _data['status'] = status;
+    _data['discountPrice'] = discountPrice;
+    _data['discountRate'] = discountRate;
+    _data['couponCode'] = couponCode;
+
     return _data;
   }
 }
