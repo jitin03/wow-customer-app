@@ -1067,9 +1067,41 @@ class _CustomerBookingsState extends ConsumerState<CustomerBookings> {
         color: primaryColor,
         size: 80,
       );
-    } else {
+    } else if( serviceType== "Dry Cleaning") {
       return ImageIcon(
         AssetImage(ic_dry_cleaning),
+        color: primaryColor,
+        size: 80,
+      );
+    } else if (serviceType == "Washing+Ironing"){
+      return ImageIcon(
+        AssetImage(ic_laundry_washing),
+        color: primaryColor,
+        size: 80,
+      );
+    }
+    else if( serviceType == "AC Clean Service(window)"){
+      return ImageIcon(
+        AssetImage(ic_ac_window_clean),
+        color: primaryColor,
+        size: 80,
+      );
+    }else if(serviceType =="AC Clean Service(split)"){
+      return ImageIcon(
+        AssetImage(ic_ac_split_clean),
+        color: primaryColor,
+        size: 80,
+      );
+    }else if(serviceType=="AC Repair(Split/window)"){
+      return ImageIcon(
+        AssetImage(ic_ac_repair),
+        color: primaryColor,
+        size: 80,
+      );
+    }
+    else {
+      return ImageIcon(
+        AssetImage(ic_ac_repair),
         color: primaryColor,
         size: 80,
       );
