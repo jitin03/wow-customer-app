@@ -27,7 +27,8 @@ class _ACServiceDetailScreenState extends State<ACServiceDetailScreen> {
   ];
   int indexOfServiceName = -1;
   bool isSearchedEnabled = false;
-  String searchedService = "All";
+  // String searchedService = "All";
+  late String searchedService= widget.serviceName !='All-Appliances' ? widget.serviceName.toString(): "All";
   List<String> appliancesServicesIcons = [
     icon_all_services,
     ic_ac_window_clean,

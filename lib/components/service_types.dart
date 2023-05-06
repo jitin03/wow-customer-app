@@ -45,10 +45,11 @@ class ServiceTypes extends StatelessWidget {
                   if (isSearchedEnabled)
                     Align(
                       alignment: Alignment.topRight,
-                      child: ImageIcon(
-                        AssetImage(icon_check,),
-                        color: primaryColor,
-                      ),
+                      // child: ImageIcon(
+                      //   AssetImage(icon_check,),
+                      //   color: primaryColor,
+                      // ),
+                      child: Icon(Icons.verified_rounded,color: primaryColor,),
                     )
                 ],
               ),

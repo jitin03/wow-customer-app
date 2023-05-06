@@ -85,7 +85,7 @@ class _SignInState extends ConsumerState<LandingScreen> {
                 // crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    "Hello Again!",
+                    "Hello!",
                     style: TextStyle(
                         fontWeight: FontWeight.w500,
                         fontFamily: "Work Sans",

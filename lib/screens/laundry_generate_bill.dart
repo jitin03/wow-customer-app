@@ -428,24 +428,24 @@ class _GenerateBillScreenState
                                   )
                                 : Container(),
                             const SizedBox(height: 8),
-                            // Row(
-                            //   mainAxisAlignment:
-                            //       MainAxisAlignment.spaceBetween,
-                            //   children: [
-                            //     const Text("GST (18%)"),
-                            //     Text(
-                            //         "\u{20B9}${(double.parse(_data[0].grossAmount) * 0.18).toStringAsFixed(2)}",
-                            //         style: const TextStyle(
-                            //             fontWeight: FontWeight.bold,
-                            //             color: primaryColor))
-                            //
-                            //     // Text("\u{20B9}${(totalAmount * 0.18).toStringAsFixed(2)}")
-                            //   ],
-                            // ),
+                            Row(
+                              mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text("GST (18%)"),
+                                Text(
+                                    "\u{20B9}${_data[0].gstPrice.toStringAsFixed(2)}",
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: primaryColor))
+
+                                // Text("\u{20B9}${(totalAmount * 0.18).toStringAsFixed(2)}")
+                              ],
+                            ),
                             const SizedBox(height: 8),
                             const Divider(color: primaryColor),
                             const SizedBox(height: 8),
-                            const SizedBox(height: 8),
+
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [

@@ -13,10 +13,12 @@ class SliderScreen extends StatefulWidget {
 
 class _SliderScreenState extends State<SliderScreen> {
   List imageList = [
-    {"id": 1, "image_path": 'assets/images/ac_service.png'},
-    {"id": 2, "image_path": 'assets/images/shoe_dry_clean.png'},
-    {"id": 3, "image_path": 'assets/images/Banner_01.png'},
-    {"id": 4, "image_path": 'assets/images/Banner_02.png'},
+
+    {"id": 1, "image_path": 'assets/images/wow_10.png'},
+    {"id": 2, "image_path": 'assets/images/ac_service.png'},
+    {"id": 3, "image_path": 'assets/images/shoe_dry_clean.png'},
+    {"id": 4, "image_path": 'assets/images/Banner_01.png'},
+
 
     // {"id": 3, "image_path": 'assets/images/banner.png'}
   ];
@@ -140,15 +142,15 @@ class _SliderScreenState extends State<SliderScreen> {
                 if(currentIndex==0){
                   Navigator.pushNamedAndRemoveUntil(
                     context,
-                    '/appliances-service',
-                    arguments: "All-Appliances",
+                    '/laundry-service',
+                    arguments: "All-Laundry",
                         (route) => true,
                   );
                 }else if(currentIndex==1){
                   Navigator.pushNamedAndRemoveUntil(
                     context,
-                    '/laundry-service',
-                    arguments: "All-Laundry",
+                    '/appliances-service',
+                    arguments: "All-Appliances",
                         (route) => true,
                   );
                 }

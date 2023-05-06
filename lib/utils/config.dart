@@ -5,8 +5,9 @@ import 'images.dart';
 class Config {
   static const String appName = "Wow!";
   // static const String apiURL = '127.0.0.1:8989'; //IOS
-  static const String apiURL = '10.0.2.2:8989'; //ANDROID
-  // static const String apiURL = 'a3992b62ac3fa47beb5687155c17e860-274100500.us-east-1.elb.amazonaws.com:80'; //AWS
+  // static const String apiURL = '10.0.2.2:8989'; //ANDROID
+  static const String apiURL =
+      'a3992b62ac3fa47beb5687155c17e860-274100500.us-east-1.elb.amazonaws.com:80'; //AWS
   static const loginAPI = "/api/v1/auth/login";
   static const registerAPI = "/api/v1/auth/signup";
   static const providerBookingAPI = "/api/v1/booking/provider";
@@ -68,7 +69,7 @@ DateTime todayDate = DateTime(2022, 8, 24);
 const SADAD_API_URL = 'https://api-s.sadad.qa';
 const SADAD_PAY_URL = "https://d.sadad.qa";
 double defaultRadius = 8.0;
-const AC_REPAIR_CHARGES =280;
+const AC_REPAIR_CHARGES = 280;
 
 const Map<String, Map<String, String>> WOW_SERVICES = {
   'service1': {
@@ -88,5 +89,43 @@ const Map<String, Map<String, String>> WOW_SERVICES = {
     'servicePath': '/vehicle-service',
     'routeArgument': 'All-Vehicles',
     'serviceName': 'Vehicle Service'
+  },
+};
+
+const Map<String, Map<String, String>> WOW_FEATURED_SERVICES = {
+  'service1': {
+    'serviceIcon': 'assets/images/featured_iron_laundry.png',
+    'servicePath': '/laundry-service',
+    'routeArgument': 'Ironing',
+    'serviceName': 'Laundry',
+    'featuredServiceName': "Ironing"
+  },
+  'service2': {
+    'serviceIcon': 'assets/images/feature_washing.png',
+    'servicePath': '/laundry-service',
+    'routeArgument': 'Washing',
+    'serviceName': 'Laundry',
+    'featuredServiceName': "Washing"
+  },
+  'service3': {
+    'serviceIcon': 'assets/images/feature_dry_clean.png',
+    'servicePath': '/laundry-service',
+    'routeArgument': 'Dry Cleaning',
+    'serviceName': 'Laundry',
+    'featuredServiceName': "Dry Cleaning"
+  },
+  'service4': {
+    'serviceIcon': 'assets/images/feature_shoe_dry_clean.png',
+    'servicePath': '/laundry-service',
+    'routeArgument': 'Dry Cleaning',
+    'serviceName': 'Laundry',
+    'featuredServiceName': "Shoe Dry Cleaning"
+  },
+  'service5': {
+    'serviceIcon': 'assets/images/feature_ac_service.png',
+    'servicePath': '/appliances-service',
+    'routeArgument': 'AC Clean Service(split)',
+    'serviceName': 'AC Service',
+    'featuredServiceName': "AC Cleaning"
   },
 };

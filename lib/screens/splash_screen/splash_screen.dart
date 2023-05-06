@@ -37,34 +37,34 @@ class _SplashScreenState extends State<SplashScreen> {
           repeat: ImageRepeat.noRepeat,
           image: AssetImage("assets/images/splash_light_background.png"),
         )),
-         child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              // border: Border.all(
-              //   color: primaryColor,
-              //   width: 3.0,
-              // ),
-            ),
-            child: ClipOval(
-              child: Image(
-                image: AssetImage("assets/icons/ic_logo.png"),
-                height: 100,
-                width: 100,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                // border: Border.all(
+                //   color: primaryColor,
+                //   width: 3.0,
+                // ),
+              ),
+              child: ClipOval(
+                child: Image(
+                  image: AssetImage("assets/icons/ic_logo.png"),
+                  height: 100,
+                  width: 100,
+                ),
               ),
             ),
-          ),
-          Text(
-            "Wow Service",
-            style: TextStyle(
-                fontFamily: "Work Sans",
-                fontSize: 22,
-                fontWeight: FontWeight.w500),
-          )
-        ],
-      ),
+            Text(
+              "Wow Service",
+              style: TextStyle(
+                  fontFamily: "Work Sans",
+                  fontSize: 22,
+                  fontWeight: FontWeight.w500),
+            )
+          ],
+        ),
       ),
     ));
   }
@@ -81,29 +81,34 @@ class _SplashScreenState extends State<SplashScreen> {
     //       ));
     // });
 
-
     Timer(Duration(seconds: 3), () {
-      if (isLoggedIn != null) {
-        if (isLoggedIn) {
-          Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => DashboadScreen(currentIndex: 0),
-              ));
-        } else {
-          Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => LandingScreen(),
-              ));
-        }
-      } else {
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => LandingScreen(),
-            ));
-      }
+      print(isLoggedIn);
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DashboadScreen(currentIndex: 0),
+          ));
+      // if (isLoggedIn != null) {
+      //   if (isLoggedIn) {
+      //     Navigator.pushReplacement(
+      //         context,
+      //         MaterialPageRoute(
+      //           builder: (context) => DashboadScreen(currentIndex: 0),
+      //         ));
+      //   } else {
+      //     Navigator.pushReplacement(
+      //         context,
+      //         MaterialPageRoute(
+      //           builder: (context) => LandingScreen(),
+      //         ));
+      //   }
+      // } else {
+      //   Navigator.pushReplacement(
+      //       context,
+      //       MaterialPageRoute(
+      //         builder: (context) => DashboadScreen(currentIndex: 0),
+      //       ));
+      // }
     });
   }
 }

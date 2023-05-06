@@ -302,11 +302,11 @@ class _StepperDemoState extends ConsumerState<StepperDemo> {
                                 bookingRequest.discountPrice = (totalAmount * discountRate.toDouble() / 100);
                                 bookingRequest.couponCode = apply_coupon=='Apply Coupon'? "No Coupon": apply_coupon;
                                 bookingRequest.discountRate = discountRate;
-
+                                bookingRequest.gstPrice = double.parse(totalAmount.toStringAsFixed(2)) * 0.18;
                                 bookingRequest.grossAmount =
                                     widget.serviceName!
-                                        .contains("AC Repair") ? (double.parse(totalAmount.toStringAsFixed(2)) + AC_REPAIR_CHARGES - (totalAmount * discountRate / 100)).toStringAsFixed(2)
-                                : (double.parse(totalAmount.toStringAsFixed(2)) - (double.parse(totalAmount.toStringAsFixed(2)) * discountRate / 100)).toStringAsFixed(2);
+                                        .contains("AC Repair") ? (double.parse(totalAmount.toStringAsFixed(2)) + AC_REPAIR_CHARGES + double.parse(totalAmount.toStringAsFixed(2)) * 0.18 - (totalAmount * discountRate / 100)).toStringAsFixed(2)
+                                : (double.parse(totalAmount.toStringAsFixed(2)) + double.parse(totalAmount.toStringAsFixed(2)) * 0.18 - (double.parse(totalAmount.toStringAsFixed(2)) * discountRate / 100)).toStringAsFixed(2);
                                 
                                 print(bookingRequest.toJson());
                                 showConfirmBookDialog(context, () async {
@@ -1098,7 +1098,7 @@ class _StepperDemoState extends ConsumerState<StepperDemo> {
 
                                                                                                         try {
                                                                                                           ValidateCouponResponse resp;
-                                                                                                          if (_wowCoupon.text.toUpperCase().startsWith("WOW")) {
+                                                                                                          if (_wowCoupon.text.toUpperCase().startsWith("WOWS")) {
                                                                                                             resp = await ref.read(couponProvider).validateWowCoupon(_wowCoupon.text.toUpperCase(), widget.serviceName!);
                                                                                                           } else {
                                                                                                             resp = await ref.read(couponProvider).validateReferralCoupon(_wowCoupon.text.toUpperCase(), widget.serviceName!);
@@ -1338,25 +1338,25 @@ class _StepperDemoState extends ConsumerState<StepperDemo> {
                                                     )
                                                   : Container(),
                                               const SizedBox(height: 8),
-                                              // Row(
-                                              //   mainAxisAlignment:
-                                              //       MainAxisAlignment.spaceBetween,
-                                              //   children: [
-                                              //     const Text("GST (18%)"),
-                                              //     Text(
-                                              //         "\u{20B9}${(double.parse(_data[0].grossAmount) * 0.18).toStringAsFixed(2)}",
-                                              //         style: const TextStyle(
-                                              //             fontWeight: FontWeight.bold,
-                                              //             color: primaryColor))
-                                              //
-                                              //     // Text("\u{20B9}${(totalAmount * 0.18).toStringAsFixed(2)}")
-                                              //   ],
-                                              // ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  const Text("GST (18%)"),
+                                                  Text(
+                                                      "\u{20B9}${(double.parse(totalAmount.toStringAsFixed(2)) * 0.18).toStringAsFixed(2)}",
+                                                      style: const TextStyle(
+                                                          fontWeight: FontWeight.bold,
+                                                          color: primaryColor)),
+
+                                                  // Text("\u{20B9}${(totalAmount * 0.18).toStringAsFixed(2)}")
+                                                ],
+                                              ),
                                               const SizedBox(height: 8),
                                               const Divider(
                                                   color: primaryColor),
                                               const SizedBox(height: 8),
-                                              const SizedBox(height: 8),
+
                                               Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
@@ -1372,7 +1372,7 @@ class _StepperDemoState extends ConsumerState<StepperDemo> {
                                                   widget.serviceName!
                                                           .contains("AC Repair")
                                                       ? Text(
-                                                          "\u{20B9}${(double.parse(totalAmount.toStringAsFixed(2)) + AC_REPAIR_CHARGES - (totalAmount * discountRate / 100)).toStringAsFixed(2)}",
+                                                          "\u{20B9}${(double.parse(totalAmount.toStringAsFixed(2)) + AC_REPAIR_CHARGES + double.parse(totalAmount.toStringAsFixed(2)) * 0.18 - (totalAmount * discountRate / 100)).toStringAsFixed(2)}",
                                                           style: const TextStyle(
                                                               fontWeight:
                                                                   FontWeight
@@ -1380,7 +1380,7 @@ class _StepperDemoState extends ConsumerState<StepperDemo> {
                                                               color:
                                                                   primaryColor))
                                                       : Text(
-                                                          "\u{20B9}${double.parse(totalAmount.toStringAsFixed(2)) - (double.parse(totalAmount.toStringAsFixed(2)) * discountRate / 100)}",
+                                                          "\u{20B9}${double.parse(totalAmount.toStringAsFixed(2)) + double.parse(totalAmount.toStringAsFixed(2)) * 0.18 - (double.parse(totalAmount.toStringAsFixed(2)) * discountRate / 100)}",
                                                           style: const TextStyle(
                                                               fontWeight:
                                                                   FontWeight

@@ -6,83 +6,112 @@ import '../utils/config.dart';
 class CustomerSupportScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return SingleChildScrollView(
-      child: Container(
-        margin: EdgeInsets.all(20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
+    return Container(
+      margin: EdgeInsets.all(20),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        // crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Center(
+            child: Container(
               margin: EdgeInsets.only(top: 10),
-              child: Align(
-                alignment: Alignment.center,
-                child: Text(
-                  "WowService support 24*7 ",
-                  style: TextStyle(
-                      fontFamily: 'Work Sans',
-                      fontWeight: FontWeight.w600,
-                      fontSize: 24),
-                ),
-              ),
-            ),
+              child:  Image(
+                  image: AssetImage("assets/images/support_header.png"),
+                )
 
-            Container(
-              margin: EdgeInsets.only(top: 20),
-              child: Align(
-                alignment: Alignment.center,
-                child: Text(
-                  "WhatsApp or Call us @",
-                  style: TextStyle(
-                      fontFamily: 'Work Sans',
-                      fontWeight: FontWeight.w600,
-                      fontSize: 22),
-                ),
-              ),
             ),
-            Container(
-              margin: EdgeInsets.only(top: 10),
-              child: Align(
-                alignment: Alignment.center,
-                child: Text(
-                  "(+91) 9780032269 ",
-                  style: TextStyle(
-                      fontFamily: 'Work Sans',
-                      fontWeight: FontWeight.w600,
-                      color: Color(0Xff6C757D),
-                      fontSize: 18),
+          ),
+
+          Card(
+            color: Color(0xffE2E3FF),
+            child: ListTile(
+              title: Container(
+                padding: EdgeInsets.all(10),
+                margin: EdgeInsets.only(left: 20, right: 40),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                        Container(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Call Us",style: TextStyle(fontFamily: 'Work Sans'),),
+                              SelectableText("(+91) 9780032269",style: TextStyle(fontFamily: 'Work Sans',fontWeight: FontWeight.w300),)
+
+                            ],
+                          ),
+                        )
+                  ],
                 ),
               ),
+              leading: Image(
+                image: AssetImage("assets/images/call_support.png"),
+              )
             ),
-            Container(
-              margin: EdgeInsets.only(top: 20),
-              child: Align(
-                alignment: Alignment.center,
-                child: Text(
-                  "Email @",
-                  style: TextStyle(
-                      fontFamily: 'Work Sans',
-                      fontWeight: FontWeight.w600,
-                      fontSize: 22),
+          ),
+
+          Card(
+            color: Color(0xffE2E3FF),
+            child: ListTile(
+                title: Container(
+                  padding: EdgeInsets.all(10),
+                  margin: EdgeInsets.only(left: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Email Us",style: TextStyle(fontFamily: 'Work Sans'),),
+                            SelectableText("services@wowservice.co.in",style: TextStyle(fontFamily: 'Work Sans',fontWeight: FontWeight.w300),)
+
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
-              ),
+                leading: Image(
+                  image: AssetImage("assets/images/support_email.png"),
+                )
             ),
-            Container(
-              margin: EdgeInsets.only(top: 10),
-              child: Align(
-                alignment: Alignment.center,
-                child: Text(
-                  "services@wowservice.co.in",
-                  style: TextStyle(
-                      fontFamily: 'Work Sans',
-                      fontWeight: FontWeight.w600,
-                      color: Color(0Xff6C757D),
-                      fontSize: 18),
+          ),
+
+          Card(
+            color: Color(0xffE2E3FF),
+            child: ListTile(
+                title: Container(
+                  padding: EdgeInsets.all(10),
+                  margin: EdgeInsets.only(left: 20, right: 40),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("WhatsApp Support",style: TextStyle(fontFamily: 'Work Sans'),),
+                            Text("(+91) 9780032269",style: TextStyle(fontFamily: 'Work Sans',fontWeight: FontWeight.w300),)
+
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
-              ),
-            )
-          ],
-        ),
+                leading: Image(
+                  image: AssetImage("assets/images/support_whatsapp.png"),
+                )
+            ),
+          )
+
+
+
+        ],
       ),
     );
   }

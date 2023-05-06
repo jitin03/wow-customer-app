@@ -3,7 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mistry_customer/components/square_tile.dart';
 import 'package:mistry_customer/model/user_model.dart';
 import 'package:mistry_customer/provider/data_provider.dart';
+import 'package:mistry_customer/screens/auth/landing_screen.dart';
 import 'package:mistry_customer/screens/auth/verify_otp_screen.dart';
+import 'package:mistry_customer/screens/dashboard_screen.dart';
 import 'package:mistry_customer/services/auth_service.dart';
 import 'package:mistry_customer/utils/ProgressHUG.dart';
 import 'package:mistry_customer/utils/config.dart';
@@ -53,6 +55,33 @@ class _SignInState extends ConsumerState<SignIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: GestureDetector(
+          child: Icon(
+            Icons.arrow_back_ios,
+            color: Colors.black,
+          ),
+          onTap: () {
+
+
+
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>LandingScreen(),
+              ),
+            );
+            // Navigator.of(context, rootNavigator: true).pop(context);
+          },
+        ),
+
+        backgroundColor: Colors.white,
+        titleTextStyle: TextStyle(
+            color: Colors.white,
+            fontFamily: "Work Sans",
+            fontSize: 18,
+            fontWeight: FontWeight.w800),
+      ),
       body: SafeArea(
         child: Center(
           child: Container(

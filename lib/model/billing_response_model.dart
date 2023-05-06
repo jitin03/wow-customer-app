@@ -23,6 +23,7 @@ class BookingResponse {
     required this.providerId,
     required this.discountRate,
     required this.discountPrice,
+    required this.gstPrice,
     required this.couponCode,
   });
   late final String status;
@@ -39,6 +40,7 @@ class BookingResponse {
   late final List<String> providerId;
   late final num discountRate;
   late final num discountPrice;
+  late final num gstPrice;
   late final String couponCode;
 
   BookingResponse.fromJson(Map<String, dynamic> json) {
@@ -50,6 +52,7 @@ class BookingResponse {
     grossAmount = json['grossAmount'];
     discountRate = json['discountRate'];
     discountPrice = json['discountPrice'];
+    gstPrice = json['gstPrice'];
     couponCode = json['couponCode'];
     serviceLists = List.from(json['serviceLists'])
         .map((e) => ServiceLists.fromJson(e))

@@ -16,6 +16,7 @@ class BookingRequest {
      this.serviceLists,
      this.status,
      this.discountPrice,
+     this.gstPrice,
      this.discountRate,
      this.couponCode,
   });
@@ -29,6 +30,7 @@ class BookingRequest {
    List<ServiceLists>? serviceLists;
    String? status;
    num? discountPrice;
+   num? gstPrice;
    num? discountRate;
    String? couponCode;
 
@@ -43,6 +45,7 @@ class BookingRequest {
     serviceLists = List.from(json['serviceLists']).map((e)=>ServiceLists.fromJson(e)).toList();
     status = json['status'];
     discountPrice = json['discountPrice'];
+    gstPrice = json['gstPrice'];
     discountRate = json['discountRate'];
     couponCode = json['couponCode'];
   }
@@ -59,6 +62,7 @@ class BookingRequest {
     _data['serviceLists'] = serviceLists!.map((e)=>e.toJson()).toList();
     _data['status'] = status;
     _data['discountPrice'] = discountPrice;
+    _data['gstPrice'] = gstPrice;
     _data['discountRate'] = discountRate;
     _data['couponCode'] = couponCode;
 
