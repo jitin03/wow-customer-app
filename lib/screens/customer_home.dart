@@ -246,12 +246,13 @@ class _CustomerHomeFragmentState extends ConsumerState<CustomerHomeFragment> {
                               const SizedBox(
                                 height: 20,
                               ),
-                              SizedBox(
+                              Container(
                                 width: double.infinity,
+                                margin: EdgeInsets.only(left: 10),
                                 child: Row(
                                   children: const [
                                     Text(
-                                      "Services",
+                                      "Categories",
                                       style: TextStyle(
                                           fontFamily: 'Work Sans',
                                           fontSize: 16,
@@ -297,11 +298,12 @@ class _CustomerHomeFragmentState extends ConsumerState<CustomerHomeFragment> {
                                   height: 20,
                                 ),
                                 Container(
+                                  margin: EdgeInsets.only(left: 10),
                                   width: double.infinity,
                                   child: Row(
                                     children: const [
                                       Text(
-                                        "Featured",
+                                        "Feature Services",
                                         style: TextStyle(
                                             fontFamily: 'Work Sans',
                                             fontSize: 16,

@@ -12,6 +12,7 @@ import 'package:mistry_customer/screens/customer_profile_setup.dart';
 import 'package:mistry_customer/screens/customer_reviews.dart';
 import 'package:mistry_customer/screens/dashboard_screen.dart';
 import 'package:mistry_customer/screens/laundry_service_detail_screen.dart';
+import 'package:mistry_customer/screens/maid_service_detail_screen.dart';
 import 'package:mistry_customer/screens/provider_detail_screen.dart';
 import 'package:mistry_customer/screens/splash_screen/splash_screen.dart';
 import 'package:mistry_customer/screens/vehicle_service_detail_screen.dart';
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
         '/register':(context)=>RegistrationScreen(),
         '/bookings': (context) => DashboadScreen(currentIndex: 1,),
         '/vehicle-service': (context) => VehicleServiceDetailScreen(serviceName: ModalRoute.of(context)!.settings.arguments),
+        '/maid-service': (context) => MaidServiceDetailScreen(serviceName: ModalRoute.of(context)!.settings.arguments),
         '/laundry-service': (context) => LaundryServiceDetailScreen(serviceName: ModalRoute.of(context)!.settings.arguments),
         '/appliances-service': (context) => ACServiceDetailScreen(serviceName: ModalRoute.of(context)!.settings.arguments),
         '/booking':(context)=> BookingScreen(),

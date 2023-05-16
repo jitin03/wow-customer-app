@@ -12,10 +12,9 @@ class ServiceTypes extends StatelessWidget {
 
   ServiceTypes(
       {required this.servicename,
-        required this.iconName,
-        required this.isSearchedEnabled,
-        required this.selectedSearch});
-
+      required this.iconName,
+      required this.isSearchedEnabled,
+      required this.selectedSearch});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +30,8 @@ class ServiceTypes extends StatelessWidget {
               decoration: BoxDecoration(
                 border: Border.all(color: Color(0XFFAFB3D3)),
                 shape: BoxShape.circle,
-                color: Color(0XFFF6F7F9),),
+                color: Color(0XFFF6F7F9),
+              ),
               child: Stack(
                 children: [
                   Align(
@@ -49,7 +49,10 @@ class ServiceTypes extends StatelessWidget {
                       //   AssetImage(icon_check,),
                       //   color: primaryColor,
                       // ),
-                      child: Icon(Icons.verified_rounded,color: primaryColor,),
+                      child: Icon(
+                        Icons.verified_rounded,
+                        color: primaryColor,
+                      ),
                     )
                 ],
               ),
@@ -58,7 +61,14 @@ class ServiceTypes extends StatelessWidget {
           SizedBox(
             height: 10,
           ),
-          Text(servicename),
+          Focus(
+            autofocus: isSearchedEnabled,
+            child: Text(
+              servicename,
+              style: TextStyle(
+                  fontFamily: 'Work Sans', fontWeight: FontWeight.w500),
+            ),
+          ),
         ],
       ),
     );

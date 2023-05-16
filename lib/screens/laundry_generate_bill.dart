@@ -432,7 +432,13 @@ class _GenerateBillScreenState
                               mainAxisAlignment:
                                   MainAxisAlignment.spaceBetween,
                               children: [
-                                const Text("GST (18%)"),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text("GST (18%)"),
+                                    const Text('GSTIN: 08BJWPD9318J1ZK'),
+                                  ],
+                                ),
                                 Text(
                                     "\u{20B9}${_data[0].gstPrice.toStringAsFixed(2)}",
                                     style: const TextStyle(
@@ -444,7 +450,7 @@ class _GenerateBillScreenState
                             ),
                             const SizedBox(height: 8),
                             const Divider(color: primaryColor),
-                            const SizedBox(height: 8),
+                            const SizedBox(height: 10),
 
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -469,6 +475,7 @@ class _GenerateBillScreenState
                               ],
                             ),
                             const SizedBox(height: 8),
+                            const SizedBox(height: 100),
                             (_data[0].paymentStatus == 'Paid')
                                 ? Column(
                                     children: [

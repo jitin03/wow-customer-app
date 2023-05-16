@@ -105,6 +105,14 @@ const default_ac_window='assets/images/default_ac_window.png';
 const default_ac_split='assets/images/default_ac_split.png';
 const default_ac_install_uninstall='assets/images/default_ac_install_uninstall.png';
 
+// maid service type icons
+const maid_all_demand='assets/icons/all.png';
+const maid_on_demand='assets/icons/on-demand.png';
+const maid_subscription_demand='assets/icons/schedule.png';
+
+const on_demand_list_image='assets/images/on-demand.png';
+const subscription_maid_list_image='assets/images/subscription-maid.png';
+
 
 
 const IconData check_circle_rounded = IconData(0xf635, fontFamily: 'MaterialIcons');

@@ -37,6 +37,7 @@ class ProviderDetail {
     required this.userId,
     required this.phonenumber,
     required this.address,
+    required this.addaAreas,
   });
   late final String id;
   late final String name;
@@ -45,6 +46,7 @@ class ProviderDetail {
   late final String userId;
   late final int phonenumber;
   late final List<Address> address;
+  late final List<String>addaAreas;
 
   ProviderDetail.fromJson(Map<String, dynamic> json){
     id = json['id'];
@@ -54,6 +56,7 @@ class ProviderDetail {
     userId = json['userId'];
     phonenumber = json['phonenumber'];
     address = List.from(json['address']).map((e)=>Address.fromJson(e)).toList();
+    addaAreas = List.castFrom<dynamic, String>(json['addaAreas']);
   }
 
   Map<String, dynamic> toJson() {
@@ -64,6 +67,7 @@ class ProviderDetail {
     _data['email'] = email;
     _data['userId'] = userId;
     _data['phonenumber'] = phonenumber;
+    _data['addaAreas'] = addaAreas;
     _data['address'] = address.map((e)=>e.toJson()).toList();
     return _data;
   }

@@ -16,12 +16,14 @@ class ProviderDetailResponse {
     required this.email,
     required this.userId,
     required this.address,
+    required this.addaAreas,
   });
   late final String id;
   late final String userId;
   late final List<ServiceLists> serviceLists;
   late final String name;
   late final int phonenumber;
+  late final List<String> addaAreas;
   late final String email;
   late final List<Address> address;
 
@@ -33,6 +35,7 @@ class ProviderDetailResponse {
     email = json['email'];
     userId = json['userId'];
     address = List.from(json['address']).map((e)=>Address.fromJson(e)).toList();
+    addaAreas = List.castFrom<dynamic, String>(json['addaAreas']);
   }
 
   Map<String, dynamic> toJson() {
@@ -41,6 +44,7 @@ class ProviderDetailResponse {
     _data['serviceLists'] = serviceLists.map((e)=>e.toJson()).toList();
     _data['name'] = name;
     _data['phonenumber'] = phonenumber;
+    _data['addaAreas'] = addaAreas;
     _data['email'] = email;
     _data['userId']=userId;
     _data['address'] = address.map((e)=>e.toJson()).toList();

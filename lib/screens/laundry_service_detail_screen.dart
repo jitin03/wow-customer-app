@@ -34,7 +34,7 @@ class _LaundryServiceDetailScreenState
   late String searchedService= widget.serviceName !='All-Laundry' ? widget.serviceName.toString(): "All";
 
   List<String> laundryServicesIcons = [
-    icon_all_services,
+    maid_all_demand,
     ic_ironing,
     ic_dry_cleaning,
     ic_laundry_washing,
@@ -163,18 +163,8 @@ class _LaundryServiceDetailScreenState
                                           itemBuilder:
                                               (context, serviceListsIndex) {
                                             // return Text(providers[index].providerDetail.serviceLists[serviceListsIndex].name);
-                                            for (int i = 0;
-                                            i <
-                                                providers[index]
-                                                    .providerDetail
-                                                    .serviceLists
-                                                    .length;
-                                            i++) {
-                                              if (providers[index]
-                                                  .providerDetail
-                                                  .serviceLists[i]
-                                                  .name ==
-                                                  serviceName) {
+                                            for (int i = 0; i < providers[index].providerDetail.serviceLists.length; i++) {
+                                              if (providers[index].providerDetail.serviceLists[i].name == serviceName) {
                                                 indexOfServiceName = i;
                                                 break;
                                               } else {
@@ -269,23 +259,9 @@ class _LaundryServiceDetailScreenState
                                                             index]
                                                                 .providerDetail
                                                                 .id,
-                                                            "serviceName": providers[index]
-                                                                .providerDetail
-                                                                .serviceLists
-                                                                .length >
-                                                                1
-                                                                ? providers[
-                                                            index]
-                                                                .providerDetail
-                                                                .serviceLists[
-                                                            serviceListsIndex]
-                                                                .name
-                                                                : providers[
-                                                            index]
-                                                                .providerDetail
-                                                                .serviceLists[
-                                                            serviceListsIndex]
-                                                                .name
+                                                            "serviceName": providers[index].providerDetail.serviceLists.length > 1
+                                                                ? providers[index].providerDetail.serviceLists[serviceListsIndex].name
+                                                                : providers[index].providerDetail.serviceLists[0].name
                                                           },
                                                               (route) => true,
                                                         );
@@ -304,6 +280,7 @@ class _LaundryServiceDetailScreenState
                                                                 0XFFF6F7F9),
                                                           ),
                                                           child: Column(
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
                                                             children: [
                                                               Container(
                                                                 // height: 200,
@@ -318,6 +295,55 @@ class _LaundryServiceDetailScreenState
                                                               SizedBox(
                                                                 height: 20,
                                                               ),
+                                                              Container(
+                                                                margin: EdgeInsets.only(
+                                                                    left: 10, right: 10),
+                                                                child: Text(
+                                                                  "Available At:",
+                                                                  style: TextStyle(
+                                                                      fontWeight: FontWeight.w500,
+                                                                      fontFamily: 'Work Sans',
+                                                                      fontSize: 14),
+                                                                ),
+                                                              ),
+                                                              SizedBox(height: 10,),
+                                                              Container(
+                                                                height: 30,
+                                                                child: Container(
+                                                                  // width: 300,
+                                                                  margin: EdgeInsets.only(left: 10),
+                                                                  child: ListView.separated(
+                                                                    scrollDirection: Axis.horizontal,
+                                                                    itemCount: providers![index].providerDetail!.addaAreas.length,
+                                                                    itemBuilder: (context, addaIndex) {
+
+                                                                      return   Container(
+                                                                        decoration: BoxDecoration(
+                                                                          color: primaryColor,
+                                                                          // border: Border.all,
+                                                                          borderRadius: BorderRadius.circular(10),
+                                                                        ),
+                                                                        padding: EdgeInsets.all(5),
+                                                                        child: Text(
+                                                                          providers![index].providerDetail.addaAreas[addaIndex],
+                                                                          style: TextStyle(
+                                                                              color: Colors.white,
+                                                                              fontFamily: 'Work Sans',
+                                                                              fontSize: 12,
+                                                                              fontWeight: FontWeight.w500),
+                                                                        ),
+                                                                      );
+                                                                    },
+                                                                    separatorBuilder:
+                                                                        (BuildContext context, int index) {
+                                                                      return SizedBox(
+                                                                        width: 20,
+                                                                      );
+                                                                    },
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              SizedBox(height: 20,),
                                                               Padding(
                                                                 padding: const EdgeInsets
                                                                     .only(
@@ -367,6 +393,7 @@ class _LaundryServiceDetailScreenState
                                                                               fontFamily: 'Work Sans'),
                                                                         ),
                                                                       ),
+
                                                                     ],
                                                                   ),
                                                                 ),
@@ -424,7 +451,8 @@ class _LaundryServiceDetailScreenState
                                                                             fontSize: 16,
                                                                             fontWeight: FontWeight.w800),
                                                                       ),
-                                                                    )
+                                                                    ),
+
                                                                   ],
                                                                 ),
                                                               ),
@@ -472,25 +500,21 @@ class _LaundryServiceDetailScreenState
                               child: ListView.builder(
                                 itemCount: providers.length,
                                 itemBuilder: (context, index) {
-                                  for (int i = 0;
-                                  i <
-                                      providers[index]
-                                          .providerDetail
-                                          .serviceLists
-                                          .length;
-                                  i++) {
-                                    if (providers[index]
-                                        .providerDetail
-                                        .serviceLists[i]
-                                        .name ==
-                                        serviceName) {
+                                  for (int i = 0; i < providers[index].providerDetail.serviceLists.length; i++) {
+                                    print("debugging1");
+                                    print(providers[index].providerDetail.name);
+                                    print(providers[index].providerDetail.serviceLists[i].name);
+                                    print("debugging1");
+                                    if (providers[index].providerDetail.serviceLists[i].name == serviceName) {
                                       indexOfServiceName = i;
                                       break;
                                     } else {
                                       indexOfServiceName = 0;
                                     }
                                   }
+                                  print("debugging");
                                   print(indexOfServiceName);
+                                  print("debugging");
 
                                   var service_image;
                                   if (providers[index]
@@ -520,10 +544,7 @@ class _LaundryServiceDetailScreenState
                                     service_image =
                                         img_default_laundry_ironing_placeholder;
                                   }
-                                  final _providerDetails = ref.watch(
-                                      providerDetailsData(providers[index]
-                                          .providerDetail
-                                          .id));
+                                  final _providerDetails = ref.watch(providerDetailsData(providers[index].providerDetail.id));
                                   var agg_rating = 0.0;
                                   if (_providerDetails.value != null) {
                                     var total_reviews = _providerDetails
@@ -546,151 +567,186 @@ class _LaundryServiceDetailScreenState
                                     }
                                   }
 
-                                  return Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                      children: [
-                                        Card(
-                                          elevation:10,
-                                          child: InkWell(
-                                            onTap: () {
-                                              Navigator
-                                                  .pushNamedAndRemoveUntil(
-                                                context,
-                                                '/provider-detail',
-                                                arguments: {
-                                                  "providerId":
-                                                  providers[index]
-                                                      .providerDetail
-                                                      .id,
-                                                  "serviceName": providers[
-                                                  index]
-                                                      .providerDetail
-                                                      .serviceLists
-                                                      .length >
-                                                      1
-                                                      ? providers[index]
-                                                      .providerDetail
-                                                      .serviceLists[
-                                                  indexOfServiceName]
-                                                      .name
-                                                      : providers[index]
-                                                      .providerDetail
-                                                      .serviceLists[0]
-                                                      .name
-                                                },
-                                                    (route) => true,
-                                              );
-                                            },
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                border: Border.all(
-                                                    color: Color(
-                                                        0XFFF6F7F9)),
-                                                shape: BoxShape.circle,
-                                                color: Color(0XFFF6F7F9),
-                                              ),
-                                              child: Column(
-                                                children: [
-                                                  Container(
-                                                    // height: 200,
-                                                    color: Colors.white,
-                                                    child: Image(
-                                                      image: AssetImage(
-                                                          service_image),
-                                                      // fit: BoxFit.cover,
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    height: 20,
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                    const EdgeInsets
-                                                        .only(
-                                                        right: 20),
-                                                    child: Container(
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                        children: [
-                                                          Container(
-                                                            child: Row(
-                                                              children: [
-                                                                SizedBox(
-                                                                  width:
-                                                                  10,
-                                                                ),
-                                                                RatingBarIndicator(
-                                                                  rating: agg_rating ??
-                                                                      0.0,
-                                                                  itemBuilder:
-                                                                      (context, index) =>
-                                                                      Icon(
-                                                                        Icons
-                                                                            .star,
-                                                                        color:
-                                                                        Colors.green,
-                                                                      ),
-                                                                  itemCount:
-                                                                  5,
-                                                                  itemSize:
-                                                                  15.0,
-                                                                  direction:
-                                                                  Axis.horizontal,
-                                                                ),
-                                                                SizedBox(
-                                                                  width:
-                                                                  10,
-                                                                ),
-                                                                Text(
-                                                                  agg_rating
-                                                                      .toStringAsPrecision(2),
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                      16),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                          Container(
-                                                            child: Text(
-                                                              '${providers[index].providerDetail.serviceLists[indexOfServiceName].name}',
-                                                              style: TextStyle(
-                                                                  fontSize:
-                                                                  16,
-                                                                  fontWeight:
-                                                                  FontWeight
-                                                                      .w800,
-                                                                  fontFamily:
-                                                                  'Work Sans'),
-                                                            ),
-                                                          ),
-                                                        ],
+                                  return Container(
+
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          Card(
+                                            elevation:10,
+                                            child: InkWell(
+                                              onTap: () {
+
+                                                Navigator
+                                                    .pushNamedAndRemoveUntil(
+                                                  context,
+                                                  '/provider-detail',
+                                                  arguments: {
+                                                    "providerId":
+                                                    providers[index]
+                                                        .providerDetail
+                                                        .id,
+                                                    "serviceName":serviceName
+
+                                                    // "serviceName": providers[index].providerDetail.serviceLists.length > 1
+                                                    //     ? providers[index].providerDetail.serviceLists[indexOfServiceName].name
+                                                    //     : providers[index].providerDetail.serviceLists[0].name
+                                                  },
+                                                      (route) => true,
+                                                );
+                                              },
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                      color: Color(
+                                                          0XFFF6F7F9)),
+                                                  shape: BoxShape.circle,
+                                                  color: Color(0XFFF6F7F9),
+                                                ),
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Container(
+                                                      // height: 200,
+                                                      color: Colors.white,
+                                                      child: Image(
+                                                        image: AssetImage(
+                                                            service_image),
+                                                        // fit: BoxFit.cover,
                                                       ),
                                                     ),
-                                                  ),
-                                                  Container(
-                                                    padding:
-                                                    EdgeInsets.only(
-                                                        left: 10,
-                                                        bottom: 10,
-                                                        top: 10),
-                                                    child: Row(
-                                                      children: [
-                                                        Container(
-                                                          decoration: BoxDecoration(
-                                                              border: Border.all(
-                                                                  color:
-                                                                  primaryColor),
-                                                              shape: BoxShape
-                                                                  .circle,
-                                                              color: Colors
-                                                                  .white),
-                                                          child:
+                                                    SizedBox(
+                                                      height: 20,
+                                                    ),
+                                                    Container(
+                                                      margin: EdgeInsets.only(
+                                                          left: 10, right: 10),
+                                                      child: Text(
+                                                        "Available At:",
+                                                        style: TextStyle(
+                                                            fontWeight: FontWeight.w500,
+                                                            fontFamily: 'Work Sans',
+                                                            fontSize: 14),
+                                                      ),
+                                                    ),
+                                                    SizedBox(height: 10,),
+                                                    Container(
+                                                      height: 30,
+                                                      child: Container(
+                                                        // width: 300,
+                                                        margin: EdgeInsets.only(left: 10),
+                                                        child: ListView.separated(
+                                                          scrollDirection: Axis.horizontal,
+                                                          itemCount: providers![index].providerDetail!.addaAreas.length,
+                                                          itemBuilder: (context, addaIndex) {
+
+                                                            return   Container(
+                                                              decoration: BoxDecoration(
+                                                                color: primaryColor,
+                                                                // border: Border.all,
+                                                                borderRadius: BorderRadius.circular(10),
+                                                              ),
+                                                              padding: EdgeInsets.all(5),
+                                                              child: Text(
+                                                                providers![index].providerDetail.addaAreas[addaIndex],
+                                                                style: TextStyle(
+                                                                    color: Colors.white,
+                                                                    fontFamily: 'Work Sans',
+                                                                    fontSize: 12,
+                                                                    fontWeight: FontWeight.w500),
+                                                              ),
+                                                            );
+                                                          },
+                                                          separatorBuilder:
+                                                              (BuildContext context, int index) {
+                                                            return SizedBox(
+                                                              width: 20,
+                                                            );
+                                                          },
+                                                        ),
+                                                      ),
+                                                    ),
+
+                                                    SizedBox(height: 20,),
+                                                    Padding(
+                                                      padding:
+                                                      const EdgeInsets
+                                                          .only(
+                                                          right: 20),
+                                                      child: Container(
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                          children: [
+
+                                                            Container(
+                                                              child: Row(
+                                                                children: [
+                                                                  SizedBox(
+                                                                    width:
+                                                                    10,
+                                                                  ),
+                                                                  RatingBarIndicator(
+                                                                    rating: agg_rating ??
+                                                                        0.0,
+                                                                    itemBuilder:
+                                                                        (context, index) =>
+                                                                        Icon(
+                                                                          Icons
+                                                                              .star,
+                                                                          color:
+                                                                          Colors.green,
+                                                                        ),
+                                                                    itemCount:
+                                                                    5,
+                                                                    itemSize:
+                                                                    15.0,
+                                                                    direction:
+                                                                    Axis.horizontal,
+                                                                  ),
+                                                                  SizedBox(
+                                                                    width:
+                                                                    10,
+                                                                  ),
+                                                                  Text(
+                                                                    agg_rating
+                                                                        .toStringAsPrecision(2),
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                        16),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                            Container(
+                                                              child: Text(
+                                                                '${providers[index].providerDetail.serviceLists[indexOfServiceName].name}',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                    16,
+                                                                    fontWeight:
+                                                                    FontWeight
+                                                                        .w800,
+                                                                    fontFamily:
+                                                                    'Work Sans'),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      padding:
+                                                      EdgeInsets.only(
+                                                          left: 10,
+                                                          bottom: 10,
+                                                          top: 10),
+                                                      child: Row(
+                                                        children: [
                                                           Container(
                                                             decoration: BoxDecoration(
                                                                 border: Border.all(
@@ -701,54 +757,65 @@ class _LaundryServiceDetailScreenState
                                                                 color: Colors
                                                                     .white),
                                                             child:
-                                                            ClipOval(
+                                                            Container(
+                                                              decoration: BoxDecoration(
+                                                                  border: Border.all(
+                                                                      color:
+                                                                      primaryColor),
+                                                                  shape: BoxShape
+                                                                      .circle,
+                                                                  color: Colors
+                                                                      .white),
                                                               child:
-                                                              Material(
-                                                                color: Colors
-                                                                    .transparent,
-                                                                child: Ink
-                                                                    .image(
-                                                                  image: AssetImage(
-                                                                      male_default_profile_iamge),
-                                                                  fit: BoxFit
-                                                                      .cover,
-                                                                  width:
-                                                                  30,
-                                                                  height:
-                                                                  30,
+                                                              ClipOval(
+                                                                child:
+                                                                Material(
+                                                                  color: Colors
+                                                                      .transparent,
+                                                                  child: Ink
+                                                                      .image(
+                                                                    image: AssetImage(
+                                                                        male_default_profile_iamge),
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                    width:
+                                                                    30,
+                                                                    height:
+                                                                    30,
+                                                                  ),
                                                                 ),
                                                               ),
                                                             ),
                                                           ),
-                                                        ),
-                                                        SizedBox(
-                                                          width: 10,
-                                                        ),
-                                                        Container(
-                                                          child: Text(
-                                                            providers[
-                                                            index]
-                                                                .providerDetail
-                                                                .name,
-                                                            style: TextStyle(
-                                                                fontFamily:
-                                                                'Work Sans',
-                                                                fontSize:
-                                                                16,
-                                                                fontWeight:
-                                                                FontWeight
-                                                                    .w800),
+                                                          SizedBox(
+                                                            width: 10,
                                                           ),
-                                                        )
-                                                      ],
+                                                          Container(
+                                                            child: Text(
+                                                              providers[
+                                                              index]
+                                                                  .providerDetail
+                                                                  .name,
+                                                              style: TextStyle(
+                                                                  fontFamily:
+                                                                  'Work Sans',
+                                                                  fontSize:
+                                                                  16,
+                                                                  fontWeight:
+                                                                  FontWeight
+                                                                      .w800),
+                                                            ),
+                                                          )
+                                                        ],
+                                                      ),
                                                     ),
-                                                  ),
-                                                ],
+                                                  ],
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   );
                                 },

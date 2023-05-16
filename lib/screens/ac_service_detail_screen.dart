@@ -30,7 +30,7 @@ class _ACServiceDetailScreenState extends State<ACServiceDetailScreen> {
   // String searchedService = "All";
   late String searchedService= widget.serviceName !='All-Appliances' ? widget.serviceName.toString(): "All";
   List<String> appliancesServicesIcons = [
-    icon_all_services,
+    maid_all_demand,
     ic_ac_window_clean,
     ic_ac_split_clean,
     ic_ac_repair,
@@ -293,6 +293,7 @@ class _ACServiceDetailScreenState extends State<ACServiceDetailScreen> {
                                                                 0XFFF6F7F9),
                                                           ),
                                                           child: Column(
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
                                                             children: [
                                                               Container(
                                                                 // height: 200,
@@ -307,6 +308,55 @@ class _ACServiceDetailScreenState extends State<ACServiceDetailScreen> {
                                                               SizedBox(
                                                                 height: 20,
                                                               ),
+                                                              Container(
+                                                                margin: EdgeInsets.only(
+                                                                    left: 10, right: 10),
+                                                                child: Text(
+                                                                  "Available At:",
+                                                                  style: TextStyle(
+                                                                      fontWeight: FontWeight.w500,
+                                                                      fontFamily: 'Work Sans',
+                                                                      fontSize: 14),
+                                                                ),
+                                                              ),
+                                                              SizedBox(height: 10,),
+                                                              Container(
+                                                                height: 30,
+                                                                child: Container(
+                                                                  // width: 300,
+                                                                  margin: EdgeInsets.only(left: 10),
+                                                                  child: ListView.separated(
+                                                                    scrollDirection: Axis.horizontal,
+                                                                    itemCount: providers![index].providerDetail!.addaAreas.length,
+                                                                    itemBuilder: (context, addaIndex) {
+
+                                                                      return   Container(
+                                                                        decoration: BoxDecoration(
+                                                                          color: primaryColor,
+                                                                          // border: Border.all,
+                                                                          borderRadius: BorderRadius.circular(10),
+                                                                        ),
+                                                                        padding: EdgeInsets.all(5),
+                                                                        child: Text(
+                                                                          providers![index].providerDetail.addaAreas[addaIndex],
+                                                                          style: TextStyle(
+                                                                              color: Colors.white,
+                                                                              fontFamily: 'Work Sans',
+                                                                              fontSize: 12,
+                                                                              fontWeight: FontWeight.w500),
+                                                                        ),
+                                                                      );
+                                                                    },
+                                                                    separatorBuilder:
+                                                                        (BuildContext context, int index) {
+                                                                      return SizedBox(
+                                                                        width: 20,
+                                                                      );
+                                                                    },
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              SizedBox(height: 20,),
                                                               Padding(
                                                                 padding:
                                                                     const EdgeInsets
@@ -589,6 +639,7 @@ class _ACServiceDetailScreenState extends State<ACServiceDetailScreen> {
                                                       color: Color(0XFFF6F7F9),
                                                     ),
                                                     child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: [
                                                         Container(
                                                           // height: 200,
@@ -602,6 +653,55 @@ class _ACServiceDetailScreenState extends State<ACServiceDetailScreen> {
                                                         SizedBox(
                                                           height: 20,
                                                         ),
+                                                        Container(
+                                                          margin: EdgeInsets.only(
+                                                              left: 10, right: 10),
+                                                          child: Text(
+                                                            "Available At:",
+                                                            style: TextStyle(
+                                                                fontWeight: FontWeight.w500,
+                                                                fontFamily: 'Work Sans',
+                                                                fontSize: 14),
+                                                          ),
+                                                        ),
+                                                        SizedBox(height: 10,),
+                                                        Container(
+                                                          height: 30,
+                                                          child: Container(
+                                                            // width: 300,
+                                                            margin: EdgeInsets.only(left: 10),
+                                                            child: ListView.separated(
+                                                              scrollDirection: Axis.horizontal,
+                                                              itemCount: providers![index].providerDetail!.addaAreas.length,
+                                                              itemBuilder: (context, addaIndex) {
+
+                                                                return   Container(
+                                                                  decoration: BoxDecoration(
+                                                                    color: primaryColor,
+                                                                    // border: Border.all,
+                                                                    borderRadius: BorderRadius.circular(10),
+                                                                  ),
+                                                                  padding: EdgeInsets.all(5),
+                                                                  child: Text(
+                                                                    providers![index].providerDetail.addaAreas[addaIndex],
+                                                                    style: TextStyle(
+                                                                        color: Colors.white,
+                                                                        fontFamily: 'Work Sans',
+                                                                        fontSize: 12,
+                                                                        fontWeight: FontWeight.w500),
+                                                                  ),
+                                                                );
+                                                              },
+                                                              separatorBuilder:
+                                                                  (BuildContext context, int index) {
+                                                                return SizedBox(
+                                                                  width: 20,
+                                                                );
+                                                              },
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        SizedBox(height: 20,),
                                                         Padding(
                                                           padding:
                                                               const EdgeInsets

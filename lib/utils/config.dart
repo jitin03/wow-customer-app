@@ -84,12 +84,12 @@ const Map<String, Map<String, String>> WOW_SERVICES = {
     'routeArgument': 'All-Appliances',
     'serviceName': 'AC Services'
   },
-  'service3': {
-    'serviceIcon': 'assets/icons/ic_car_services.png',
-    'servicePath': '/vehicle-service',
-    'routeArgument': 'All-Vehicles',
-    'serviceName': 'Vehicle Service'
-  },
+  // 'service3': {
+  //   'serviceIcon': 'assets/icons/maid_icon.png',
+  //   'servicePath': '/maid-service',
+  //   'routeArgument': 'All-Maids',
+  //   'serviceName': 'Maid Service'
+  // },
 };
 
 const Map<String, Map<String, String>> WOW_FEATURED_SERVICES = {
