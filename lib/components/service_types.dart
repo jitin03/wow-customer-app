@@ -36,10 +36,10 @@ class ServiceTypes extends StatelessWidget {
                 children: [
                   Align(
                     alignment: Alignment.center,
-                    child: ImageIcon(
-                      AssetImage(iconName),
-                      size: 50,
-                      color: primaryColor,
+                    child: Image.asset(
+                      iconName,
+                      width: 50,
+                      height: 50,
                     ),
                   ),
                   if (isSearchedEnabled)

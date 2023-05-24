@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import 'images.dart';
 
@@ -73,7 +74,7 @@ const AC_REPAIR_CHARGES = 280;
 
 const Map<String, Map<String, String>> WOW_SERVICES = {
   'service1': {
-    'serviceIcon': 'assets/icons/ic_laundry_service.png',
+    'serviceIcon': 'assets/icons/category_laundry.png',
     'servicePath': '/laundry-service',
     'routeArgument': 'All-Laundry',
     'serviceName': 'Laundry'
@@ -129,3 +130,7 @@ const Map<String, Map<String, String>> WOW_FEATURED_SERVICES = {
     'featuredServiceName': "AC Cleaning"
   },
 };
+class Utils {
+  static formatPrice(double price) => '\u{20B9} ${price.toStringAsFixed(2)}';
+  static formatDate(DateTime date) => DateFormat.yMd().format(date);
+}

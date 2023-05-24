@@ -482,11 +482,12 @@ class ServiceWidget extends ConsumerWidget {
               child: Stack(
                 children: [
                   Align(
-                    alignment: Alignment.center,
-                    child: ImageIcon(
-                      AssetImage(iconName!),
-                      size: 50,
-                      color: primaryColor,
+                    alignment: FractionalOffset.center,
+                    child: Image.asset(
+                      iconName!,
+                      width: 60,
+                      height: 50,
+
                     ),
                   ),
                 ],

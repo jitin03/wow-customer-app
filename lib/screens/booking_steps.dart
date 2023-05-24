@@ -132,7 +132,7 @@ class _StepperDemoState extends ConsumerState<StepperDemo> {
   @override
   Widget build(BuildContext context) {
     BookingRequest bookingRequest = new BookingRequest();
-    final format = DateFormat('dd-MM-yyyy HH:mma');
+    final format = DateFormat('dd-MM-yyyy hh:mm a');
     String location = 'Null, Press Button';
 
     final _providerDetails = ref.watch(providerDetailsData(providerId!));
@@ -165,6 +165,23 @@ class _StepperDemoState extends ConsumerState<StepperDemo> {
                 Cart(id: 21, title: "", price: 1, count: 0),
                 Cart(id: 22, title: "", price: 1, count: 0),
                 Cart(id: 23, title: "", price: 1, count: 0),
+                Cart(id: 24, title: "", price: 1, count: 0),
+                Cart(id: 25, title: "", price: 1, count: 0),
+                Cart(id: 26, title: "", price: 1, count: 0),
+                Cart(id: 27, title: "", price: 1, count: 0),
+                Cart(id: 28, title: "", price: 1, count: 0),
+                Cart(id: 29, title: "", price: 1, count: 0),
+                Cart(id: 30, title: "", price: 1, count: 0),
+                Cart(id: 31, title: "", price: 1, count: 0),
+                Cart(id: 32, title: "", price: 1, count: 0),
+                Cart(id: 33, title: "", price: 1, count: 0),
+                Cart(id: 34, title: "", price: 1, count: 0),
+                Cart(id: 35, title: "", price: 1, count: 0),
+                Cart(id: 36, title: "", price: 1, count: 0),
+                Cart(id: 37, title: "", price: 1, count: 0),
+                Cart(id: 38, title: "", price: 1, count: 0),
+                Cart(id: 39, title: "", price: 1, count: 0),
+                Cart(id: 40, title: "", price: 1, count: 0),
               ]
             : ref.watch(cartListProvider).list;
 
@@ -641,7 +658,7 @@ class _StepperDemoState extends ConsumerState<StepperDemo> {
                                                       ))
                                                   : Container(),
                                               Text(
-                                                "Date And Time :",
+                                                "Schedule your booking at :",
                                                 style: TextStyle(
                                                     fontSize: 14,
                                                     fontFamily: 'Work Sans',
@@ -659,6 +676,7 @@ class _StepperDemoState extends ConsumerState<StepperDemo> {
                                                   }
                                                   return null;
                                                 },
+
                                                 decoration: InputDecoration(
                                                   filled: true,
                                                   fillColor: Colors.white,
@@ -679,7 +697,9 @@ class _StepperDemoState extends ConsumerState<StepperDemo> {
                                                       width: 0,
                                                       style: BorderStyle.none,
                                                     ),
+
                                                   ),
+                                                  hintText: 'Select a date and time',
                                                 ),
                                                 format: format,
                                                 initialValue: DateTime.now(),
@@ -1499,22 +1519,29 @@ class _StepperDemoState extends ConsumerState<StepperDemo> {
                                                                 .spaceBetween,
                                                         children: [
                                                           Column(
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
                                                             children: [
                                                               const Text(
-                                                                  "GST (18%)",style: TextStyle(fontFamily: 'Work Sans'),),
-                                                              const Text('GSTIN: 08BJWPD9318J1ZK'),
+                                                                "GST (18%)",
+                                                                style: TextStyle(
+                                                                    fontFamily:
+                                                                        'Work Sans'),
+                                                              ),
+                                                              const Text(
+                                                                  'GSTIN: 08BJWPD9318J1ZK'),
                                                             ],
                                                           ),
                                                           Text(
-                                                              "\u{20B9}${(double.parse(totalAmount.toStringAsFixed(2)) * 0.18).toStringAsFixed(2)}",
-                                                              style: const TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  color:
-                                                                      primaryColor),),
-
+                                                            "\u{20B9}${(double.parse(totalAmount.toStringAsFixed(2)) * 0.18).toStringAsFixed(2)}",
+                                                            style: const TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                color:
+                                                                    primaryColor),
+                                                          ),
 
                                                           // Text("\u{20B9}${(totalAmount * 0.18).toStringAsFixed(2)}")
                                                         ],
@@ -1549,7 +1576,7 @@ class _StepperDemoState extends ConsumerState<StepperDemo> {
                                                                       color:
                                                                           primaryColor))
                                                               : Text(
-                                                                  "\u{20B9}${double.parse(totalAmount.toStringAsFixed(2)) + double.parse(totalAmount.toStringAsFixed(2)) * 0.18 - (double.parse(totalAmount.toStringAsFixed(2)) * discountRate / 100)}",
+                                                                  "\u{20B9}${(double.parse(totalAmount.toStringAsFixed(2)) + (double.parse(totalAmount.toStringAsFixed(2)) * 0.18) - (double.parse(totalAmount.toStringAsFixed(2)) * discountRate / 100)).toStringAsFixed(2)}",
                                                                   style: const TextStyle(
                                                                       fontWeight:
                                                                           FontWeight

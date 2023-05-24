@@ -4,9 +4,9 @@
 
 class BookingStatusUpdateRequest {
   BookingStatusUpdateRequest({
-    required this.status,
+     this.status,
   });
-  late final String status;
+   String? status;
 
   BookingStatusUpdateRequest.fromJson(Map<String, dynamic> json){
     status = json['status'];

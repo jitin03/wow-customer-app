@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mistry_customer/components/booking_item.dart';
 import 'package:mistry_customer/model/customer_booking_response.dart';
+import 'package:mistry_customer/model/update_booking_request.dart';
 import 'package:mistry_customer/provider/data_provider.dart';
 import 'package:mistry_customer/screens/laundry_generate_bill.dart';
 import 'package:mistry_customer/utils/config.dart';
@@ -40,6 +41,7 @@ class _CustomerBookingsState extends ConsumerState<CustomerBookings> {
   Widget build(BuildContext context) {
     if (isLoggedIn != null && isLoggedIn) {
       final _data = ref.watch(bookingServiceDataProvider);
+      BookingStatusUpdateRequest bookingStatus = BookingStatusUpdateRequest();
       return RefreshIndicator(
         onRefresh: () async {
           ref.refresh(bookingServiceDataProvider);
@@ -154,13 +156,13 @@ class _CustomerBookingsState extends ConsumerState<CustomerBookings> {
                                                                       CrossAxisAlignment
                                                                           .center,
                                                                   children: [
-                                                                    Container(
-                                                                      child:
-                                                                          ImageIcon(
-                                                                        AssetImage(
-                                                                            ic_edit),
-                                                                      ),
-                                                                    ),
+                                                                    // Container(
+                                                                    //   child:
+                                                                    //       ImageIcon(
+                                                                    //     AssetImage(
+                                                                    //         ic_edit),
+                                                                    //   ),
+                                                                    // ),
                                                                     SizedBox(
                                                                       width: 10,
                                                                     ),
@@ -325,6 +327,66 @@ class _CustomerBookingsState extends ConsumerState<CustomerBookings> {
                                               ),
                                             ),
                                             Container(
+                                              child: ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                  backgroundColor:
+                                                      Color(0XffF6F7F9),
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5.0)),
+                                                  // Background color
+                                                ),
+                                                onPressed: () {
+                                                  showDeclineFunc(context, () {
+                                                    bookingStatus.status =
+                                                        "Rejected";
+                                                    var bookingOrderProvider_response = ref
+                                                        .read(
+                                                            bookingOrderProvider)
+                                                        .updateBookingStatus(
+                                                            bookingStatus,
+                                                            bookings[index]
+                                                                .bookingId
+                                                                .toString());
+                                                    if (bookingOrderProvider_response !=
+                                                        null) {
+                                                      ref.invalidate(
+                                                          bookingServiceDataProvider);
+                                                      Navigator
+                                                          .pushNamedAndRemoveUntil(
+                                                        context,
+                                                        '/bookings',
+                                                            (route) => false,
+                                                      );
+                                                    } else {
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                        SnackBar(
+                                                            content: Text(
+                                                                'Something went wrong!')),
+                                                      );
+                                                    }
+                                                  });
+                                                },
+                                                child: const Padding(
+                                                  padding: EdgeInsets.all(15.0),
+                                                  child: Text(
+                                                    "CANCEL",
+                                                    style: TextStyle(
+                                                        color:
+                                                            Color(0xff1C1F34),
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        fontFamily:
+                                                            "Work Sans"),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
                                                 margin:
                                                     EdgeInsets.only(left: 10),
                                                 width: double.infinity,
@@ -461,13 +523,13 @@ class _CustomerBookingsState extends ConsumerState<CustomerBookings> {
                                                                       CrossAxisAlignment
                                                                           .center,
                                                                   children: [
-                                                                    Container(
-                                                                      child:
-                                                                          ImageIcon(
-                                                                        AssetImage(
-                                                                            ic_edit),
-                                                                      ),
-                                                                    ),
+                                                                    // Container(
+                                                                    //   child:
+                                                                    //       ImageIcon(
+                                                                    //     AssetImage(
+                                                                    //         ic_edit),
+                                                                    //   ),
+                                                                    // ),
                                                                     SizedBox(
                                                                       width: 10,
                                                                     ),
@@ -761,13 +823,13 @@ class _CustomerBookingsState extends ConsumerState<CustomerBookings> {
                                                                       CrossAxisAlignment
                                                                           .center,
                                                                   children: [
-                                                                    Container(
-                                                                      child:
-                                                                          ImageIcon(
-                                                                        AssetImage(
-                                                                            ic_edit),
-                                                                      ),
-                                                                    ),
+                                                                    // Container(
+                                                                    //   child:
+                                                                    //       ImageIcon(
+                                                                    //     AssetImage(
+                                                                    //         ic_edit),
+                                                                    //   ),
+                                                                    // ),
                                                                     SizedBox(
                                                                       width: 10,
                                                                     ),
@@ -1054,56 +1116,54 @@ class _CustomerBookingsState extends ConsumerState<CustomerBookings> {
     }
   }
 
-  ImageIcon buildImageIcon(serviceType) {
+  Widget buildImageIcon(serviceType) {
     if (serviceType == 'Washing') {
-      return ImageIcon(
-        AssetImage(ic_laundry_washing),
-        color: primaryColor,
-        size: 80,
+      return Image.asset(
+        ic_laundry_washing,
+        width: 50,
+        height: 50,
       );
     } else if (serviceType == 'Ironing') {
-      return ImageIcon(
-        AssetImage(ic_ironing),
-        color: primaryColor,
-        size: 80,
+      return Image.asset(
+        ic_ironing,
+        width: 50,
+        height: 50,
       );
-    } else if( serviceType== "Dry Cleaning") {
-      return ImageIcon(
-        AssetImage(ic_dry_cleaning),
-        color: primaryColor,
-        size: 80,
+    } else if (serviceType == "Dry Cleaning") {
+      return Image.asset(
+        ic_dry_cleaning,
+        width: 50,
+        height: 50,
       );
-    } else if (serviceType == "Washing+Ironing"){
-      return ImageIcon(
-        AssetImage(ic_laundry_washing),
-        color: primaryColor,
-        size: 80,
+    } else if (serviceType == "Washing+Ironing") {
+      return Image.asset(
+        ic_laundry_washing_iron,
+        width: 50,
+        height: 50,
       );
-    }
-    else if( serviceType == "AC Clean Service(window)"){
-      return ImageIcon(
-        AssetImage(ic_ac_window_clean),
-        color: primaryColor,
-        size: 80,
+    } else if (serviceType == "AC Clean Service(window)") {
+      return Image.asset(
+        ic_ac_window_clean,
+        width: 50,
+        height: 50,
       );
-    }else if(serviceType =="AC Clean Service(split)"){
-      return ImageIcon(
-        AssetImage(ic_ac_split_clean),
-        color: primaryColor,
-        size: 80,
+    } else if (serviceType == "AC Clean Service(split)") {
+      return Image.asset(
+        ic_ac_split_clean,
+        width: 50,
+        height: 50,
       );
-    }else if(serviceType=="AC Repair(Split/window)"){
-      return ImageIcon(
-        AssetImage(ic_ac_repair),
-        color: primaryColor,
-        size: 80,
+    } else if (serviceType == "AC Repair(Split/window)") {
+      return Image.asset(
+        ic_ac_split_repair,
+        width: 50,
+        height: 50,
       );
-    }
-    else {
-      return ImageIcon(
-        AssetImage(ic_ac_repair),
-        color: primaryColor,
-        size: 80,
+    } else {
+      return Image.asset(
+        ic_ac_split_repair,
+        width: 50,
+        height: 50,
       );
     }
   }
@@ -1137,4 +1197,116 @@ class _CustomerBookingsState extends ConsumerState<CustomerBookings> {
       );
     }
   }
+}
+
+showDeclineFunc(context, confirmDecline) {
+  return showDialog(
+    context: context,
+    builder: (context) {
+      return Center(
+        child: Material(
+          type: MaterialType.transparency,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.white,
+            ),
+            // padding: EdgeInsets.all(15),
+            height: 320,
+            width: MediaQuery.of(context).size.width * 0.7,
+            child: Column(
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Colors.redAccent.withOpacity(0.4),
+                    ),
+                    child: Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                      child: ImageIcon(AssetImage(pricing_plan_reject)),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 2,
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Expanded(
+                            child: Text(
+                              "Are you sure to cancel this request? ",
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.grey,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Expanded(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Color(0Xff5F60B9),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0)),
+                                    // Background color
+                                  ),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(15.0),
+                                    child: Text(
+                                      "NO",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ),
+                                ),
+                                ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Color(0Xff5F60B9),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0)),
+                                    // Background color
+                                  ),
+                                  onPressed: confirmDecline,
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(15.0),
+                                    child: Text(
+                                      "YES",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    },
+  );
 }

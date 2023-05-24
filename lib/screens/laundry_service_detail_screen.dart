@@ -38,7 +38,7 @@ class _LaundryServiceDetailScreenState
     ic_ironing,
     ic_dry_cleaning,
     ic_laundry_washing,
-    ic_laundry_washing,
+    ic_laundry_washing_iron,
   ];
 
   late String? serviceName;

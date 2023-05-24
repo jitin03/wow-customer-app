@@ -23,7 +23,7 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
   late String providerId;
   late String serviceName;
   int indexOfServiceName = -1;
-
+  bool _checkbox = false;
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -44,6 +44,7 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final _providerDetails = ref.watch(providerDetailsData(providerId!));
+
     return Scaffold(
       body: SafeArea(
         child: Stack(children: [
@@ -163,32 +164,36 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
                                         Container(
                                           height: 30,
                                           child: Container(
-
                                             margin: EdgeInsets.only(left: 10),
                                             child: ListView.separated(
                                               scrollDirection: Axis.horizontal,
-                                              itemCount: _data.providerDetails!.addaAreas.length,
+                                              itemCount: _data.providerDetails!
+                                                  .addaAreas.length,
                                               itemBuilder: (context, index) {
-
-                                                return   Container(
+                                                return Container(
                                                   decoration: BoxDecoration(
                                                     color: primaryColor,
                                                     // border: Border.all,
-                                                    borderRadius: BorderRadius.circular(10),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
                                                   ),
                                                   padding: EdgeInsets.all(5),
                                                   child: Text(
-                                                    _data.providerDetails.addaAreas[index],
+                                                    _data.providerDetails
+                                                        .addaAreas[index],
                                                     style: TextStyle(
                                                         color: Colors.white,
                                                         fontFamily: 'Work Sans',
                                                         fontSize: 12,
-                                                        fontWeight: FontWeight.w500),
+                                                        fontWeight:
+                                                            FontWeight.w500),
                                                   ),
                                                 );
                                               },
                                               separatorBuilder:
-                                                  (BuildContext context, int index) {
+                                                  (BuildContext context,
+                                                      int index) {
                                                 return SizedBox(
                                                   width: 20,
                                                 );
@@ -196,7 +201,9 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
                                             ),
                                           ),
                                         ),
-                                        SizedBox(height: 10,),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
                                         Container(
                                           margin: EdgeInsets.only(
                                               left: 10, right: 10),
@@ -232,7 +239,6 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
                                                           .spaceBetween,
                                                   children: [
                                                     Flexible(
-
                                                       child: BulletedList(
                                                         bullet: Icon(
                                                           Icons.circle,
@@ -249,31 +255,6 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
                                                         ],
                                                       ),
                                                     ),
-                                                    // Flexible(
-                                                    //
-                                                    //   child: BulletedList(
-                                                    //     bullet: Icon(
-                                                    //       Icons.circle,
-                                                    //       color: primaryColor,
-                                                    //     ),
-                                                    //     listItems: [
-                                                    //       '\u{20B9} ${_data.providerDetails.serviceLists![indexOfServiceName].subCategory![index].price!}'
-                                                    //     ],
-                                                    //   ),
-                                                    // ),
-                                                    // Text(
-                                                    //   _data
-                                                    //       .providerDetails
-                                                    //       .serviceLists![
-                                                    //           indexOfServiceName]
-                                                    //       .subCategory![index]
-                                                    //       .name!,
-                                                    //   style: TextStyle(
-                                                    //       fontFamily: 'Work Sans',
-                                                    //       fontSize: 14,
-                                                    //       fontWeight:
-                                                    //           FontWeight.w500),
-                                                    // ),
                                                     Text(
                                                         '\u{20B9} ${_data.providerDetails.serviceLists![indexOfServiceName].subCategory![index].price!}',
                                                         style: TextStyle(
@@ -281,7 +262,8 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
                                                                 'Work Sans',
                                                             fontSize: 14,
                                                             fontWeight:
-                                                                FontWeight.w500))
+                                                                FontWeight
+                                                                    .w500))
                                                   ],
                                                 ),
                                               );
@@ -305,6 +287,23 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
                                                         fontWeight:
                                                             FontWeight.w800),
                                                   ),
+                                                ),
+                                              )
+                                            : Container(),
+                                        serviceName.contains("Subscription")
+                                            ? Container(
+                                                child: Row(
+                                                  children: [
+                                                    Checkbox(
+                                                      value: _checkbox,
+                                                      onChanged: (value) {
+                                                        setState(() {
+                                                          _checkbox = true;
+                                                        });
+                                                      },
+                                                    ),
+                                                    Text('Terms & Condition'),
+                                                  ],
                                                 ),
                                               )
                                             : Container()
@@ -605,37 +604,39 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
                                 ],
                               ),
                             ),
-                            serviceName.contains("Maid") && serviceName.contains("Subscription") ?
-                            Positioned(
-                              top: 10,
-                              right: 10,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: primaryColor.withOpacity(0.5),
-                                  // border: Border.all,
-                                  borderRadius: BorderRadius.circular(50),
-                                ),
-                                padding: EdgeInsets.all(5),
-                                child: ClipOval(
-                                  child: Material(
-                                    color: primaryColor.withOpacity(0.5),
-                                    child: Ink.image(
-                                      image: AssetImage(_data
-                                                  .providerDetails
-                                                  .serviceLists[
-                                                      indexOfServiceName]
-                                                  .name ==
-                                              'On Demand Maid'
-                                          ? maid_on_demand
-                                          : maid_subscription_demand),
-                                      fit: BoxFit.cover,
-                                      width: 40,
-                                      height: 40,
+                            serviceName.contains("Maid") &&
+                                    serviceName.contains("Subscription")
+                                ? Positioned(
+                                    top: 10,
+                                    right: 10,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: primaryColor.withOpacity(0.5),
+                                        // border: Border.all,
+                                        borderRadius: BorderRadius.circular(50),
+                                      ),
+                                      padding: EdgeInsets.all(5),
+                                      child: ClipOval(
+                                        child: Material(
+                                          color: primaryColor.withOpacity(0.5),
+                                          child: Ink.image(
+                                            image: AssetImage(_data
+                                                        .providerDetails
+                                                        .serviceLists[
+                                                            indexOfServiceName]
+                                                        .name ==
+                                                    'On Demand Maid'
+                                                ? maid_on_demand
+                                                : maid_subscription_demand),
+                                            fit: BoxFit.cover,
+                                            width: 40,
+                                            height: 40,
+                                          ),
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                              ),
-                            ) : Container(),
+                                  )
+                                : Container(),
                             Positioned(
                               top: 310,
                               left: 20,
@@ -728,7 +729,7 @@ class _ProviderDetailScreenState extends ConsumerState<ProviderDetailScreen> {
             ),
           ),
           Positioned(
-            bottom: 0,
+            bottom: 5,
             left: 20,
             right: 20,
             child: Container(

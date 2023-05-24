@@ -76,9 +76,10 @@ const img_default_laundry_shoe_dry_placeholder='assets/images/Shoe_dry_cleaning.
 // const img_default_laundry_placeholder='assets/images/clothes-ga99993668_640.png';
 //
 // laundry service icons
-const ic_dry_cleaning = "assets/icons/icon-dry-cleaning.png";
-const ic_ironing = "assets/icons/icon-ironing.png";
-const ic_laundry_washing = "assets/icons/icon-laundry-washing.png";
+const ic_dry_cleaning = "assets/icons/laundry_dryclean.png";
+const ic_ironing = "assets/icons/laundry_iron.png";
+const ic_laundry_washing = "assets/icons/laundry_washing.png";
+const ic_laundry_washing_iron = "assets/icons/laundry_washing_iron.png";
 
 const ic_edit ='assets/icons/ic_edit_square.png';
 const no_data_found='assets/images/ic_no_data_found.png';
@@ -96,9 +97,11 @@ const ic_term_condition='assets/icons/Document.png';
 
 
 // ac & appliances service icons
-const ic_ac_window_clean='assets/icons/ac_window_clean.png';
-const ic_ac_split_clean='assets/icons/ac_clean.png';
-const ic_ac_repair='assets/icons/ac_repair.png';
+const ic_ac_window_clean='assets/icons/ac_window_service.png';
+const ic_ac_split_clean='assets/icons/ac_split_service.png';
+const ic_ac_split_repair='assets/icons/ac_split_repair.png';
+const ic_ac_window_repair='assets/icons/ac_window_repair.png';
+const ic_ac_repair='assets/icons/category_ac.png';
 
 const default_ac_repair='assets/images/default_ac_repair.png';
 const default_ac_window='assets/images/default_ac_window.png';

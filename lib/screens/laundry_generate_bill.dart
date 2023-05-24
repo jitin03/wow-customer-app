@@ -20,7 +20,14 @@ import '../api/cfpaymentcomponents/cfpaymentcomponent.dart';
 import '../api/cfpaymentgateway/cfpaymentgatewayservice.dart';
 import '../api/cfsession/cfsession.dart';
 import '../api/cftheme/cftheme.dart';
+import '../model/customer.dart';
 import '../model/customer_booking_response.dart';
+
+import '../model/invoice.dart';
+import '../model/items.dart';
+import '../model/supplier.dart';
+import '../services/pdf_invoice_service.dart';
+import '../services/pdf_service.dart';
 import '../utils/cfenums.dart';
 import '../utils/cfexceptions.dart';
 
@@ -69,8 +76,9 @@ class _GenerateBillScreenState
         .watch(bookingDetailDataProvider(widget.booking.bookingId.toString()));
     var _notifications = ref.watch(
         providerNotificationDataProvider(widget.booking.bookingId.toString()));
-
-    var customerCoupons = ref.watch(providerCustomerCouponProvider(widget.serviceName));
+    var customer_details = ref.watch(customerProfileDataProvider);
+    var customerCoupons =
+        ref.watch(providerCustomerCouponProvider(widget.serviceName));
 
     return Scaffold(
       appBar: AppBar(
@@ -85,7 +93,6 @@ class _GenerateBillScreenState
         ),
         title: Text("Booking details",
             style: TextStyle(
-
                 fontFamily: 'Work Sans',
                 fontWeight: FontWeight.w500,
                 fontSize: 18,
@@ -360,7 +367,6 @@ class _GenerateBillScreenState
                               ],
                             ),
                             const Divider(color: primaryColor),
-
                             (discountRate != null)
                                 ? Row(
                                     mainAxisAlignment:
@@ -429,8 +435,7 @@ class _GenerateBillScreenState
                                 : Container(),
                             const SizedBox(height: 8),
                             Row(
-                              mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -451,19 +456,19 @@ class _GenerateBillScreenState
                             const SizedBox(height: 8),
                             const Divider(color: primaryColor),
                             const SizedBox(height: 10),
-
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 const Text(
                                   "Total Amount",
                                   style: TextStyle(
+                                      fontFamily: 'Work Sans',
                                       fontWeight: FontWeight.bold,
                                       color: Colors.black),
                                 ),
                                 widget.serviceName.contains("AC Repair")
                                     ? Text(
-                                        "\u{20B9}${(double.parse(_data[0].grossAmount) + AC_REPAIR_CHARGES - (double.parse(_data[0].grossAmount) * discountRate / 100)).toStringAsFixed(2)}",
+                                        "\u{20B9}${(double.parse(_data[0].grossAmount) - (double.parse(_data[0].grossAmount) * discountRate / 100)).toStringAsFixed(2)}",
                                         style: const TextStyle(
                                             fontWeight: FontWeight.bold,
                                             color: primaryColor))
@@ -474,8 +479,110 @@ class _GenerateBillScreenState
                                             color: primaryColor))
                               ],
                             ),
+                            const SizedBox(height: 10),
+                            Container(
+                              child: InkWell(
+                                onTap: () async {
+                                  List<InvoiceItem> items = [];
+                                  // Extracting data from _data array
+                                  for (var x =0 ;x< _data[0]
+                                      .serviceLists[indexOfServiceName]
+                                      .subCategories.length;x++) {
+                                    String serviceName = _data[0]
+                                        .serviceLists[indexOfServiceName]
+                                        .subCategories[x]
+                                        .name!;
+                                    num servicePrice = _data[0]
+                                        .serviceLists[indexOfServiceName]
+                                        .subCategories[x]
+                                        .price;
+                                    String serviceCount = _data[0]
+                                        .serviceLists[indexOfServiceName]
+                                        .subCategories[x]
+                                        .count!;
+                                    InvoiceItem item = InvoiceItem(
+                                      name: serviceName,
+                                      price: servicePrice,
+                                      count: serviceCount,
+                                    );
+                                    items.add(item);
+
+                                    // You can repeat the above steps for multiple indices if needed
+
+                                    // Accessing the stored items
+                                    for (var item in items) {
+                                      print('Name: ${item.name}');
+                                      print('Price: ${item.price}');
+                                      print('Count: ${item.count}');
+                                      print('---');
+                                    }
+                                  }
+
+
+                                  // Creating an Item object and adding it to the items array
+
+
+                                  final date = DateTime.now();
+                                  final dueDate = date.add(Duration(days: 7));
+
+                                  final invoice = Invoice(
+                                      supplier: Supplier(
+                                        name: 'Wow Service',
+                                        address:
+                                            '4-c-5, Shivalik Apartment, Block C Sector 4 Indira Gandhi Nagar, Jagatpura, Jaipur,302017',
+                                        paymentInfo: 'UPI | Cash',
+                                      ),
+                                      customer: Customer(
+                                        name: customer_details.value!.name!,
+                                        address: customer_details
+                                                .value!.address!.address1! +
+                                            ", " +
+                                            customer_details
+                                                .value!.address!.address2! +
+                                            ", " +
+                                            customer_details
+                                                .value!.address!.city! +
+                                            ", " +
+                                            customer_details
+                                                .value!.address!.pincode! +
+                                            " " +
+                                            customer_details
+                                                .value!.address!.state!,
+                                      ),
+                                      info: InvoiceInfo(
+                                        date: date,
+                                        dueDate: dueDate,
+                                        description: 'Order details..',
+                                        number:
+                                            '#${widget.booking.bookingId.toString()}',
+                                        discountRate: _data[0].discountRate,
+                                        discountPrice: _data[0]
+                                            .discountPrice
+                                            .toStringAsFixed(2),
+                                        gst: _data[0].gstPrice, isAcRepaired: widget.serviceName.contains("AC Repair")?true: false
+                                      ),
+                                      items: items,
+
+
+                                  );
+
+                                  final pdfFile =
+                                      await PdfInvoiceApi.generate(invoice);
+
+                                  print(pdfFile);
+                                  PdfApi.openFile(pdfFile);
+                                },
+                                child: const Text(
+                                  "DOWNLOAD INVOICE",
+                                  style: TextStyle(
+                                      fontFamily: 'Work Sans',
+                                      fontWeight: FontWeight.bold,
+                                      color: primaryColor),
+                                ),
+                              ),
+                            ),
                             const SizedBox(height: 8),
-                            const SizedBox(height: 100),
+                            const SizedBox(height: 80),
                             (_data[0].paymentStatus == 'Paid')
                                 ? Column(
                                     children: [
@@ -504,6 +611,7 @@ class _GenerateBillScreenState
                                           ),
                                         ),
                                       ),
+                                      const SizedBox(height: 10),
                                       InkWell(
                                         onTap: () {
                                           showReviewDialog(
@@ -525,7 +633,8 @@ class _GenerateBillScreenState
                                       )
                                     ],
                                   )
-                                : Container()
+                                : Container(),
+                            const SizedBox(height: 80),
                           ],
                         ),
                       )
@@ -936,36 +1045,39 @@ class _GenerateBillScreenState
                                                         }
                                                       } else if (isSelect_UPIOnly) {
                                                         BookingPaymentUpdateRequest
-                                                        updateRequest =
-                                                        BookingPaymentUpdateRequest(
-                                                            paymentMode:
-                                                            "PAY VIA UPI");
+                                                            updateRequest =
+                                                            BookingPaymentUpdateRequest(
+                                                                paymentMode:
+                                                                    "PAY VIA UPI");
                                                         var bookingOrderProvider_response = ref
                                                             .read(
-                                                            bookingOrderProvider)
+                                                                bookingOrderProvider)
                                                             .updateBookingPaymentMode(
-                                                            updateRequest,
-                                                            widget
-                                                                .booking
-                                                                .bookingId
-                                                                .toString());
-                                                        if(bookingOrderProvider_response !=null){
-
-                                                          Navigator.pushNamedAndRemoveUntil(
+                                                                updateRequest,
+                                                                widget.booking
+                                                                    .bookingId
+                                                                    .toString());
+                                                        if (bookingOrderProvider_response !=
+                                                            null) {
+                                                          Navigator
+                                                              .pushNamedAndRemoveUntil(
                                                             context,
                                                             '/bookings',
-                                                                (route) => false,
+                                                            (route) => false,
                                                           );
-                                                        }else{
-                                                          ScaffoldMessenger.of(context).showSnackBar(
+                                                        } else {
+                                                          ScaffoldMessenger.of(
+                                                                  context)
+                                                              .showSnackBar(
                                                             SnackBar(
                                                                 content: Text(
                                                                     'Something went wrong!')),
                                                           );
-                                                          Navigator.pushNamedAndRemoveUntil(
+                                                          Navigator
+                                                              .pushNamedAndRemoveUntil(
                                                             context,
                                                             '/bookings',
-                                                                (route) => false,
+                                                            (route) => false,
                                                           );
                                                         }
                                                       } else {
